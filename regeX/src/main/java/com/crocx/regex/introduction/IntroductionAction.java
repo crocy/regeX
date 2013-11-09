@@ -7,6 +7,4 @@ import com.crocx.regex.ui.UiAction;
  */
 public enum IntroductionAction implements UiAction {
 
-    BACK
-
 }

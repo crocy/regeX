@@ -2,6 +2,7 @@ package com.crocx.regex.main.control;
 
 import android.support.v4.app.FragmentTransaction;
 
+import com.crocx.regex.CommonAction;
 import com.crocx.regex.MainActivity;
 import com.crocx.regex.R;
 import com.crocx.regex.main.MainAction;
@@ -27,42 +28,39 @@ public class MainState extends UiState {
 
         mainFragment = new MainFragment(mainActivity.getUiStateManager());
 
-        FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.container, mainFragment);
-        transaction.addToBackStack(null);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        transaction.commit();
-    }
-
-    @Override
-    public void onExit(UiState newState, UiAction action, Object actionObject) {
-        super.onExit(newState, action, actionObject);
-
-        FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
-        transaction.remove(mainFragment);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-        transaction.commit();
+        // only add this fragment at app start (no previous state)
+        if (previousState == null) {
+            FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.container, mainFragment);
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            //            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
 
     @Override
     public void onAction(UiAction action, Object actionObject) {
-        switch ((MainAction) action) {
-            case BACK:
-                mainActivity.getSupportFragmentManager().popBackStack();
-                break;
+        if (action instanceof CommonAction) {
+            switch ((CommonAction) action) {
+                case BACK:
+                    mainActivity.getUiStateManager().end();
+                    break;
+            }
+        } else {
+            switch ((MainAction) action) {
+                case BUTTON_INTRODUCTION:
+                    mainActivity.getUiStateManager().changeState(mainActivity.getIntroductionState());
+                    break;
 
-            case BUTTON_INTRODUCTION:
-                mainActivity.getUiStateManager().changeState(mainActivity.getIntroductionState());
-                break;
+                case BUTTON_EXAMPLES:
+                    break;
 
-            case BUTTON_EXAMPLES:
-                break;
+                case BUTTON_EXERCISES:
+                    break;
 
-            case BUTTON_EXERCISES:
-                break;
-
-            default:
-                throwOnUnknownAction(action, actionObject);
+                default:
+                    throwOnUnknownAction(action, actionObject);
+            }
         }
     }
 }

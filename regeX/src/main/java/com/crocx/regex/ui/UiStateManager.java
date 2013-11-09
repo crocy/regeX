@@ -34,9 +34,8 @@ public class UiStateManager {
             return;
         }
 
-        Logger.debug("Changing state from: "
-                + (previousState != null ? previousState.getClass().getSimpleName() : null) + " to: "
-                + (currentState != null ? currentState.getClass().getSimpleName() : null));
+        Logger.debug("Changing state from: " + (currentState != null ? currentState.getClass().getSimpleName() : null)
+                + " to: " + (newState != null ? newState.getClass().getSimpleName() : null));
 
         UiState tempPreviousState = previousState;
 
@@ -61,6 +60,7 @@ public class UiStateManager {
 
         currentState.onExit(null, null, null);
         previousState = null;
+        currentState = null;
     }
 
     public UiState getCurrentState() {

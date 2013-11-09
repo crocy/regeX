@@ -51,6 +51,16 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        uiStateManager.fireAction(CommonAction.BACK);
+        super.onBackPressed();
+    }
+
+    //    public void onSuperBackPressed() {
+    //        super.onBackPressed();
+    //    }
+
     public UiStateManager getUiStateManager() {
         return uiStateManager;
     }
