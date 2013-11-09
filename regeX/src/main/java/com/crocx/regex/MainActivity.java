@@ -1,24 +1,35 @@
 package com.crocx.regex;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+
+import com.crocx.regex.introduction.control.IntroductionState;
+import com.crocx.regex.main.control.MainState;
+import com.crocx.regex.ui.UiStateManager;
 
 public class MainActivity extends ActionBarActivity {
+
+    private UiStateManager uiStateManager;
+    private MainState mainState;
+    private IntroductionState introductionState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.container, new PlaceholderFragment()).commit();
-        }
+        uiStateManager = new UiStateManager();
+        mainState = new MainState(this);
+        introductionState = new IntroductionState(this);
+
+        uiStateManager.start(mainState);
+
+        //        if (savedInstanceState == null) {
+        //            getSupportFragmentManager().beginTransaction().add(R.id.container, new MainFragment(uiStateManager))
+        //                    .commit();
+        //        }
     }
 
     @Override
@@ -40,18 +51,15 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {}
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
+    public UiStateManager getUiStateManager() {
+        return uiStateManager;
     }
 
+    public MainState getMainState() {
+        return mainState;
+    }
+
+    public IntroductionState getIntroductionState() {
+        return introductionState;
+    }
 }

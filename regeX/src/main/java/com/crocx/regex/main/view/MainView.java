@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.crocx.regex.R;
+import com.crocx.regex.main.MainAction;
+import com.crocx.regex.ui.UiStateManager;
 
 /**
  * Created by Croc on 9.11.2013.
@@ -36,29 +38,27 @@ public class MainView extends RelativeLayout {
         buttonIntroduction = (Button) findViewById(R.id.mainButtonIntroduction);
         buttonExamples = (Button) findViewById(R.id.mainButtonExamples);
         buttonExercises = (Button) findViewById(R.id.mainButtonExercises);
-
-        init();
     }
 
-    private void init() {
+    public void init(final UiStateManager uiStateManager) {
         buttonIntroduction.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                uiStateManager.fireAction(MainAction.BUTTON_INTRODUCTION);
             }
         });
 
         buttonExamples.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                uiStateManager.fireAction(MainAction.BUTTON_EXAMPLES);
             }
         });
 
         buttonExercises.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                uiStateManager.fireAction(MainAction.BUTTON_EXERCISES);
             }
         });
     }
