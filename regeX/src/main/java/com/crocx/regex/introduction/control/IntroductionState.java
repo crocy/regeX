@@ -26,7 +26,8 @@ public class IntroductionState extends UiState {
     public void onEnter(UiState previousState, UiAction action, Object actionObject) {
         super.onEnter(previousState, action, actionObject);
 
-        introductionFragment = new IntroductionFragment(mainActivity.getUiStateManager());
+        //        introductionFragment = new IntroductionFragment(mainActivity.getUiStateManager());
+        introductionFragment = new IntroductionFragment();
         FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, introductionFragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);

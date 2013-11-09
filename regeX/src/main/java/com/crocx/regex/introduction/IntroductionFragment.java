@@ -7,18 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.crocx.regex.R;
-import com.crocx.regex.ui.UiStateManager;
 
 /**
  * Created by Croc on 9.11.2013.
  */
 public class IntroductionFragment extends Fragment {
 
-    private UiStateManager uiStateManager;
+    //    private UiStateManager uiStateManager;
 
-    public IntroductionFragment(UiStateManager uiStateManager) {
-        this.uiStateManager = uiStateManager;
-    }
+    //    public IntroductionFragment(UiStateManager uiStateManager) {
+    //        this.uiStateManager = uiStateManager;
+    //    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

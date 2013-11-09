@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 import com.crocx.regex.introduction.control.IntroductionState;
 import com.crocx.regex.main.control.MainState;
@@ -18,6 +19,9 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().requestFeature(Window.FEATURE_PROGRESS);
+
         setContentView(R.layout.activity_main);
 
         uiStateManager = new UiStateManager();
