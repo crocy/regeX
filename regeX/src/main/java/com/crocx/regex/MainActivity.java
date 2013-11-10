@@ -32,11 +32,6 @@ public class MainActivity extends ActionBarActivity {
         exercisesState = new ExercisesState(this);
 
         uiStateManager.start(mainState);
-
-        //        if (savedInstanceState == null) {
-        //            getSupportFragmentManager().beginTransaction().add(R.id.container, new MainFragment(uiStateManager))
-        //                    .commit();
-        //        }
     }
 
     @Override

@@ -26,7 +26,8 @@ public class MainState extends UiState {
     public void onEnter(UiState previousState, UiAction action, Object actionObject) {
         super.onEnter(previousState, action, actionObject);
 
-        fragment = new MainFragment(mainActivity.getUiStateManager());
+        fragment = new MainFragment();
+        fragment.setUiStateManager(mainActivity.getUiStateManager());
 
         // only add this fragment at app start (no previous state)
         if (previousState == null) {

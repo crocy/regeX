@@ -19,9 +19,10 @@ public class MainFragment extends Fragment {
 
     private MainView mainView;
 
-    public MainFragment(UiStateManager uiStateManager) {
-        this.uiStateManager = uiStateManager;
-    }
+    /*
+     * Fragment must have an empty constructor, so it can be instantiated when restoring its activity's state.
+     */
+    public MainFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -30,4 +31,7 @@ public class MainFragment extends Fragment {
         return mainView;
     }
 
+    public void setUiStateManager(UiStateManager uiStateManager) {
+        this.uiStateManager = uiStateManager;
+    }
 }

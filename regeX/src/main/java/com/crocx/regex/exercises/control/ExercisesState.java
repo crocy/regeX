@@ -5,8 +5,8 @@ import android.support.v4.app.FragmentTransaction;
 import com.crocx.regex.CommonAction;
 import com.crocx.regex.MainActivity;
 import com.crocx.regex.R;
-import com.crocx.regex.exercises.fragment.ExerciseFragment;
 import com.crocx.regex.exercises.ExercisesAction;
+import com.crocx.regex.exercises.fragment.ExerciseFragment;
 import com.crocx.regex.exercises.fragment.ExercisesFragment;
 import com.crocx.regex.exercises.model.ExerciseItem;
 import com.crocx.regex.ui.UiAction;
@@ -29,7 +29,9 @@ public class ExercisesState extends UiState {
     public void onEnter(UiState previousState, UiAction action, Object actionObject) {
         super.onEnter(previousState, action, actionObject);
 
-        fragment = new ExercisesFragment(mainActivity.getUiStateManager());
+        fragment = new ExercisesFragment();
+        fragment.setUiStateManager(mainActivity.getUiStateManager());
+
         FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -62,7 +64,8 @@ public class ExercisesState extends UiState {
 
     private void exerciseClicked(ExerciseItem exerciseItem) {
         if (exerciseFragment == null) {
-            exerciseFragment = new ExerciseFragment(mainActivity.getUiStateManager());
+            exerciseFragment = new ExerciseFragment();
+            exerciseFragment.setUiStateManager(mainActivity.getUiStateManager());
         }
 
         exerciseFragment.setExerciseItem(exerciseItem);

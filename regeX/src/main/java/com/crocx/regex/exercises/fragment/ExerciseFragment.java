@@ -23,9 +23,10 @@ public class ExerciseFragment extends Fragment {
 
     private ExerciseView exerciseView;
 
-    public ExerciseFragment(UiStateManager uiStateManager) {
-        this.uiStateManager = uiStateManager;
-    }
+    /*
+     * Fragment must have an empty constructor, so it can be instantiated when restoring its activity's state.
+     */
+    public ExerciseFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,5 +47,9 @@ public class ExerciseFragment extends Fragment {
 
     public void setExerciseItem(ExerciseItem exerciseItem) {
         this.exerciseItem = exerciseItem;
+    }
+
+    public void setUiStateManager(UiStateManager uiStateManager) {
+        this.uiStateManager = uiStateManager;
     }
 }

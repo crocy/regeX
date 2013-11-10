@@ -13,11 +13,10 @@ import com.crocx.regex.R;
  */
 public class IntroductionFragment extends Fragment {
 
-    //    private UiStateManager uiStateManager;
-
-    //    public IntroductionFragment(UiStateManager uiStateManager) {
-    //        this.uiStateManager = uiStateManager;
-    //    }
+    /*
+     * Fragment must have an empty constructor, so it can be instantiated when restoring its activity's state.
+     */
+    public IntroductionFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
