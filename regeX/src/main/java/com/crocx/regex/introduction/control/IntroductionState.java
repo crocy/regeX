@@ -16,7 +16,7 @@ import com.crocx.regex.ui.UiState;
 public class IntroductionState extends UiState {
 
     private MainActivity mainActivity;
-    private IntroductionFragment introductionFragment;
+    private IntroductionFragment fragment;
 
     public IntroductionState(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
@@ -26,10 +26,10 @@ public class IntroductionState extends UiState {
     public void onEnter(UiState previousState, UiAction action, Object actionObject) {
         super.onEnter(previousState, action, actionObject);
 
-        //        introductionFragment = new IntroductionFragment(mainActivity.getUiStateManager());
-        introductionFragment = new IntroductionFragment();
+        //        fragment = new IntroductionFragment(mainActivity.getUiStateManager());
+        fragment = new IntroductionFragment();
         FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, introductionFragment);
+        transaction.replace(R.id.container, fragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.addToBackStack(null);
         transaction.commit();

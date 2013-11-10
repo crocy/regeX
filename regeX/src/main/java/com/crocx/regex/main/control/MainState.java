@@ -16,7 +16,7 @@ import com.crocx.regex.ui.UiState;
 public class MainState extends UiState {
 
     private MainActivity mainActivity;
-    private MainFragment mainFragment;
+    private MainFragment fragment;
 
     public MainState(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
@@ -26,12 +26,12 @@ public class MainState extends UiState {
     public void onEnter(UiState previousState, UiAction action, Object actionObject) {
         super.onEnter(previousState, action, actionObject);
 
-        mainFragment = new MainFragment(mainActivity.getUiStateManager());
+        fragment = new MainFragment(mainActivity.getUiStateManager());
 
         // only add this fragment at app start (no previous state)
         if (previousState == null) {
             FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.container, mainFragment);
+            transaction.replace(R.id.container, fragment);
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             //            transaction.addToBackStack(null);
             transaction.commit();
@@ -56,6 +56,7 @@ public class MainState extends UiState {
                     break;
 
                 case BUTTON_EXERCISES:
+                    mainActivity.getUiStateManager().changeState(mainActivity.getExercisesState());
                     break;
 
                 default:
