@@ -31,6 +31,7 @@ public class ExerciseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         exerciseView = (ExerciseView) inflater.inflate(R.layout.exercise, container, false);
+        exerciseView.init(uiStateManager);
         return exerciseView;
     }
 
@@ -51,5 +52,9 @@ public class ExerciseFragment extends Fragment {
 
     public void setUiStateManager(UiStateManager uiStateManager) {
         this.uiStateManager = uiStateManager;
+    }
+
+    public ExerciseView getExerciseView() {
+        return exerciseView;
     }
 }

@@ -11,6 +11,7 @@ import com.crocx.regex.exercises.model.ExerciseItem;
 import com.crocx.regex.exercises.view.ExercisesView;
 import com.crocx.regex.ui.UiStateManager;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +19,8 @@ import java.util.List;
  * Created by Croc on 10.11.2013.
  */
 public class ExercisesFragment extends Fragment {
+
+    private static final String PATH_TO_ASSETS_EXERCISES = "exercises";
 
     private UiStateManager uiStateManager;
     private List<ExerciseItem> exercises;
@@ -33,13 +36,23 @@ public class ExercisesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        exercises = new LinkedList<ExerciseItem>();
-        for (int i = 0; i < 5; i++) {
-            ExerciseItem exerciseItem = new ExerciseItem(i);
-            exerciseItem.setExerciseName("Exercise " + i);
-            exerciseItem.setContent("Content " + i);
-            exerciseItem.setSolution("lol " + i);
+        String[] exercisesList;
+        try {
+            exercisesList = getResources().getAssets().list(PATH_TO_ASSETS_EXERCISES);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
 
+        String assetsUrlPrefix = "file:///android_asset/";
+        String assetsUrl;
+
+        exercises = new LinkedList<ExerciseItem>();
+        for (int i = 0; i < exercisesList.length; i++) {
+            assetsUrl = assetsUrlPrefix + PATH_TO_ASSETS_EXERCISES + "/" + exercisesList[i];
+            ExerciseItem exerciseItem = new ExerciseItem(i);
+            exerciseItem.setName("Exercise: " + exercisesList[i]);
+            exerciseItem.loadContentFromAssetsUrl(assetsUrl, getResources().getAssets());
             exercises.add(exerciseItem);
         }
     }

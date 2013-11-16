@@ -52,7 +52,7 @@ public class ExercisesView extends LinearLayout {
                     exerciseItemView = (TextView) convertView;
                 }
 
-                exerciseItemView.setText(arrayAdapter.getItem(position).getExerciseName());
+                exerciseItemView.setText(arrayAdapter.getItem(position).getName());
 
                 return exerciseItemView;
             }

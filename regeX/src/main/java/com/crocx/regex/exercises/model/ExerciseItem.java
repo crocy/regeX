@@ -1,48 +1,118 @@
 package com.crocx.regex.exercises.model;
 
+import android.content.res.AssetManager;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 /**
  * Created by Croc on 10.11.2013.
  */
 public class ExerciseItem {
 
-    private int exerciseId;
-    private String exerciseName;
-    private String content;
-    private String solution;
+    private static final String DEFAULT_INSTRUCTIONS_FILE = "instructions.html";
+    private static final String DEFAULT_DATA_FILE = "data.txt";
+    private static final String DEFAULT_SOLUTION_OUTPUT_FILE = "solution-output.txt";
+    private static final String DEFAULT_SOLUTION_REGEX_FILE = "solution-regex.txt";
 
-    public ExerciseItem(int exerciseId) {
-        this.exerciseId = exerciseId;
+    private int id;
+    private String assetsUrl;
+    private String name;
+    private String instructionsUrl;
+    private String data;
+    private String solutionRegex;
+    private String solutionOutput;
+    private boolean preferSolutionOutput = true;
+
+    public ExerciseItem(int id) {
+        this.id = id;
     }
 
-    public int getExerciseId() {
-        return exerciseId;
+    public void loadContentFromAssetsUrl(String assetsUrl, AssetManager assetManager) {
+        this.assetsUrl = assetsUrl;
+        String assetsURL = assetsUrl + "/";
+        instructionsUrl = assetsURL + DEFAULT_INSTRUCTIONS_FILE;
+
+        data = loadAssetAsString(assetsURL + DEFAULT_DATA_FILE, assetManager);
+        solutionOutput = loadAssetAsString(assetsURL + DEFAULT_SOLUTION_OUTPUT_FILE, assetManager);
+        solutionRegex = loadAssetAsString(assetsURL + DEFAULT_SOLUTION_REGEX_FILE, assetManager);
     }
 
-    //    public void setExerciseId(int exerciseId) {
-    //        this.exerciseId = exerciseId;
-    //    }
+    private String loadAssetAsString(String assetUrl, AssetManager assetManager) {
+        StringBuffer stringBuffer = new StringBuffer();
+        String tempString;
 
-    public String getExerciseName() {
-        return exerciseName;
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(assetManager.open(assetUrl)));
+
+            tempString = reader.readLine();
+            while (tempString != null) {
+                stringBuffer.append(tempString);
+                tempString = reader.readLine();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return stringBuffer.toString();
     }
 
-    public void setExerciseName(String exerciseName) {
-        this.exerciseName = exerciseName;
+    public int getId() {
+        return id;
     }
 
-    public String getContent() {
-        return content;
+    public String getName() {
+        return name;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getSolution() {
-        return solution;
+    public String getInstructionsUrl() {
+        return instructionsUrl;
     }
 
-    public void setSolution(String solution) {
-        this.solution = solution;
+    public void setInstructionsUrl(String instructionsUrl) {
+        this.instructionsUrl = instructionsUrl;
+    }
+
+    public String getSolutionRegex() {
+        return solutionRegex;
+    }
+
+    public void setSolutionRegex(String solutionRegex) {
+        this.solutionRegex = solutionRegex;
+    }
+
+    public String getSolutionOutput() {
+        return solutionOutput;
+    }
+
+    public void setSolutionOutput(String solutionOutput) {
+        this.solutionOutput = solutionOutput;
+    }
+
+    public boolean isPreferSolutionOutput() {
+        return preferSolutionOutput;
+    }
+
+    public void setPreferSolutionOutput(boolean preferSolutionOutput) {
+        this.preferSolutionOutput = preferSolutionOutput;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public String getAssetsUrl() {
+        return assetsUrl;
     }
 }

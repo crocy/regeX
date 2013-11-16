@@ -7,6 +7,14 @@ import com.crocx.regex.ui.UiAction;
  */
 public enum ExercisesAction implements UiAction {
 
-    EXERCISE_ITEM_CLICKED
+    /*
+     * Exercises list actions
+     */
 
+    EXERCISE_ITEM_CLICKED,
+
+    /*
+     * Per exercise actions.
+     */
+    EVALUATE_REGEX
 }
