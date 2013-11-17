@@ -1,8 +1,9 @@
 package com.crocx.regex.exercises.view;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ public class ExerciseView extends LinearLayout {
 
     private static final int COLOR_RESULT_MATCH_TRUE = 0xFF00FF00;
     private static final int COLOR_RESULT_MATCH_FALSE = 0xFFFF0000;
+    private static final int COLOR_RESULT_MATCH_EMPTY = 0xFF888888;
 
     private ExerciseItem exerciseItem;
 
@@ -45,16 +47,34 @@ public class ExerciseView extends LinearLayout {
     }
 
     public void init(final UiStateManager uiStateManager) {
-        input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        //        input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        //            @Override
+        //            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        //                if (input.getText().toString().trim().length() > 0) {
+        //                    uiStateManager.fireAction(ExercisesAction.EVALUATE_REGEX, input.getText().toString());
+        //                    input.setHint(null);
+        //                } else {
+        //                    input.setHint("IInput can't be empty");
+        //                }
+        //                return true;
+        //            }
+        //        });
+        input.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (input.getText().length() > 0) {
-                    uiStateManager.fireAction(ExercisesAction.EVALUATE_REGEX, input.getText());
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (input.getText().toString().trim().length() > 0) {
+                    uiStateManager.fireAction(ExercisesAction.EVALUATE_REGEX, input.getText().toString());
                     input.setHint(null);
                 } else {
                     input.setHint("IInput can't be empty");
+                    updateRegexResult("", false);
                 }
-                return true;
             }
         });
     }
@@ -65,7 +85,8 @@ public class ExerciseView extends LinearLayout {
         }
         this.exerciseItem = exerciseItem;
 
-        contentWebView.loadData(exerciseItem.getInstructionsUrl(), "text/html", null);
+        //        contentWebView.loadData(exerciseItem.getInstructionsUrl(), "text/html", null);
+        contentWebView.loadUrl(exerciseItem.getInstructionsUrl());
 
         if (exerciseItem.isPreferSolutionOutput()) {
             result.setText(exerciseItem.getSolutionOutput());
@@ -76,13 +97,19 @@ public class ExerciseView extends LinearLayout {
         input.setText("");
     }
 
-    public void updateRegexResult(String result, boolean matches) {
-        this.result.setText(result);
+    public void updateRegexResult(String match, boolean matches) {
+        if (match.trim().length() > 0) {
+            result.setText(match);
+        } else {
+            result.setText("NNothing matches given regex");
+            result.setTextColor(COLOR_RESULT_MATCH_EMPTY);
+            return;
+        }
 
         if (matches) {
-            this.result.setTextColor(COLOR_RESULT_MATCH_TRUE);
+            result.setTextColor(COLOR_RESULT_MATCH_TRUE);
         } else {
-            this.result.setTextColor(COLOR_RESULT_MATCH_FALSE);
+            result.setTextColor(COLOR_RESULT_MATCH_FALSE);
         }
     }
 }

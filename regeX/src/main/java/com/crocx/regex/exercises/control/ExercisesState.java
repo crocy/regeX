@@ -1,7 +1,6 @@
 package com.crocx.regex.exercises.control;
 
 import android.support.v4.app.FragmentTransaction;
-import android.widget.Toast;
 
 import com.crocx.regex.CommonAction;
 import com.crocx.regex.MainActivity;
@@ -90,24 +89,31 @@ public class ExercisesState extends UiState {
         ExerciseItem exercise = exerciseFragment.getExerciseItem();
         ExerciseView view = exerciseFragment.getExerciseView();
 
-        if (exercise.isPreferSolutionOutput() && exercise.getSolutionOutput() != null) {
-            matchBySolutionOutput(regex, exercise, view);
-        } else {
-            view.updateRegexResult(regex, regex.equals(exercise.getSolutionRegex()));
-        }
-    }
-
-    private void matchBySolutionOutput(String regex, ExerciseItem exercise, ExerciseView view) {
+        String match;
         try {
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(exercise.getData());
 
-            //                if (matcher.matches()) {
-            view.updateRegexResult(matcher.group(), matcher.group().equals(exercise.getSolutionOutput()));
-            //                }
+            StringBuffer buffer = new StringBuffer();
+
+            while (matcher.find()) {
+                buffer.append(matcher.group() + " ");
+            }
+
+            if (buffer.length() > 0) {
+                buffer.deleteCharAt(buffer.length() - 1);
+            }
+
+            match = buffer.toString();
         } catch (Exception e) {
-            Toast.makeText(mainActivity, "Regex syntax error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            view.updateRegexResult(regex, false);
+            view.updateRegexResult(regex + "\nError: " + e.getMessage(), false);
+            return;
+        }
+
+        if (exercise.isPreferSolutionOutput() && exercise.getSolutionOutput() != null) {
+            view.updateRegexResult(match, match.equals(exercise.getSolutionOutput()));
+        } else {
+            view.updateRegexResult(match, regex.equals(exercise.getSolutionRegex()));
         }
     }
 

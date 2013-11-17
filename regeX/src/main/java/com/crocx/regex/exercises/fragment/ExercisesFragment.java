@@ -44,12 +44,11 @@ public class ExercisesFragment extends Fragment {
             return;
         }
 
-        String assetsUrlPrefix = "file:///android_asset/";
         String assetsUrl;
 
         exercises = new LinkedList<ExerciseItem>();
         for (int i = 0; i < exercisesList.length; i++) {
-            assetsUrl = assetsUrlPrefix + PATH_TO_ASSETS_EXERCISES + "/" + exercisesList[i];
+            assetsUrl = PATH_TO_ASSETS_EXERCISES + "/" + exercisesList[i];
             ExerciseItem exerciseItem = new ExerciseItem(i);
             exerciseItem.setName("Exercise: " + exercisesList[i]);
             exerciseItem.loadContentFromAssetsUrl(assetsUrl, getResources().getAssets());

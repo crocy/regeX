@@ -11,6 +11,8 @@ import java.io.InputStreamReader;
  */
 public class ExerciseItem {
 
+    private static final String ASSETS_URL_PREFIX = "file:///android_asset/";
+
     private static final String DEFAULT_INSTRUCTIONS_FILE = "instructions.html";
     private static final String DEFAULT_DATA_FILE = "data.txt";
     private static final String DEFAULT_SOLUTION_OUTPUT_FILE = "solution-output.txt";
@@ -32,7 +34,7 @@ public class ExerciseItem {
     public void loadContentFromAssetsUrl(String assetsUrl, AssetManager assetManager) {
         this.assetsUrl = assetsUrl;
         String assetsURL = assetsUrl + "/";
-        instructionsUrl = assetsURL + DEFAULT_INSTRUCTIONS_FILE;
+        instructionsUrl = ASSETS_URL_PREFIX + assetsURL + DEFAULT_INSTRUCTIONS_FILE;
 
         data = loadAssetAsString(assetsURL + DEFAULT_DATA_FILE, assetManager);
         solutionOutput = loadAssetAsString(assetsURL + DEFAULT_SOLUTION_OUTPUT_FILE, assetManager);
