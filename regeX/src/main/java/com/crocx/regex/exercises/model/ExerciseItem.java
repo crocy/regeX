@@ -5,6 +5,8 @@ import android.content.res.AssetManager;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Croc on 10.11.2013.
@@ -39,6 +41,8 @@ public class ExerciseItem {
         data = loadAssetAsString(assetsURL + DEFAULT_DATA_FILE, assetManager);
         solutionOutput = loadAssetAsString(assetsURL + DEFAULT_SOLUTION_OUTPUT_FILE, assetManager);
         solutionRegex = loadAssetAsString(assetsURL + DEFAULT_SOLUTION_REGEX_FILE, assetManager);
+
+        generateSolutionOutput();
     }
 
     private String loadAssetAsString(String assetUrl, AssetManager assetManager) {
@@ -60,6 +64,33 @@ public class ExerciseItem {
         }
 
         return stringBuffer.toString();
+    }
+
+    /**
+     * Generate <b>solutionOutput</b> only if <b>solutionRegex</b> is known and <b>solutionOutput</b> has not been set.
+     */
+    private void generateSolutionOutput() {
+        if (solutionRegex == null || solutionOutput != null) {
+            return;
+        }
+
+        try {
+            Pattern pattern = Pattern.compile(solutionRegex);
+            Matcher matcher = pattern.matcher(data);
+
+            StringBuffer buffer = new StringBuffer();
+
+            while (matcher.find()) {
+                buffer.append(matcher.group() + " ");
+            }
+
+            if (buffer.length() > 0) {
+                buffer.deleteCharAt(buffer.length() - 1);
+            }
+
+            solutionOutput = buffer.toString();
+        } catch (Exception e) {
+        }
     }
 
     public int getId() {

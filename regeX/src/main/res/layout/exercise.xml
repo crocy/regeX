@@ -17,6 +17,13 @@
         android:layout_height="wrap_content"
         android:text="RResult" />
 
+    <TextView
+        android:id="@+id/exerciseResultError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:typeface="monospace"
+        android:text="SSyntax error" />
+
     <EditText
         android:id="@+id/exerciseInput"
         android:layout_width="match_parent"

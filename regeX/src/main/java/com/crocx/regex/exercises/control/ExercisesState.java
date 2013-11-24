@@ -106,15 +106,16 @@ public class ExercisesState extends UiState {
 
             match = buffer.toString();
         } catch (Exception e) {
-            view.updateRegexResult(regex + "\nError: " + e.getMessage(), false);
+            view.updateRegexResult(regex, false, "Error: " + e.getMessage());
             return;
         }
 
-        if (exercise.isPreferSolutionOutput() && exercise.getSolutionOutput() != null) {
-            view.updateRegexResult(match, match.equals(exercise.getSolutionOutput()));
-        } else {
-            view.updateRegexResult(match, regex.equals(exercise.getSolutionRegex()));
-        }
+        view.updateRegexResult(match, match.equals(exercise.getSolutionOutput()));
+        //        if (exercise.isPreferSolutionOutput() && exercise.getSolutionOutput() != null) {
+        //            view.updateRegexResult(match, match.equals(exercise.getSolutionOutput()));
+        //        } else {
+        //            view.updateRegexResult(match, regex.equals(exercise.getSolutionRegex()));
+        //        }
     }
 
 }
