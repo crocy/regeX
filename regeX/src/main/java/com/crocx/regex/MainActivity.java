@@ -9,6 +9,7 @@ import android.view.Window;
 import com.crocx.regex.exercises.control.ExercisesState;
 import com.crocx.regex.introduction.control.IntroductionState;
 import com.crocx.regex.main.control.MainState;
+import com.crocx.regex.tutorial.control.TutorialState;
 import com.crocx.regex.ui.UiStateManager;
 
 public class MainActivity extends ActionBarActivity {
@@ -16,6 +17,7 @@ public class MainActivity extends ActionBarActivity {
     private UiStateManager uiStateManager;
     private MainState mainState;
     private IntroductionState introductionState;
+    private TutorialState tutorialState;
     private ExercisesState exercisesState;
 
     @Override
@@ -29,6 +31,7 @@ public class MainActivity extends ActionBarActivity {
         uiStateManager = new UiStateManager();
         mainState = new MainState(this);
         introductionState = new IntroductionState(this);
+        tutorialState = new TutorialState(this);
         exercisesState = new ExercisesState(this);
 
         uiStateManager.start(mainState);
@@ -77,5 +80,9 @@ public class MainActivity extends ActionBarActivity {
 
     public ExercisesState getExercisesState() {
         return exercisesState;
+    }
+
+    public TutorialState getTutorialState() {
+        return tutorialState;
     }
 }

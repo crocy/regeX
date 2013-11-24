@@ -53,7 +53,8 @@ public class MainState extends UiState {
                     mainActivity.getUiStateManager().changeState(mainActivity.getIntroductionState());
                     break;
 
-                case BUTTON_EXAMPLES:
+                case BUTTON_TUTORIAL:
+                    mainActivity.getUiStateManager().changeState(mainActivity.getTutorialState());
                     break;
 
                 case BUTTON_EXERCISES:

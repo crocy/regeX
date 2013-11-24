@@ -7,7 +7,7 @@
 
     <string name="main_what_would_you_like_to_do">What would you like to do?</string>
     <string name="main_button_introduction">Introduction</string>
-    <string name="main_button_examples">Examples</string>
+    <string name="main_button_examples">Tutorial</string>
     <string name="main_button_exercises">Exercises</string>
 
 </resources>

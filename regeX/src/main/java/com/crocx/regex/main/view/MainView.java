@@ -51,7 +51,7 @@ public class MainView extends RelativeLayout {
         buttonExamples.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                uiStateManager.fireAction(MainAction.BUTTON_EXAMPLES);
+                uiStateManager.fireAction(MainAction.BUTTON_TUTORIAL);
             }
         });
 

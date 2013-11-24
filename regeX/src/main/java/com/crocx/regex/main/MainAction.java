@@ -7,6 +7,6 @@ import com.crocx.regex.ui.UiAction;
  */
 public enum MainAction implements UiAction {
 
-    BUTTON_INTRODUCTION, BUTTON_EXAMPLES, BUTTON_EXERCISES
+    BUTTON_INTRODUCTION, BUTTON_TUTORIAL, BUTTON_EXERCISES
 
 }
