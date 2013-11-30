@@ -96,6 +96,7 @@ public class ExercisesState extends UiState {
 
             StringBuffer buffer = new StringBuffer();
 
+            // TODO: rather return a list of matches then all as one string
             while (matcher.find()) {
                 buffer.append(matcher.group() + " ");
             }

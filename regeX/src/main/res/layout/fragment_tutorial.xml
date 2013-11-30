@@ -9,12 +9,14 @@
         android:id="@+id/tutorialRegex"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:typeface="monospace"
         android:text="foo+" />
 
     <TextView
         android:id="@+id/tutorialData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:typeface="monospace"
         android:text="foo fooo" />
 
 </com.crocx.regex.tutorial.view.TutorialView>
