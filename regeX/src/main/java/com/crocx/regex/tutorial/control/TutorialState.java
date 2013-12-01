@@ -27,6 +27,8 @@ public class TutorialState extends UiState {
         super.onEnter(previousState, action, actionObject);
 
         fragment = new TutorialFragment();
+        fragment.setUiStateManager(mainActivity.getUiStateManager());
+
         FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -44,6 +46,14 @@ public class TutorialState extends UiState {
             }
         } else {
             switch ((TutorialAction) action) {
+                case START:
+                    fragment.getTutorialView().updateView("foo+", "aa fo foo fooo foooo bar");
+                    break;
+
+                case BUTTON_NEXT:
+                    fragment.getTutorialView().nextStep();
+                    break;
+
                 default:
                     throwOnUnknownAction(action, actionObject);
             }

@@ -13,10 +13,16 @@
         android:text="foo+" />
 
     <TextView
-        android:id="@+id/tutorialData"
+        android:id="@+id/tutorialInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:typeface="monospace"
         android:text="foo fooo" />
+
+    <Button
+        android:id="@+id/tutorialButtonNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NNext" />
 
 </com.crocx.regex.tutorial.view.TutorialView>

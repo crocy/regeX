@@ -10,6 +10,10 @@ import java.util.regex.Pattern;
  */
 public class RegexEngine {
 
+    public static final int GROUP_SPECIAL_CHARACTERS = 1;
+    public static final int GROUP_LITERALS = 2;
+    public static final int GROUP_QUANTIFIERS = 3;
+
     //    (?:\\\w)?(\w+)?(?![+?*]) -- 1 group: literals
     //    (\\\w)?(\w+(?![+?*]))?(\w[+?*])? -- 3 groups: \chars; literals; quantifiers
 
@@ -25,11 +29,17 @@ public class RegexEngine {
         LinkedList<MatchResult> matches = new LinkedList<MatchResult>();
 
         while (regexMatcher.find()) {
-            specialCharacter = regexMatcher.group(1);
-            literal = regexMatcher.group(2);
-            quantifier = regexMatcher.group(3);
+            specialCharacter = regexMatcher.group(GROUP_SPECIAL_CHARACTERS);
+            literal = regexMatcher.group(GROUP_LITERALS);
+            quantifier = regexMatcher.group(GROUP_QUANTIFIERS);
 
-            Pattern inputPattern = Pattern.compile(literal);
+            Pattern inputPattern;
+            try {
+                inputPattern = Pattern.compile(literal);
+            } catch (Exception e) {
+                continue;
+            }
+
             Matcher inputMatcher = inputPattern.matcher(input);
 
             while (inputMatcher.find()) {
