@@ -28,6 +28,7 @@ public class RegexEngine {
         String literal;
         String quantifierChar, quantifierQuantifier;
 
+        MatcherResult match;
         LinkedList<MatcherResult> matches = new LinkedList<MatcherResult>();
 
         while (regexMatcher.find()) {
@@ -50,6 +51,12 @@ public class RegexEngine {
                 continue;
             }
 
+            match = new MatcherResult();
+            match.setMatch(literalMatcher.group(), literalMatcher.start(), literalMatcher.end());
+            match.setPattern(literalMatcher.pattern().pattern(), regexMatcher.start(GROUP_LITERALS),
+                    regexMatcher.end(GROUP_LITERALS));
+            matches.add(match);
+
             Pattern quantifiersPattern = Pattern.compile(literal + quantifierChar);
             Matcher quantifiersMatcher = quantifiersPattern.matcher(input);
             quantifiersMatcher.region(literalMatcher.start(), input.length());
@@ -63,11 +70,12 @@ public class RegexEngine {
                     continue;
                 }
 
-                MatcherResult result = new MatcherResult();
-                result.setMatch(quantifiersMatcher.group(), quantifiersMatcher.start(), quantifiersMatcher.end());
-                result.setPattern(quantifiersMatcher.pattern().pattern(), regexMatcher.start(), regexMatcher.end());
+                match = new MatcherResult();
+                match.setMatch(quantifiersMatcher.group(), quantifiersMatcher.start(), quantifiersMatcher.end());
+                match.setPattern(quantifiersMatcher.pattern().pattern(), regexMatcher.start(GROUP_LITERALS),
+                        regexMatcher.end(GROUP_QUANTIFIERS_CHARACTER));
 
-                matches.add(result);
+                matches.add(match);
             }
         }
 

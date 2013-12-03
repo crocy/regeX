@@ -63,6 +63,9 @@ public class TutorialView extends LinearLayout {
         this.regex = regex;
         this.input = input;
 
+        tutorialRegex.setText(regex);
+        tutorialInput.setText(input);
+
         engine = new RegexEngine();
         results = engine.processRegexAndInput(regex, input);
 
