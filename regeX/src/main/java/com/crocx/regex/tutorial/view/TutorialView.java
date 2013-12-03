@@ -12,12 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.crocx.regex.R;
-import com.crocx.regex.tutorial.RegexEngine;
+import com.crocx.regex.engine.MatcherResult;
+import com.crocx.regex.engine.RegexEngine;
 import com.crocx.regex.tutorial.TutorialAction;
 import com.crocx.regex.ui.UiStateManager;
 
 import java.util.LinkedList;
-import java.util.regex.MatchResult;
 
 /**
  * Created by Croc on 24.11.2013.
@@ -29,7 +29,7 @@ public class TutorialView extends LinearLayout {
     private Button buttonNext;
 
     private RegexEngine engine;
-    private LinkedList<MatchResult> results;
+    private LinkedList<MatcherResult> results;
     private String regex;
     private String input;
 
@@ -74,16 +74,21 @@ public class TutorialView extends LinearLayout {
     }
 
     public void nextStep() {
-        MatchResult result = results.removeFirst();
+        MatcherResult result = results.removeFirst();
 
         if (results.isEmpty()) {
             buttonNext.setEnabled(false);
         }
 
         //        SpannableString spannableRegex = new SpannableString(result.group(RegexEngine.GROUP_LITERALS));
-        SpannableString spannableRegex = new SpannableString(input);
-        spannableRegex.setSpan(new ForegroundColorSpan(Color.GREEN), result.start(), result.end(),
+        SpannableString spannableRegex = new SpannableString(regex);
+        spannableRegex.setSpan(new ForegroundColorSpan(Color.GREEN), result.getPatternStart(), result.getPatternEnd(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tutorialInput.setText(spannableRegex);
+        tutorialRegex.setText(spannableRegex);
+
+        SpannableString spannableInput = new SpannableString(input);
+        spannableInput.setSpan(new ForegroundColorSpan(Color.GREEN), result.getMatchStart(), result.getMatchEnd(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tutorialInput.setText(spannableInput);
     }
 }
