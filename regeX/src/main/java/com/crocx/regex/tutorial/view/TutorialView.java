@@ -107,6 +107,8 @@ public class TutorialView extends LinearLayout {
         //        SpannableString spannableRegex = new SpannableString(offsetSpaces + result.getPattern());
         spannableRegex.setSpan(new ForegroundColorSpan(Color.GREEN), offset + result.getPatternStart(),
                 offset + result.getPatternEnd(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableRegex.setSpan(new ForegroundColorSpan(Color.YELLOW), offset + result.getPatternEnd(),
+                spannableRegex.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tutorialRegex.setText(spannableRegex);
 
         SpannableString spannableInput = new SpannableString(input);

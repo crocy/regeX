@@ -28,7 +28,7 @@ public class TutorialFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         tutorialView = (TutorialView) inflater.inflate(R.layout.fragment_tutorial, container, false);
         tutorialView.init(uiStateManager);
-        tutorialView.updateView("foo+", "aa fo foo fooo foooo bar");
+        uiStateManager.fireAction(TutorialAction.START);
         return tutorialView;
     }
 
