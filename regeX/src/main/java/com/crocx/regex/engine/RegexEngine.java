@@ -31,6 +31,7 @@ public class RegexEngine {
         MatcherResult match;
         LinkedList<MatcherResult> matches = new LinkedList<MatcherResult>();
 
+        mainLoop: //
         while (regexMatcher.find()) {
             if (regexMatcher.group() == null || regexMatcher.group().isEmpty()) {
                 // found empty string (probably because nothing in regexPattern is mandatory), continue
@@ -43,29 +44,54 @@ public class RegexEngine {
             // is already included in quantifierChar!
             quantifierQuantifier = regexMatcher.group(GROUP_QUANTIFIERS_QUANTIFIER);
 
-            Pattern literalPattern = Pattern.compile(literal);
-            Matcher literalMatcher = literalPattern.matcher(input);
+            /*
+             * Special characters matching.
+             */
+            // TODO
 
-            // literal matcher should always find exactly one match per query
-            if (!literalMatcher.find()) {
+            /*
+             * Literals matching.
+             */
+            if (literal == null || literal.isEmpty()) {
                 continue;
             }
 
-            match = new MatcherResult();
-            match.setMatch(literalMatcher.group(), literalMatcher.start(), literalMatcher.end());
-            match.setPattern(literalMatcher.pattern().pattern(), regexMatcher.start(GROUP_LITERALS),
-                    regexMatcher.end(GROUP_LITERALS));
-            matches.add(match);
+            Pattern literalPattern;
+            Matcher literalMatcher = null;
+            StringBuffer subLiteral = new StringBuffer();
+            for (int i = 0; i < literal.length(); i++) {
+                subLiteral.append(literal.charAt(i));
 
+                //                literalPattern = Pattern.compile(literal);
+                literalPattern = Pattern.compile(subLiteral.toString());
+                literalMatcher = literalPattern.matcher(input);
+
+                // literal matcher should always find exactly one match per query
+                if (!literalMatcher.find()) {
+                    match = new MatcherResult();
+                    match.setType(MatcherResult.ResultType.MISMATCH);
+                    matches.add(match);
+                    continue;
+                }
+
+                match = new MatcherResult();
+                match.setMatch(literalMatcher.group(), literalMatcher.start(), literalMatcher.end());
+                //                match.setPattern(literalMatcher.pattern().pattern(), regexMatcher.start(GROUP_LITERALS),
+                //                        regexMatcher.end(GROUP_LITERALS));
+                match.setPattern(literalMatcher.pattern().pattern(), regexMatcher.start(GROUP_LITERALS),
+                        regexMatcher.start(GROUP_LITERALS) + subLiteral.length());
+                matches.add(match);
+            }
+
+            /*
+             * Quantifiers matching.
+             */
             Pattern quantifiersPattern = Pattern.compile(literal + quantifierChar);
             Matcher quantifiersMatcher = quantifiersPattern.matcher(input);
             quantifiersMatcher.region(literalMatcher.start(), input.length());
 
-            //            // if no match has been found and at least one is expected, continue
-            //            if (!quantifiersMatcher.find() && quantifierQuantifier.equals("+")) {
-            //                continue;
-            //            }
             while (quantifiersMatcher.find()) {
+                // if no match has been found and at least one is expected, continue
                 if (quantifiersMatcher.group() == null || quantifiersMatcher.group().isEmpty()) {
                     continue;
                 }
@@ -81,4 +107,5 @@ public class RegexEngine {
 
         return matches;
     }
+
 }

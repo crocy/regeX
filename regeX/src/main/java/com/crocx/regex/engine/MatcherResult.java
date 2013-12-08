@@ -5,6 +5,8 @@ package com.crocx.regex.engine;
  */
 public class MatcherResult {
 
+    private ResultType type = null;
+
     private String match;
     private int matchStart;
     private int matchEnd;
@@ -12,6 +14,10 @@ public class MatcherResult {
     private String pattern;
     private int patternStart;
     private int patternEnd;
+
+    public enum ResultType {
+        MATCH, MISMATCH
+    }
 
     public void setMatch(String match, int matchStart, int matchEnd) {
         this.match = match;
@@ -47,5 +53,13 @@ public class MatcherResult {
 
     public int getPatternEnd() {
         return patternEnd;
+    }
+
+    public ResultType getType() {
+        return type;
+    }
+
+    public void setType(ResultType type) {
+        this.type = type;
     }
 }
