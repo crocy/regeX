@@ -15,6 +15,8 @@ public class MatcherResult {
     private int patternStart;
     private int patternEnd;
 
+    private RegexExplanation explanation;
+
     public enum ResultType {
         MATCH, MISMATCH
     }
@@ -61,5 +63,13 @@ public class MatcherResult {
 
     public void setType(ResultType type) {
         this.type = type;
+    }
+
+    public RegexExplanation getExplanation() {
+        return explanation;
+    }
+
+    public void setExplanation(RegexExplanation explanation) {
+        this.explanation = explanation;
     }
 }

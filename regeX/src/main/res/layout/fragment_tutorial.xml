@@ -19,6 +19,18 @@
         android:typeface="monospace"
         android:text="foo fooo" />
 
+    <TextView
+        android:id="@+id/tutorialExplanations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="EExplanations:" />
+
+    <ListView
+        android:id="@+id/tutorialExplanationList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
     <Button
         android:id="@+id/tutorialButtonNext"
         android:layout_width="wrap_content"

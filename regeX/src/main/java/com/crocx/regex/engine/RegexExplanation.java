@@ -8,6 +8,7 @@ public class RegexExplanation {
     private ExplainingType explainingType;
     private String explainingRegex;
     private String explanationMessage;
+    private boolean emphasise = false;
 
     public enum ExplainingType {
         SPECIAL_CHARACTER, LITERAL, QUANTIFIER
@@ -44,5 +45,13 @@ public class RegexExplanation {
 
     public void setExplanationMessage(String explanationMessage) {
         this.explanationMessage = explanationMessage;
+    }
+
+    public boolean isEmphasise() {
+        return emphasise;
+    }
+
+    public void setEmphasise(boolean emphasise) {
+        this.emphasise = emphasise;
     }
 }

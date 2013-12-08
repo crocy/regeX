@@ -21,6 +21,9 @@ public class RegexEngine {
     //    (\\\w)?(\w+(?![+?*]))?(\w[+?*])? -- 3 groups: \chars; literals; quantifiers
     //    (\\\w([+?*])?)?(\w+(?![+?*]))?(\w?([+?*]))? -- 5 groups: (\char(quantifier))(literal)(char(quantifier))
 
+    private LinkedList<MatcherResult> matches;
+    private LinkedList<RegexExplanation> explanations;
+
     public LinkedList<MatcherResult> processRegexAndInput(String regex, String input) {
         Pattern regexPattern = Pattern.compile("(\\\\\\w([+?*])?)?(\\w+(?![+?*]))?(\\w?([+?*]))?");
         Matcher regexMatcher = regexPattern.matcher(regex);
@@ -32,7 +35,8 @@ public class RegexEngine {
         String quantifierChar, quantifierQuantifier;
 
         MatcherResult match;
-        LinkedList<MatcherResult> matches = new LinkedList<MatcherResult>();
+        matches = new LinkedList<MatcherResult>();
+        explanations = new LinkedList<RegexExplanation>();
 
         mainLoop: //
         while (regexMatcher.find()) {
@@ -52,6 +56,10 @@ public class RegexEngine {
              * Special characters matching.
              */
             if (specialChar != null && specialChar.length() > 1 && specialChar.length() < 4) {
+                RegexExplanation explanation = new RegexExplanation(RegexExplanation.ExplainingType.SPECIAL_CHARACTER,
+                        specialChar);
+                explanations.add(explanation);
+
                 Pattern specialCharPattern = Pattern.compile(specialChar);
                 Matcher specialCharMatcher = specialCharPattern.matcher(input);
                 specialCharMatcher.region(regionStart, regionEnd);
@@ -61,6 +69,7 @@ public class RegexEngine {
                     match.setMatch(specialCharMatcher.group(), specialCharMatcher.start(), specialCharMatcher.end());
                     match.setPattern(specialCharMatcher.pattern().pattern(), regexMatcher.start(),
                             regexMatcher.end(GROUP_SPECIAL_CHARACTERS));
+                    match.setExplanation(explanation);
                     matches.add(match);
                 }
             } else {
@@ -72,6 +81,9 @@ public class RegexEngine {
              * Literals matching.
              */
             if (literal != null && !literal.isEmpty()) {
+                RegexExplanation explanation = new RegexExplanation(RegexExplanation.ExplainingType.LITERAL, literal);
+                explanations.add(explanation);
+
                 Pattern literalPattern;
                 Matcher literalMatcher;
                 StringBuffer subLiteral = new StringBuffer();
@@ -98,6 +110,7 @@ public class RegexEngine {
                     //                        regexMatcher.end(GROUP_LITERALS));
                     match.setPattern(literalMatcher.pattern().pattern(), regexMatcher.start(),
                             regexMatcher.start(GROUP_LITERALS) + subLiteral.length());
+                    match.setExplanation(explanation);
                     matches.add(match);
                 }
             } else {
@@ -109,6 +122,10 @@ public class RegexEngine {
              * Quantifiers matching.
              */
             if (quantifierChar != null && quantifierChar.length() == 2) {
+                RegexExplanation explanation = new RegexExplanation(RegexExplanation.ExplainingType.QUANTIFIER,
+                        quantifierChar);
+                explanations.add(explanation);
+
                 Pattern quantifiersPattern = Pattern.compile(specialChar + literal + quantifierChar);
                 Matcher quantifiersMatcher = quantifiersPattern.matcher(input);
                 //            quantifiersMatcher.region(literalMatcher.start(), input.length());
@@ -125,6 +142,7 @@ public class RegexEngine {
                     match.setPattern(quantifiersMatcher.pattern().pattern(), regexMatcher.start(),
                             regexMatcher.end(GROUP_QUANTIFIERS_CHARACTER));
 
+                    match.setExplanation(explanation);
                     matches.add(match);
                 }
             } else {
@@ -135,4 +153,11 @@ public class RegexEngine {
         return matches;
     }
 
+    public LinkedList<MatcherResult> getMatches() {
+        return matches;
+    }
+
+    public LinkedList<RegexExplanation> getExplanations() {
+        return explanations;
+    }
 }

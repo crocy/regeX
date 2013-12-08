@@ -7,13 +7,17 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.crocx.regex.R;
 import com.crocx.regex.engine.MatcherResult;
 import com.crocx.regex.engine.RegexEngine;
+import com.crocx.regex.engine.RegexExplanation;
 import com.crocx.regex.tutorial.TutorialAction;
 import com.crocx.regex.ui.UiStateManager;
 
@@ -27,12 +31,16 @@ public class TutorialView extends LinearLayout {
     private TextView tutorialRegex;
     private TextView tutorialInput;
     private Button buttonNext;
+    private TextView tutorialExplanation;
+    private ListView explanationsListView;
 
     private RegexEngine engine;
     private LinkedList<MatcherResult> results;
     private LinkedList<MatcherResult> seenResults;
     private String regex;
     private String input;
+
+    private ArrayAdapter<RegexExplanation> explanationAdapter;
 
     public TutorialView(Context context) {
         super(context);
@@ -49,6 +57,8 @@ public class TutorialView extends LinearLayout {
         tutorialRegex = (TextView) findViewById(R.id.tutorialRegex);
         tutorialInput = (TextView) findViewById(R.id.tutorialInput);
         buttonNext = (Button) findViewById(R.id.tutorialButtonNext);
+        tutorialExplanation = (TextView) findViewById(R.id.tutorialExplanations);
+        explanationsListView = (ListView) findViewById(R.id.tutorialExplanationList);
     }
 
     public void init(final UiStateManager uiStateManager) {
@@ -58,6 +68,31 @@ public class TutorialView extends LinearLayout {
                 uiStateManager.fireAction(TutorialAction.BUTTON_NEXT);
             }
         });
+
+        explanationAdapter = new ArrayAdapter<RegexExplanation>(getContext(), 0) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view;
+                if (convertView == null) {
+                    view = new TextView(getContext());
+                } else {
+                    view = (TextView) convertView;
+                }
+
+                RegexExplanation explanation = explanationAdapter.getItem(position);
+                if (explanation.isEmphasise()) {
+                    SpannableString spannable = new SpannableString(explanation.getExplanationMessage());
+                    spannable.setSpan(new ForegroundColorSpan(Color.CYAN), 0, spannable.length(),
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    view.setText(spannable);
+                } else {
+                    view.setText(explanation.getExplanationMessage());
+                }
+
+                return view;
+            }
+        };
+        explanationsListView.setAdapter(explanationAdapter);
     }
 
     public void updateView(String regex, String input) {
@@ -76,6 +111,8 @@ public class TutorialView extends LinearLayout {
         } else {
             buttonNext.setEnabled(false);
         }
+
+        loadExplanations();
     }
 
     public void nextStep() {
@@ -83,7 +120,6 @@ public class TutorialView extends LinearLayout {
         seenResults.add(result);
 
         if (results.isEmpty()) {
-            //                    buttonNext.setEnabled(false);
             buttonNext.setText("RRestart");
             restartMatching();
         } else {
@@ -98,6 +134,10 @@ public class TutorialView extends LinearLayout {
 
             tutorialInput.setText(input);
             return;
+        }
+
+        if (result.getExplanation() != null) {
+            emphasiseExplanation(result.getExplanation());
         }
 
         int offset = result.getMatchStart();
@@ -129,5 +169,37 @@ public class TutorialView extends LinearLayout {
     private void restartMatching() {
         results = seenResults;
         seenResults = new LinkedList<MatcherResult>();
+    }
+
+    private void loadExplanations() {
+        if (engine.getExplanations() != null) {
+            explanationAdapter.clear();
+            explanationAdapter.setNotifyOnChange(false);
+
+            for (RegexExplanation explanation : engine.getExplanations()) {
+                explanationAdapter.add(explanation);
+            }
+            explanationAdapter.notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * Emphasise the given explanation.
+     * 
+     * @param emphasiseExplanation the explanation to emphasise (as in this is the current regex/explanation we are
+     *            looking at).
+     */
+    private void emphasiseExplanation(RegexExplanation emphasiseExplanation) {
+        explanationAdapter.setNotifyOnChange(false);
+
+        if (engine.getExplanations() != null) {
+            for (RegexExplanation explanation : engine.getExplanations()) {
+                explanation.setEmphasise(explanation == emphasiseExplanation);
+            }
+        } else {
+            tutorialExplanation.setText(null);
+        }
+
+        explanationAdapter.notifyDataSetChanged();
     }
 }
