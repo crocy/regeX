@@ -48,7 +48,7 @@ public class TutorialState extends UiState {
             switch ((TutorialAction) action) {
                 case START:
                     //                    fragment.getTutorialView().updateView("foo+", "aa fa fo foo fooo foooo bar");
-                    fragment.getTutorialView().updateView("\\wo\\w+", "aa fa fo foo fooo foooo bar");
+                    fragment.getTutorialView().updateView("\\woo+", "aa fa fo foo fooo foooo bar");
                     break;
 
                 case BUTTON_NEXT:

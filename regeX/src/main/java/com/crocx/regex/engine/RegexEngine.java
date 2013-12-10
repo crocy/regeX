@@ -30,7 +30,7 @@ public class RegexEngine {
         int regionStart = 0;
         int regionEnd = input.length();
 
-        String specialChar;
+        String specialChar, specialQuantifier;
         String literal;
         String quantifierChar, quantifierQuantifier;
 
@@ -47,18 +47,24 @@ public class RegexEngine {
             regionStart = regexMatcher.start();
 
             specialChar = regexMatcher.group(GROUP_SPECIAL_CHARACTERS);
+            specialQuantifier = regexMatcher.group(GROUP_SPECIAL_CHARACTERS_QUANTIFIER);
             literal = regexMatcher.group(GROUP_LITERALS);
             quantifierChar = regexMatcher.group(GROUP_QUANTIFIERS_CHARACTER);
             // is already included in quantifierChar!
-            //            quantifierQuantifier = regexMatcher.group(GROUP_QUANTIFIERS_QUANTIFIER);
+            quantifierQuantifier = regexMatcher.group(GROUP_QUANTIFIERS_QUANTIFIER);
 
             /*
              * Special characters matching.
              */
-            if (specialChar != null && specialChar.length() > 1 && specialChar.length() < 4) {
+            if (specialChar != null && specialChar.length() >= 2 && specialChar.length() <= 3) {
                 RegexExplanation explanation = new RegexExplanation(RegexExplanation.ExplainingType.SPECIAL_CHARACTER,
                         specialChar);
                 explanations.add(explanation);
+
+                if (specialQuantifier != null && !specialQuantifier.isEmpty()) {
+                    explanation = new RegexExplanation(RegexExplanation.ExplainingType.QUANTIFIER, specialQuantifier);
+                    explanations.add(explanation);
+                }
 
                 Pattern specialCharPattern = Pattern.compile(specialChar);
                 Matcher specialCharMatcher = specialCharPattern.matcher(input);
@@ -121,10 +127,15 @@ public class RegexEngine {
             /*
              * Quantifiers matching.
              */
-            if (quantifierChar != null && quantifierChar.length() == 2) {
-                RegexExplanation explanation = new RegexExplanation(RegexExplanation.ExplainingType.QUANTIFIER,
+            if (quantifierChar != null && quantifierChar.length() >= 2 && quantifierChar.length() <= 3) {
+                RegexExplanation explanation = new RegexExplanation(RegexExplanation.ExplainingType.SPECIAL_CHARACTER,
                         quantifierChar);
                 explanations.add(explanation);
+
+                if (quantifierQuantifier != null || !quantifierQuantifier.isEmpty()) {
+                    explanation = new RegexExplanation(RegexExplanation.ExplainingType.QUANTIFIER, quantifierQuantifier);
+                    explanations.add(explanation);
+                }
 
                 Pattern quantifiersPattern = Pattern.compile(specialChar + literal + quantifierChar);
                 Matcher quantifiersMatcher = quantifiersPattern.matcher(input);
