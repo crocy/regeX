@@ -5,4 +5,15 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="textRegex">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="textRegexMedium" parent="textRegex">
+        <item name="android:textSize">@dimen/text_size_regex_medium</item>
+    </style>
+
+    <style name="textRegexBig" parent="textRegex">
+        <item name="android:textSize">@dimen/text_size_big</item>
+    </style>
 </resources>

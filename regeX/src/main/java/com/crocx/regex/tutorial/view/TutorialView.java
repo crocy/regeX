@@ -74,7 +74,7 @@ public class TutorialView extends LinearLayout {
             public View getView(int position, View convertView, ViewGroup parent) {
                 TextView view;
                 if (convertView == null) {
-                    view = new TextView(getContext());
+                    view = new TextView(getContext(), null, R.style.textRegexMedium);
                 } else {
                     view = (TextView) convertView;
                 }

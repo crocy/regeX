@@ -12,12 +12,14 @@
         android:layout_weight="1.0" />
 
     <TextView
+        style="@style/textRegexMedium"
         android:id="@+id/exerciseResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="RResult" />
 
     <TextView
+        style="@style/textRegexMedium"
         android:id="@+id/exerciseResultError"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
