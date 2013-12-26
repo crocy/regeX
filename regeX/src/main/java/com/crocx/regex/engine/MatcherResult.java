@@ -5,7 +5,7 @@ package com.crocx.regex.engine;
  */
 public class MatcherResult {
 
-    private ResultType type = null;
+    private ResultType type = ResultType.MATCH;
 
     private String match;
     private int matchStart;

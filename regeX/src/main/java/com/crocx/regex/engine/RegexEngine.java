@@ -24,11 +24,19 @@ public class RegexEngine {
     private LinkedList<MatcherResult> matches;
     private LinkedList<RegexExplanation> explanations;
 
+    private boolean processPerWord = true;
+
     public LinkedList<MatcherResult> processRegexAndInput(String regex, String input) {
+        String[] inputArray;
+
+        if (processPerWord) {
+            inputArray = input.split(" ");
+        } else {
+            inputArray = new String[] { input };
+        }
+
         Pattern regexPattern = Pattern.compile("(\\\\\\w([+?*])?)?(\\w+(?![+?*]))?(\\w?([+?*]))?");
         Matcher regexMatcher = regexPattern.matcher(regex);
-        int regionStart = 0;
-        int regionEnd = input.length();
 
         String specialChar, specialQuantifier;
         String literal;
@@ -38,127 +46,163 @@ public class RegexEngine {
         matches = new LinkedList<MatcherResult>();
         explanations = new LinkedList<RegexExplanation>();
 
-        mainLoop: //
-        while (regexMatcher.find()) {
-            if (regexMatcher.group() == null || regexMatcher.group().isEmpty()) {
-                // found empty string (probably because nothing in regexPattern is mandatory), continue
-                continue;
-            }
-            regionStart = regexMatcher.start();
+        String processInput;
+        int offset = 0;
+        int regionStart, regionEnd;
+        //        regionStart = 0;
+        //            regionEnd = processInput.length();
+        //        regionEnd = input.length();
 
-            specialChar = regexMatcher.group(GROUP_SPECIAL_CHARACTERS);
-            specialQuantifier = regexMatcher.group(GROUP_SPECIAL_CHARACTERS_QUANTIFIER);
-            literal = regexMatcher.group(GROUP_LITERALS);
-            quantifierChar = regexMatcher.group(GROUP_QUANTIFIERS_CHARACTER);
-            // is already included in quantifierChar!
-            quantifierQuantifier = regexMatcher.group(GROUP_QUANTIFIERS_QUANTIFIER);
+        forLoop: //
+        for (int i = 0; i < inputArray.length; i++) {
+            processInput = inputArray[i];
+            regexMatcher.reset();
 
-            /*
-             * Special characters matching.
-             */
-            if (specialChar != null && specialChar.length() >= 2 && specialChar.length() <= 3) {
-                RegexExplanation explanation = new RegexExplanation(RegexExplanation.ExplainingType.SPECIAL_CHARACTER,
-                        specialChar);
-                explanations.add(explanation);
+            regionStart = 0;
+            regionEnd = processInput.length();
 
-                if (specialQuantifier != null && !specialQuantifier.isEmpty()) {
-                    explanation = new RegexExplanation(RegexExplanation.ExplainingType.QUANTIFIER, specialQuantifier);
+            mainLoop: //
+            while (regexMatcher.find()) {
+                if (regexMatcher.group() == null || regexMatcher.group().isEmpty()) {
+                    // found empty string (probably because nothing in regexPattern is mandatory), continue
+                    continue;
+                }
+                regionStart = regexMatcher.start();
+
+                specialChar = regexMatcher.group(GROUP_SPECIAL_CHARACTERS);
+                specialQuantifier = regexMatcher.group(GROUP_SPECIAL_CHARACTERS_QUANTIFIER);
+                literal = regexMatcher.group(GROUP_LITERALS);
+                quantifierChar = regexMatcher.group(GROUP_QUANTIFIERS_CHARACTER);
+                // is already included in quantifierChar!
+                quantifierQuantifier = regexMatcher.group(GROUP_QUANTIFIERS_QUANTIFIER);
+
+                /*
+                 * Special characters matching.
+                 */
+                if (specialChar != null && specialChar.length() >= 2 && specialChar.length() <= 3) {
+                    RegexExplanation explanation = new RegexExplanation(
+                            RegexExplanation.ExplainingType.SPECIAL_CHARACTER, specialChar);
                     explanations.add(explanation);
-                }
 
-                Pattern specialCharPattern = Pattern.compile(specialChar);
-                Matcher specialCharMatcher = specialCharPattern.matcher(input);
-                specialCharMatcher.region(regionStart, regionEnd);
+                    if (specialQuantifier != null && !specialQuantifier.isEmpty()) {
+                        explanation = new RegexExplanation(RegexExplanation.ExplainingType.QUANTIFIER,
+                                specialQuantifier);
+                        explanations.add(explanation);
+                    }
 
-                if (specialCharMatcher.find()) {
-                    match = new MatcherResult();
-                    match.setMatch(specialCharMatcher.group(), specialCharMatcher.start(), specialCharMatcher.end());
-                    match.setPattern(specialCharMatcher.pattern().pattern(), regexMatcher.start(),
-                            regexMatcher.end(GROUP_SPECIAL_CHARACTERS));
-                    match.setExplanation(explanation);
-                    matches.add(match);
-                }
-            } else {
-                Logger.info("No special character found.");
-                specialChar = "";
-            }
+                    Pattern specialCharPattern = Pattern.compile(specialChar);
+                    Matcher specialCharMatcher = specialCharPattern.matcher(processInput);
+                    specialCharMatcher.region(regionStart, regionEnd);
 
-            /*
-             * Literals matching.
-             */
-            if (literal != null && !literal.isEmpty()) {
-                RegexExplanation explanation = new RegexExplanation(RegexExplanation.ExplainingType.LITERAL, literal);
-                explanations.add(explanation);
-
-                Pattern literalPattern;
-                Matcher literalMatcher;
-                StringBuffer subLiteral = new StringBuffer();
-
-                for (int i = 0; i < literal.length(); i++) {
-                    subLiteral.append(literal.charAt(i));
-
-                    //                literalPattern = Pattern.compile(literal);
-                    literalPattern = Pattern.compile(specialChar + subLiteral.toString());
-                    literalMatcher = literalPattern.matcher(input);
-                    literalMatcher.region(regionStart, regionEnd);
-
-                    // literal matcher should always find exactly one match per query
-                    if (!literalMatcher.find()) {
+                    if (specialCharMatcher.find()) {
                         match = new MatcherResult();
-                        match.setType(MatcherResult.ResultType.MISMATCH);
+                        //                        match.setMatch(specialCharMatcher.group(), specialCharMatcher.start(), specialCharMatcher.end());
+                        match.setMatch(specialCharMatcher.group(), offset + specialCharMatcher.start(), offset
+                                + specialCharMatcher.end());
+                        match.setPattern(specialCharMatcher.pattern().pattern(), regexMatcher.start(),
+                                regexMatcher.end(GROUP_SPECIAL_CHARACTERS));
+                        match.setExplanation(explanation);
                         matches.add(match);
-                        continue;
                     }
-
-                    match = new MatcherResult();
-                    match.setMatch(literalMatcher.group(), literalMatcher.start(), literalMatcher.end());
-                    //                match.setPattern(literalMatcher.pattern().pattern(), regexMatcher.start(GROUP_LITERALS),
-                    //                        regexMatcher.end(GROUP_LITERALS));
-                    match.setPattern(literalMatcher.pattern().pattern(), regexMatcher.start(),
-                            regexMatcher.start(GROUP_LITERALS) + subLiteral.length());
-                    match.setExplanation(explanation);
-                    matches.add(match);
+                } else {
+                    Logger.info("No special character found.");
+                    specialChar = "";
                 }
-            } else {
-                Logger.info("No literal found.");
-                literal = "";
-            }
 
-            /*
-             * Quantifiers matching.
-             */
-            if (quantifierChar != null && quantifierChar.length() >= 2 && quantifierChar.length() <= 3) {
-                RegexExplanation explanation = new RegexExplanation(RegexExplanation.ExplainingType.SPECIAL_CHARACTER,
-                        quantifierChar);
-                explanations.add(explanation);
-
-                if (quantifierQuantifier != null || !quantifierQuantifier.isEmpty()) {
-                    explanation = new RegexExplanation(RegexExplanation.ExplainingType.QUANTIFIER, quantifierQuantifier);
+                /*
+                 * Literals matching.
+                 */
+                if (literal != null && !literal.isEmpty()) {
+                    RegexExplanation explanation = new RegexExplanation(RegexExplanation.ExplainingType.LITERAL,
+                            literal);
                     explanations.add(explanation);
+
+                    Pattern literalPattern;
+                    Matcher literalMatcher;
+                    StringBuffer subLiteral = new StringBuffer();
+
+                    for (int j = 0; j < literal.length(); j++) {
+                        subLiteral.append(literal.charAt(j));
+
+                        //                literalPattern = Pattern.compile(literal);
+                        literalPattern = Pattern.compile(specialChar + subLiteral.toString());
+                        literalMatcher = literalPattern.matcher(processInput);
+                        literalMatcher.region(regionStart, regionEnd);
+
+                        match = new MatcherResult();
+                        match.setPattern(literalMatcher.pattern().pattern(), regexMatcher.start(),
+                                regexMatcher.start(GROUP_LITERALS) + subLiteral.length());
+                        match.setExplanation(explanation);
+                        matches.add(match);
+
+                        // literal matcher should always find exactly one match per query
+                        if (!literalMatcher.find()) {
+                            match.setType(MatcherResult.ResultType.MISMATCH);
+                            //                            match.setMatch(null, offset, offset);
+                            match.setMatch(null, offset, offset + literalMatcher.regionEnd());
+                            //                            matches.add(match);
+
+                            //                            continue;
+                            //                            continue mainLoop;
+                            //                            continue forLoop;
+                            break mainLoop;
+                        }
+
+                        //                        match = new MatcherResult();
+                        //                        match.setMatch(literalMatcher.group(), literalMatcher.start(), literalMatcher.end());
+                        match.setMatch(literalMatcher.group(), offset + literalMatcher.start(),
+                                offset + literalMatcher.end());
+                        //                match.setPattern(literalMatcher.pattern().pattern(), regexMatcher.start(GROUP_LITERALS),
+                        //                        regexMatcher.end(GROUP_LITERALS));
+                        //                        match.setPattern(literalMatcher.pattern().pattern(), regexMatcher.start(),
+                        //                                regexMatcher.start(GROUP_LITERALS) + subLiteral.length());
+                    }
+                } else {
+                    Logger.info("No literal found.");
+                    literal = "";
                 }
 
-                Pattern quantifiersPattern = Pattern.compile(specialChar + literal + quantifierChar);
-                Matcher quantifiersMatcher = quantifiersPattern.matcher(input);
-                //            quantifiersMatcher.region(literalMatcher.start(), input.length());
-                quantifiersMatcher.region(regionStart, regionEnd);
+                /*
+                 * Quantifiers matching.
+                 */
+                if (quantifierChar != null && quantifierChar.length() >= 2 && quantifierChar.length() <= 3) {
+                    RegexExplanation explanation = new RegexExplanation(
+                            RegexExplanation.ExplainingType.SPECIAL_CHARACTER, quantifierChar);
+                    explanations.add(explanation);
 
-                while (quantifiersMatcher.find()) {
-                    // if no match has been found and at least one is expected, continue
-                    if (quantifiersMatcher.group() == null || quantifiersMatcher.group().isEmpty()) {
-                        continue;
+                    if (quantifierQuantifier != null || !quantifierQuantifier.isEmpty()) {
+                        explanation = new RegexExplanation(RegexExplanation.ExplainingType.QUANTIFIER,
+                                quantifierQuantifier);
+                        explanations.add(explanation);
                     }
 
-                    match = new MatcherResult();
-                    match.setMatch(quantifiersMatcher.group(), quantifiersMatcher.start(), quantifiersMatcher.end());
-                    match.setPattern(quantifiersMatcher.pattern().pattern(), regexMatcher.start(),
-                            regexMatcher.end(GROUP_QUANTIFIERS_CHARACTER));
+                    Pattern quantifiersPattern = Pattern.compile(specialChar + literal + quantifierChar);
+                    Matcher quantifiersMatcher = quantifiersPattern.matcher(processInput);
+                    //            quantifiersMatcher.region(literalMatcher.start(), input.length());
+                    quantifiersMatcher.region(regionStart, regionEnd);
 
-                    match.setExplanation(explanation);
-                    matches.add(match);
+                    while (quantifiersMatcher.find()) {
+                        // if no match has been found and at least one is expected, continue
+                        if (quantifiersMatcher.group() == null || quantifiersMatcher.group().isEmpty()) {
+                            continue;
+                        }
+
+                        match = new MatcherResult();
+                        //                        match.setMatch(quantifiersMatcher.group(), quantifiersMatcher.start(), quantifiersMatcher.end());
+                        match.setMatch(quantifiersMatcher.group(), offset + quantifiersMatcher.start(), offset
+                                + quantifiersMatcher.end());
+                        match.setPattern(quantifiersMatcher.pattern().pattern(), regexMatcher.start(),
+                                regexMatcher.end(GROUP_QUANTIFIERS_CHARACTER));
+
+                        match.setExplanation(explanation);
+                        matches.add(match);
+                    }
+                } else {
+                    Logger.info("No quantifier found.");
                 }
-            } else {
-                Logger.info("No quantifier found.");
             }
+
+            offset += processInput.length() + 1; // +1 for the space ' '
         }
 
         return matches;

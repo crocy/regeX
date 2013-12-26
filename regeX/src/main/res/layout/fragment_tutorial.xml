@@ -26,7 +26,7 @@
         android:id="@+id/tutorialExplanations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="EExplanations:" />
+        android:text="@string/explanations" />
 
     <ListView
         android:id="@+id/tutorialExplanationList"
@@ -34,10 +34,32 @@
         android:layout_height="wrap_content"
         android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/tutorialButtonNext"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="NNext" />
+        android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/tutorialButtonPrevious"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_previous" />
+
+        <Button
+            android:id="@+id/tutorialButtonRestart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_restart" />
+
+        <Button
+            android:id="@+id/tutorialButtonNext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_next" />
+
+
+    </LinearLayout>
 </com.crocx.regex.tutorial.view.TutorialView>

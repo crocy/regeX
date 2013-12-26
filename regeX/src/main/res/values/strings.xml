@@ -5,9 +5,15 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <string name="explanations">Explanations:</string>
+
     <string name="main_what_would_you_like_to_do">What would you like to do?</string>
     <string name="main_button_introduction">Introduction</string>
     <string name="main_button_examples">Tutorial</string>
     <string name="main_button_exercises">Exercises</string>
+
+    <string name="button_next">Next</string>
+    <string name="button_previous">Previous</string>
+    <string name="button_restart">Restart</string>
 
 </resources>

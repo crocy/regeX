@@ -55,6 +55,14 @@ public class TutorialState extends UiState {
                     fragment.getTutorialView().nextStep();
                     break;
 
+                case BUTTON_PREVIOUS:
+                    fragment.getTutorialView().previousStep();
+                    break;
+
+                case BUTTON_RESTART:
+                    fragment.getTutorialView().restartMatching();
+                    break;
+
                 default:
                     throwOnUnknownAction(action, actionObject);
             }

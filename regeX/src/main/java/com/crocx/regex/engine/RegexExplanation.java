@@ -8,7 +8,7 @@ public class RegexExplanation {
     private ExplainingType explainingType;
     private String explainingRegex;
     private String explanationMessage;
-    private boolean emphasise = false;
+    private EmphasiseType emphasiseType = EmphasiseType.NONE;
 
     public enum ExplainingType {
         SPECIAL_CHARACTER("Special character"), LITERAL("Literal"), QUANTIFIER("Quantifier"), GROUP("Group");
@@ -22,6 +22,10 @@ public class RegexExplanation {
         public String getDescription() {
             return description;
         }
+    }
+
+    public enum EmphasiseType {
+        NONE, EMPHASISE_MATCH, EMPHASISE_MISMATCH
     }
 
     public RegexExplanation() {}
@@ -126,11 +130,11 @@ public class RegexExplanation {
         this.explanationMessage = explanationMessage;
     }
 
-    public boolean isEmphasise() {
-        return emphasise;
+    public EmphasiseType getEmphasiseType() {
+        return emphasiseType;
     }
 
-    public void setEmphasise(boolean emphasise) {
-        this.emphasise = emphasise;
+    public void setEmphasiseType(EmphasiseType emphasiseType) {
+        this.emphasiseType = emphasiseType;
     }
 }
