@@ -24,11 +24,19 @@ public class RegexEngine {
     //    (?:\\\w)?(\w+)?(?![+?*]) -- 1 group: literals
     //    (\\\w)?(\w+(?![+?*]))?(\w[+?*])? -- 3 groups: \chars; literals; quantifiers
     //    (\\\w([+?*])?)?(\w+(?![+?*]))?(\w?([+?*]))? -- 5 groups: (\char(quantifier))(literal)(char(quantifier))
+    //    ((\\)?(\w)([+?*])?)?(\w*?) -- 5 groups: ((\start_of_special_char)(char)(quantifier))(literal{layz_matching})
 
     private LinkedList<MatcherResult> matches;
     private LinkedList<RegexExplanation> explanations;
 
     private boolean processPerWord = true;
+
+    private Pattern regexPattern = Pattern.compile("(\\\\\\w([+?*])?)?(\\w+(?![+?*]))?(\\w?([+?*]))?");
+    //    private Pattern regexPattern = Pattern.compile("((\\\\)?(\\w)([+?*])?)?(\\w*?)");
+    private Matcher regexMatcher;
+    private String specialChar, specialQuantifier;
+    private String literal;
+    private String quantifierChar, quantifierQuantifier;
 
     public LinkedList<MatcherResult> processRegexAndInput(String regex, String input) {
         String[] inputArray;
@@ -39,20 +47,22 @@ public class RegexEngine {
             inputArray = new String[] { input };
         }
 
-        Pattern regexPattern = Pattern.compile("(\\\\\\w([+?*])?)?(\\w+(?![+?*]))?(\\w?([+?*]))?");
-        Matcher regexMatcher = regexPattern.matcher(regex);
-
-        String specialChar, specialQuantifier;
-        String literal;
-        String quantifierChar, quantifierQuantifier;
-
         MatcherResult match;
         matches = new LinkedList<MatcherResult>();
-        explanations = new LinkedList<RegexExplanation>();
+
+        //        explanations = new LinkedList<RegexExplanation>();
+        // has to be called before processing regex with input to set up some things beforehand
+        generateExplanations(regex);
 
         String processInput;
         int offset = 0;
         int regionStart, regionEnd;
+
+        /*
+         * TODO: very bad practice - try to link matches with explanations in a better way. It only works for now
+         * because the mainLoop in this method is the same as in generateExplanations(regex).
+         */
+        int explanationIndex;
 
         forLoop: //
         for (int i = 0; i < inputArray.length; i++) {
@@ -61,6 +71,7 @@ public class RegexEngine {
 
             //            regionStart = 0;
             regionEnd = processInput.length();
+            explanationIndex = 0;
 
             mainLoop: //
             while (regexMatcher.find()) {
@@ -81,15 +92,15 @@ public class RegexEngine {
                  * Special characters matching.
                  */
                 if (specialChar != null && specialChar.length() >= 2 && specialChar.length() <= 3) {
-                    RegexExplanation explanation = new RegexExplanation(
-                            RegexExplanation.ExplainingType.SPECIAL_CHARACTER, specialChar);
-                    explanations.add(explanation);
+                    //                    RegexExplanation explanation = new RegexExplanation(
+                    //                            RegexExplanation.ExplainingType.SPECIAL_CHARACTER, specialChar);
+                    //                    explanations.add(explanation);
 
-                    if (specialQuantifier != null && !specialQuantifier.isEmpty()) {
-                        explanation = new RegexExplanation(RegexExplanation.ExplainingType.QUANTIFIER,
-                                specialQuantifier);
-                        explanations.add(explanation);
-                    }
+                    //                    if (specialQuantifier != null && !specialQuantifier.isEmpty()) {
+                    //                        explanation = new RegexExplanation(RegexExplanation.ExplainingType.QUANTIFIER,
+                    //                                specialQuantifier);
+                    //                        explanations.add(explanation);
+                    //                    }
 
                     Pattern specialCharPattern = Pattern.compile(specialChar);
                     Matcher specialCharMatcher = specialCharPattern.matcher(processInput);
@@ -101,7 +112,8 @@ public class RegexEngine {
                                 + specialCharMatcher.end());
                         match.setPattern(specialCharMatcher.pattern().pattern(), regexMatcher.start(),
                                 regexMatcher.end(GROUP_SPECIAL_CHARACTERS));
-                        match.setExplanation(explanation);
+                        //                        match.setExplanation(explanation);
+                        match.setExplanation(explanations.get(explanationIndex++));
                         matches.add(match);
                     }
                 } else {
@@ -113,13 +125,13 @@ public class RegexEngine {
                  * Literals matching.
                  */
                 if (literal != null && !literal.isEmpty()) {
-                    RegexExplanation explanation = new RegexExplanation(RegexExplanation.ExplainingType.LITERAL,
-                            literal);
-                    explanations.add(explanation);
+                    //                    RegexExplanation explanation = new RegexExplanation(RegexExplanation.ExplainingType.LITERAL,
+                    //                            literal);
+                    //                    explanations.add(explanation);
 
                     Pattern literalPattern;
                     Matcher literalMatcher;
-                    StringBuffer subLiteral = new StringBuffer();
+                    StringBuilder subLiteral = new StringBuilder();
 
                     for (int j = 0; j < literal.length(); j++) {
                         subLiteral.append(literal.charAt(j));
@@ -129,19 +141,23 @@ public class RegexEngine {
                         literalMatcher.region(regionStart, regionEnd);
 
                         match = new MatcherResult();
-                        match.setPattern(literalMatcher.pattern().pattern(), regexMatcher.start(),
-                                regexMatcher.start(GROUP_LITERALS) + subLiteral.length());
-                        match.setExplanation(explanation);
+                        //                        match.setExplanation(explanation);
+                        match.setExplanation(explanations.get(explanationIndex++));
                         matches.add(match);
 
                         // literal matcher should always find exactly one match per query
                         if (!literalMatcher.find()) {
+                            int groupStart = regexMatcher.start(GROUP_LITERALS);
                             match.setType(MatcherResult.ResultType.MISMATCH);
-                            match.setMatch(null, offset, offset + literalMatcher.regionEnd());
+                            match.setPattern(literalMatcher.pattern().pattern(), groupStart + j, groupStart + j + 1);
+                            //                            match.setMatch(null, offset, offset + literalMatcher.regionEnd());
+                            match.setMatch(null, offset + j + 1, offset + j + 2);
 
                             break mainLoop;
                         }
 
+                        match.setPattern(literalMatcher.pattern().pattern(), regexMatcher.start(),
+                                regexMatcher.start(GROUP_LITERALS) + subLiteral.length());
                         match.setMatch(literalMatcher.group(), offset + literalMatcher.start(),
                                 offset + literalMatcher.end());
                     }
@@ -154,17 +170,18 @@ public class RegexEngine {
                  * Quantifiers matching.
                  */
                 if (quantifierChar != null && quantifierChar.length() >= 2 && quantifierChar.length() <= 3) {
-                    RegexExplanation explanation = new RegexExplanation(RegexExplanation.ExplainingType.LITERAL,
-                            quantifierChar);
-                    explanations.add(explanation);
-
-                    RegexExplanation quantifierExplanation = null;
-                    //                    if (quantifierQuantifier != null && !quantifierQuantifier.isEmpty()) {
-                    quantifierExplanation = new RegexExplanation(RegexExplanation.ExplainingType.QUANTIFIER,
-                            quantifierQuantifier);
-                    //                        explanations.add(explanation);
-                    explanation.setChildExplanation(quantifierExplanation);
-                    //                    }
+                    //                    RegexExplanation explanation = new RegexExplanation(RegexExplanation.ExplainingType.LITERAL,
+                    //                            quantifierChar);
+                    //                    explanations.add(explanation);
+                    //                    
+                    //                    RegexExplanation quantifierExplanation = null;
+                    //                    //                    if (quantifierQuantifier != null && !quantifierQuantifier.isEmpty()) {
+                    //                    quantifierExplanation = new RegexExplanation(RegexExplanation.ExplainingType.QUANTIFIER,
+                    //                            quantifierQuantifier);
+                    //                    //                        explanations.add(explanation);
+                    //                    explanation.setChildExplanation(quantifierExplanation);
+                    //                    //                    }
+                    //                    explanationIndex++;
 
                     Pattern quantifiersPattern = Pattern.compile(specialChar + literal + quantifierChar);
                     Matcher quantifiersMatcher = quantifiersPattern.matcher(processInput);
@@ -184,7 +201,8 @@ public class RegexEngine {
                         match.setPattern(quantifiersMatcher.pattern().pattern(), regexMatcher.start(),
                                 regexMatcher.end(GROUP_QUANTIFIERS_CHARACTER));
 
-                        match.setExplanation(explanation);
+                        //                        match.setExplanation(explanation);
+                        match.setExplanation(explanations.get(explanationIndex));
                         matches.add(match);
                     }
 
@@ -199,11 +217,13 @@ public class RegexEngine {
                         match.setPattern(quantifiersMatcher.pattern().pattern(), regexMatcher.start(),
                                 regexMatcher.end(GROUP_QUANTIFIERS_CHARACTER));
 
-                        match.setExplanation(explanation);
+                        //                        match.setExplanation(explanation);
+                        match.setExplanation(explanations.get(explanationIndex));
                         //                        match.setExplanation(quantifierExplanation);
                         matches.add(match);
                     }
 
+                    explanationIndex++;
                 } else {
                     Logger.info("No quantifier found.");
                 }
@@ -213,6 +233,77 @@ public class RegexEngine {
         }
 
         return matches;
+    }
+
+    private void generateExplanations(String regex) {
+        explanations = new LinkedList<RegexExplanation>();
+
+        //        Pattern regexPattern = Pattern.compile("(\\\\\\w([+?*])?)?(\\w+(?![+?*]))?(\\w?([+?*]))?");
+        //        Matcher regexMatcher = regexPattern.matcher(regex);
+        //
+        //        String specialChar, specialQuantifier;
+        //        String literal;
+        //        String quantifierChar, quantifierQuantifier;
+        regexMatcher = regexPattern.matcher(regex);
+
+        mainLoop: //
+        while (regexMatcher.find()) {
+            if (regexMatcher.group() == null || regexMatcher.group().isEmpty()) {
+                // found empty string (probably because nothing in regexPattern is mandatory), continue
+                continue;
+            }
+
+            specialChar = regexMatcher.group(GROUP_SPECIAL_CHARACTERS);
+            specialQuantifier = regexMatcher.group(GROUP_SPECIAL_CHARACTERS_QUANTIFIER);
+            literal = regexMatcher.group(GROUP_LITERALS);
+            quantifierChar = regexMatcher.group(GROUP_QUANTIFIERS_CHARACTER);
+            // is already included in quantifierChar!
+            quantifierQuantifier = regexMatcher.group(GROUP_QUANTIFIERS_QUANTIFIER);
+
+            /*
+             * Special characters matching.
+             */
+            if (specialChar != null && specialChar.length() >= 2 && specialChar.length() <= 3) {
+                RegexExplanation explanation = new RegexExplanation(RegexExplanation.ExplainingType.SPECIAL_CHARACTER,
+                        specialChar);
+                explanations.add(explanation);
+
+                if (specialQuantifier != null && !specialQuantifier.isEmpty()) {
+                    //                    explanation = new RegexExplanation(RegexExplanation.ExplainingType.QUANTIFIER, specialQuantifier);
+                    //                    explanations.add(explanation);
+                    RegexExplanation quantifierExplanation = new RegexExplanation(
+                            RegexExplanation.ExplainingType.QUANTIFIER, specialQuantifier);
+                    explanation.setChildExplanation(quantifierExplanation);
+                }
+            } else {
+                Logger.info("No special character found.");
+            }
+
+            /*
+             * Literals matching.
+             */
+            if (literal != null && !literal.isEmpty()) {
+                RegexExplanation explanation = new RegexExplanation(RegexExplanation.ExplainingType.LITERAL, literal);
+                explanations.add(explanation);
+            } else {
+                Logger.info("No literal found.");
+            }
+
+            /*
+             * Quantifiers matching.
+             */
+            if (quantifierChar != null && quantifierChar.length() >= 2 && quantifierChar.length() <= 3) {
+                RegexExplanation explanation = new RegexExplanation(RegexExplanation.ExplainingType.LITERAL,
+                        quantifierChar);
+                explanations.add(explanation);
+
+                RegexExplanation quantifierExplanation = new RegexExplanation(
+                        RegexExplanation.ExplainingType.QUANTIFIER, quantifierQuantifier);
+                explanation.setChildExplanation(quantifierExplanation);
+            } else {
+                Logger.info("No quantifier found.");
+            }
+        }
     }
 
     /**

@@ -7,5 +7,6 @@
     <dimen name="text_size_big">30sp</dimen>
 
     <dimen name="explanation_child_offset">20dp</dimen>
+    <dimen name="explanation_text_padding">20dp</dimen>
 
 </resources>

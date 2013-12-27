@@ -26,6 +26,8 @@
         android:id="@+id/tutorialExplanations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/explanation_text_padding"
+        android:gravity="center"
         android:text="@string/explanations" />
 
     <ListView

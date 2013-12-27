@@ -189,20 +189,17 @@ public class TutorialView extends LinearLayout {
         buttonPrevious.setEnabled(seenResults.size() > 1);
         buttonRestart.setEnabled(true);
 
-        int offset = result.getMatchStart();
+        int offset = Math.max(0, result.getMatchStart() - result.getPatternStart());
         String offsetSpaces = addSpacesOffset(offset);
 
         emphasiseExplanation(result);
 
         if (result.getType() == MatcherResult.ResultType.MISMATCH) {
-            //            SpannableString spannableRegex = new SpannableString(regex);
-            //            spannableRegex.setSpan(new ForegroundColorSpan(Color.RED), 0, regex.length(),
-            //                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             SpannableString spannableRegex = new SpannableString(offsetSpaces + regex);
-            spannableRegex.setSpan(new ForegroundColorSpan(Color.RED), offset, offset + regex.length(),
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            //            spannableRegex.setSpan(new ForegroundColorSpan(Color.RED), offset + result.getPatternStart(), offset
-            //                    + result.getPatternEnd(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            //            spannableRegex.setSpan(new ForegroundColorSpan(Color.RED), offset, offset + regex.length(),
+            //                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableRegex.setSpan(new ForegroundColorSpan(Color.RED), offset + result.getPatternStart(), offset
+                    + result.getPatternEnd(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             tutorialRegex.setText(spannableRegex);
 
             SpannableString spannableInput = new SpannableString(input);
@@ -219,8 +216,8 @@ public class TutorialView extends LinearLayout {
         //        SpannableString spannableRegex = new SpannableString(offsetSpaces + result.getPattern());
         spannableRegex.setSpan(new ForegroundColorSpan(Color.GREEN), offset + result.getPatternStart(),
                 offset + result.getPatternEnd(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableRegex.setSpan(new ForegroundColorSpan(Color.YELLOW), offset + result.getPatternEnd(),
-                spannableRegex.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //        spannableRegex.setSpan(new ForegroundColorSpan(Color.YELLOW), offset + result.getPatternEnd(),
+        //                spannableRegex.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tutorialRegex.setText(spannableRegex);
 
         SpannableString spannableInput = new SpannableString(input);
