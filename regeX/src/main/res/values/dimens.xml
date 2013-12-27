@@ -6,4 +6,6 @@
     <dimen name="text_size_regex_medium">20sp</dimen>
     <dimen name="text_size_big">30sp</dimen>
 
+    <dimen name="explanation_child_offset">20dp</dimen>
+
 </resources>

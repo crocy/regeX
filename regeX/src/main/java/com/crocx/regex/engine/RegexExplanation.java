@@ -9,6 +9,11 @@ public class RegexExplanation {
     private String explainingRegex;
     private String explanationMessage;
     private EmphasiseType emphasiseType = EmphasiseType.NONE;
+    private RegexExplanation childExplanation;
+    /**
+     * Level of explanation (if it's embedded in another explanation, this explanation's level goes up by 1).
+     */
+    private int level = 0;
 
     public enum ExplainingType {
         SPECIAL_CHARACTER("Special character"), LITERAL("Literal"), QUANTIFIER("Quantifier"), GROUP("Group");
@@ -54,7 +59,7 @@ public class RegexExplanation {
 
             case QUANTIFIER:
                 // TODO: the "charAt(0)" approach is not good but it'll have to do for now
-                explanationMessage += explainingRegex + "' means match can occur "
+                explanationMessage += explainingRegex + "' means match must occur "
                         + getQuantifierExplanation(explainingRegex.charAt(0));
         }
     }
@@ -136,5 +141,30 @@ public class RegexExplanation {
 
     public void setEmphasiseType(EmphasiseType emphasiseType) {
         this.emphasiseType = emphasiseType;
+    }
+
+    public RegexExplanation getChildExplanation() {
+        return childExplanation;
+    }
+
+    public void setChildExplanation(RegexExplanation childExplanation) {
+        //        this.childExplanation = childExplanation;
+        setChildExplanation(childExplanation, true);
+    }
+
+    public void setChildExplanation(RegexExplanation childExplanation, boolean incChildLevel) {
+        this.childExplanation = childExplanation;
+
+        if (incChildLevel) {
+            childExplanation.level = level + 1;
+        }
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

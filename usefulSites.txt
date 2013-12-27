@@ -1,0 +1,17 @@
+http://regexone.com
+
+http://www.regexper.com
+http://www.regexper.com/#%28[0-9a-zA-Z]%28[-\.\w]*[0-9a-zA-Z]%29*%40%28[0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.%29%2B[a-zA-Z]{2%2C9}%29
+
+http://regex101.com/#javascript
+
+http://regexcrossword.com/
+
+
+http://www.regular-expressions.info/tutorial.html
+
+http://crotonresearch.com/graphrex/visualization/
+
+http://jregex.sourceforge.net/demoapp.html
+
+http://javaregex.com/home.html

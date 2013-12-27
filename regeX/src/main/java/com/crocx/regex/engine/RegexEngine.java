@@ -17,6 +17,10 @@ public class RegexEngine {
     public static final int GROUP_QUANTIFIERS_CHARACTER = 4;
     public static final int GROUP_QUANTIFIERS_QUANTIFIER = 5;
 
+    private static final int[] QUANTIFIER_INTERVAL_ZERO_OR_ONE = new int[] { 0, 1 };
+    private static final int[] QUANTIFIER_INTERVAL_ZERO_OR_INF = new int[] { 0, Integer.MAX_VALUE };
+    private static final int[] QUANTIFIER_INTERVAL_ONE_OR_INF = new int[] { 1, Integer.MAX_VALUE };
+
     //    (?:\\\w)?(\w+)?(?![+?*]) -- 1 group: literals
     //    (\\\w)?(\w+(?![+?*]))?(\w[+?*])? -- 3 groups: \chars; literals; quantifiers
     //    (\\\w([+?*])?)?(\w+(?![+?*]))?(\w?([+?*]))? -- 5 groups: (\char(quantifier))(literal)(char(quantifier))
@@ -49,16 +53,13 @@ public class RegexEngine {
         String processInput;
         int offset = 0;
         int regionStart, regionEnd;
-        //        regionStart = 0;
-        //            regionEnd = processInput.length();
-        //        regionEnd = input.length();
 
         forLoop: //
         for (int i = 0; i < inputArray.length; i++) {
             processInput = inputArray[i];
             regexMatcher.reset();
 
-            regionStart = 0;
+            //            regionStart = 0;
             regionEnd = processInput.length();
 
             mainLoop: //
@@ -96,7 +97,6 @@ public class RegexEngine {
 
                     if (specialCharMatcher.find()) {
                         match = new MatcherResult();
-                        //                        match.setMatch(specialCharMatcher.group(), specialCharMatcher.start(), specialCharMatcher.end());
                         match.setMatch(specialCharMatcher.group(), offset + specialCharMatcher.start(), offset
                                 + specialCharMatcher.end());
                         match.setPattern(specialCharMatcher.pattern().pattern(), regexMatcher.start(),
@@ -124,7 +124,6 @@ public class RegexEngine {
                     for (int j = 0; j < literal.length(); j++) {
                         subLiteral.append(literal.charAt(j));
 
-                        //                literalPattern = Pattern.compile(literal);
                         literalPattern = Pattern.compile(specialChar + subLiteral.toString());
                         literalMatcher = literalPattern.matcher(processInput);
                         literalMatcher.region(regionStart, regionEnd);
@@ -138,24 +137,13 @@ public class RegexEngine {
                         // literal matcher should always find exactly one match per query
                         if (!literalMatcher.find()) {
                             match.setType(MatcherResult.ResultType.MISMATCH);
-                            //                            match.setMatch(null, offset, offset);
                             match.setMatch(null, offset, offset + literalMatcher.regionEnd());
-                            //                            matches.add(match);
 
-                            //                            continue;
-                            //                            continue mainLoop;
-                            //                            continue forLoop;
                             break mainLoop;
                         }
 
-                        //                        match = new MatcherResult();
-                        //                        match.setMatch(literalMatcher.group(), literalMatcher.start(), literalMatcher.end());
                         match.setMatch(literalMatcher.group(), offset + literalMatcher.start(),
                                 offset + literalMatcher.end());
-                        //                match.setPattern(literalMatcher.pattern().pattern(), regexMatcher.start(GROUP_LITERALS),
-                        //                        regexMatcher.end(GROUP_LITERALS));
-                        //                        match.setPattern(literalMatcher.pattern().pattern(), regexMatcher.start(),
-                        //                                regexMatcher.start(GROUP_LITERALS) + subLiteral.length());
                     }
                 } else {
                     Logger.info("No literal found.");
@@ -166,29 +154,31 @@ public class RegexEngine {
                  * Quantifiers matching.
                  */
                 if (quantifierChar != null && quantifierChar.length() >= 2 && quantifierChar.length() <= 3) {
-                    RegexExplanation explanation = new RegexExplanation(
-                            RegexExplanation.ExplainingType.SPECIAL_CHARACTER, quantifierChar);
+                    RegexExplanation explanation = new RegexExplanation(RegexExplanation.ExplainingType.LITERAL,
+                            quantifierChar);
                     explanations.add(explanation);
 
-                    if (quantifierQuantifier != null || !quantifierQuantifier.isEmpty()) {
-                        explanation = new RegexExplanation(RegexExplanation.ExplainingType.QUANTIFIER,
-                                quantifierQuantifier);
-                        explanations.add(explanation);
-                    }
+                    RegexExplanation quantifierExplanation = null;
+                    //                    if (quantifierQuantifier != null && !quantifierQuantifier.isEmpty()) {
+                    quantifierExplanation = new RegexExplanation(RegexExplanation.ExplainingType.QUANTIFIER,
+                            quantifierQuantifier);
+                    //                        explanations.add(explanation);
+                    explanation.setChildExplanation(quantifierExplanation);
+                    //                    }
 
                     Pattern quantifiersPattern = Pattern.compile(specialChar + literal + quantifierChar);
                     Matcher quantifiersMatcher = quantifiersPattern.matcher(processInput);
-                    //            quantifiersMatcher.region(literalMatcher.start(), input.length());
                     quantifiersMatcher.region(regionStart, regionEnd);
 
+                    int quantifiersFound = 0;
                     while (quantifiersMatcher.find()) {
-                        // if no match has been found and at least one is expected, continue
-                        if (quantifiersMatcher.group() == null || quantifiersMatcher.group().isEmpty()) {
-                            continue;
-                        }
+                        //                        // if no match has been found and at least one is expected, continue
+                        //                        if (quantifiersMatcher.group() == null || quantifiersMatcher.group().isEmpty()) {
+                        //                            continue;
+                        //                        }
+                        quantifiersFound++;
 
                         match = new MatcherResult();
-                        //                        match.setMatch(quantifiersMatcher.group(), quantifiersMatcher.start(), quantifiersMatcher.end());
                         match.setMatch(quantifiersMatcher.group(), offset + quantifiersMatcher.start(), offset
                                 + quantifiersMatcher.end());
                         match.setPattern(quantifiersMatcher.pattern().pattern(), regexMatcher.start(),
@@ -197,6 +187,23 @@ public class RegexEngine {
                         match.setExplanation(explanation);
                         matches.add(match);
                     }
+
+                    int[] quantifierInterval = parseQuantifier(quantifierQuantifier.charAt(0));
+                    // check if there are at least the minimum and at most maximum number of matches found
+                    if (quantifiersFound < quantifierInterval[0] || quantifiersFound > quantifierInterval[1]) {
+                        match = new MatcherResult();
+                        match.setType(MatcherResult.ResultType.MISMATCH);
+                        //                        match.setMatch(quantifiersMatcher.group(), offset + quantifiersMatcher.start(), offset
+                        //                                + quantifiersMatcher.end());
+                        match.setMatch(null, offset, offset + quantifiersMatcher.regionEnd());
+                        match.setPattern(quantifiersMatcher.pattern().pattern(), regexMatcher.start(),
+                                regexMatcher.end(GROUP_QUANTIFIERS_CHARACTER));
+
+                        match.setExplanation(explanation);
+                        //                        match.setExplanation(quantifierExplanation);
+                        matches.add(match);
+                    }
+
                 } else {
                     Logger.info("No quantifier found.");
                 }
@@ -206,6 +213,26 @@ public class RegexEngine {
         }
 
         return matches;
+    }
+
+    /**
+     * Return the interval representation of the quantifier. For example, quantifier '+' would return int[] {1, inf}
+     * representing that at least 1 and at most infinite number of matches must be found.
+     * 
+     * @param quantifier
+     * @return int[2] - int[0]: minimum number of matches, int[1]: maximum number of matches
+     */
+    private int[] parseQuantifier(char quantifier) {
+        switch (quantifier) {
+            case '?':
+                return QUANTIFIER_INTERVAL_ZERO_OR_ONE;
+            case '*':
+                return QUANTIFIER_INTERVAL_ZERO_OR_INF;
+            case '+':
+                return QUANTIFIER_INTERVAL_ONE_OR_INF;
+        }
+
+        throw new RuntimeException("Unknown quantifier: " + quantifier);
     }
 
     public LinkedList<MatcherResult> getMatches() {

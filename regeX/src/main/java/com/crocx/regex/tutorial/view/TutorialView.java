@@ -98,25 +98,7 @@ public class TutorialView extends LinearLayout {
                 }
 
                 RegexExplanation explanation = explanationAdapter.getItem(position);
-                SpannableString spannable;
-                switch (explanation.getEmphasiseType()) {
-                    case EMPHASISE_MATCH:
-                        spannable = new SpannableString(explanation.getExplanationMessage());
-                        spannable.setSpan(new ForegroundColorSpan(Color.CYAN), 0, spannable.length(),
-                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        view.setText(spannable);
-                        break;
-
-                    case EMPHASISE_MISMATCH:
-                        spannable = new SpannableString(explanation.getExplanationMessage());
-                        spannable.setSpan(new ForegroundColorSpan(Color.RED), 0, spannable.length(),
-                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        view.setText(spannable);
-                        break;
-
-                    default:
-                        view.setText(explanation.getExplanationMessage());
-                }
+                updateExplanation(explanation, view);
 
                 return view;
             }
@@ -145,6 +127,37 @@ public class TutorialView extends LinearLayout {
         }
 
         loadExplanations();
+    }
+
+    private void updateExplanation(RegexExplanation explanation, TextView view) {
+        SpannableString spannable;
+        switch (explanation.getEmphasiseType()) {
+            case EMPHASISE_MATCH:
+                spannable = new SpannableString(explanation.getExplanationMessage());
+                spannable.setSpan(new ForegroundColorSpan(Color.GREEN), 0, spannable.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                view.setText(spannable);
+                break;
+
+            case EMPHASISE_MISMATCH:
+                spannable = new SpannableString(explanation.getExplanationMessage());
+                spannable.setSpan(new ForegroundColorSpan(Color.RED), 0, spannable.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                view.setText(spannable);
+                break;
+
+            default:
+                view.setText(explanation.getExplanationMessage());
+        }
+
+        //        ((LayoutParams) view.getLayoutParams()).
+        view.setPadding(
+                explanation.getLevel() * getResources().getDimensionPixelOffset(R.dimen.explanation_child_offset), 0,
+                0, 0);
+
+        //        if (explanation.getChildExplanation() != null) {
+        //            updateExplanation(explanation.getChildExplanation(), view);
+        //        }
     }
 
     public void nextStep() {
@@ -231,9 +244,18 @@ public class TutorialView extends LinearLayout {
             explanationAdapter.setNotifyOnChange(false);
 
             for (RegexExplanation explanation : engine.getExplanations()) {
-                explanationAdapter.add(explanation);
+                //                explanationAdapter.add(explanation);
+                loadChildExplanations(explanation, explanationAdapter);
             }
             explanationAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void loadChildExplanations(RegexExplanation explanation, ArrayAdapter adapter) {
+        adapter.add(explanation);
+
+        if (explanation.getChildExplanation() != null) {
+            loadChildExplanations(explanation.getChildExplanation(), adapter);
         }
     }
 
