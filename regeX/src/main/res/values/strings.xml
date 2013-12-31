@@ -3,7 +3,10 @@
 
     <string name="app_name">regeX</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+
+    <string name="menu_settings">Settings</string>
+    <string name="menu_tutorial_change_input">Change input</string>
+    <string name="menu_tutorial_change_output">Change output</string>
 
     <string name="explanations">Explanation:</string>
 

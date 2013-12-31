@@ -3,6 +3,9 @@ package com.crocx.regex.tutorial;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -22,7 +25,9 @@ public class TutorialFragment extends Fragment {
     /*
      * Fragment must have an empty constructor, so it can be instantiated when restoring its activity's state.
      */
-    public TutorialFragment() {}
+    public TutorialFragment() {
+        setHasOptionsMenu(true); // this shows settings menu in the action bar
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -30,6 +35,32 @@ public class TutorialFragment extends Fragment {
         tutorialView.init(uiStateManager);
         uiStateManager.fireAction(TutorialAction.START);
         return tutorialView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.tutorial, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_menu_tutorial_change_input:
+                uiStateManager.fireAction(TutorialAction.SETTINGS_ACTION_CHANGE_INPUT);
+                return true;
+
+            case R.id.action_menu_tutorial_change_output:
+                uiStateManager.fireAction(TutorialAction.SETTINGS_ACTION_CHANGE_OUTPUT);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public TutorialView getTutorialView() {

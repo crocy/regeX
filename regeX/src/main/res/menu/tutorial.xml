@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <!--tools:context=".MainActivity">-->
+
+    <item
+        android:id="@+id/action_menu_tutorial_change_input"
+        android:title="@string/menu_tutorial_change_input"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_menu_tutorial_change_output"
+        android:title="@string/menu_tutorial_change_output"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+</menu>

@@ -7,6 +7,8 @@ import com.crocx.regex.ui.UiAction;
  */
 public enum TutorialAction implements UiAction {
 
-    START, BUTTON_NEXT, BUTTON_PREVIOUS, BUTTON_RESTART
+    START, BUTTON_NEXT, BUTTON_PREVIOUS, BUTTON_RESTART,
+
+    SETTINGS_ACTION_CHANGE_INPUT, SETTINGS_ACTION_CHANGE_OUTPUT
 
 }
