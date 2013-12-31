@@ -8,6 +8,7 @@
     <string name="menu_tutorial_change_input">Change input</string>
     <string name="menu_tutorial_change_output">Change output</string>
     <string name="menu_tutorial_change_input_output">Change input &amp; output</string>
+    <string name="menu_exercise_explain">Explain regex</string>
 
     <string name="explanations">Explanation:</string>
 
@@ -19,5 +20,8 @@
     <string name="button_next">Next</string>
     <string name="button_previous">Previous</string>
     <string name="button_restart">Restart</string>
+
+    <string name="tutorial_change_dialog_hint_regex">Regex</string>
+    <string name="tutorial_change_dialog_hint_output">Output</string>
 
 </resources>

@@ -31,20 +31,18 @@ public class UiStateManager {
 
     public void changeState(UiState newState, UiAction action, Object actionObject) {
         if (newState == currentState) {
+            Logger.warning("Not changing state because we are already in the given state: " + newState);
             return;
         }
 
-        Logger.debug("Changing state from: " + (currentState != null ? currentState.getClass().getSimpleName() : null)
-                + " to: " + (newState != null ? newState.getClass().getSimpleName() : null));
-
-        UiState tempPreviousState = previousState;
+        Logger.debug("Changing state from: " + currentState + " to: " + newState);
 
         currentState.onExit(newState, action, actionObject);
 
         previousState = currentState;
         currentState = newState;
 
-        currentState.onEnter(tempPreviousState, action, actionObject);
+        currentState.onEnter(previousState, action, actionObject);
     }
 
     public void start(UiState startState) {

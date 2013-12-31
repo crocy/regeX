@@ -130,4 +130,8 @@ public class ExerciseView extends LinearLayout {
             updateRegexResult("", false);
         }
     }
+
+    public String getRegex() {
+        return input.getText().toString();
+    }
 }

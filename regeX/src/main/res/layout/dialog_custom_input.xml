@@ -9,7 +9,7 @@
         android:id="@+id/dialogEditRegex"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="RRegex" />
+        android:hint="@string/tutorial_change_dialog_hint_regex" />
 
     <TextView
         android:id="@+id/dialogRegexMessage"
@@ -22,6 +22,6 @@
         android:id="@+id/dialogEditInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="IInput" />
+        android:hint="@string/tutorial_change_dialog_hint_output" />
 
 </com.crocx.regex.tutorial.view.CustomInputDialog>

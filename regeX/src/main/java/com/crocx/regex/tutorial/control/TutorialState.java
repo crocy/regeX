@@ -3,6 +3,7 @@ package com.crocx.regex.tutorial.control;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Pair;
 
 import com.crocx.regex.CommonAction;
 import com.crocx.regex.MainActivity;
@@ -34,6 +35,11 @@ public class TutorialState extends UiState {
         fragment = new TutorialFragment();
         fragment.setUiStateManager(mainActivity.getUiStateManager());
 
+        if (action != TutorialAction.START) {
+            fragment.setFireActionOnCreate(action);
+            fragment.setActionObjectOnCreate(actionObject);
+        }
+
         FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -48,7 +54,8 @@ public class TutorialState extends UiState {
         if (action instanceof CommonAction) {
             switch ((CommonAction) action) {
                 case BACK:
-                    mainActivity.getUiStateManager().changeState(mainActivity.getMainState());
+                    //                    mainActivity.getUiStateManager().changeState(mainActivity.getMainState());
+                    mainActivity.getUiStateManager().changeState(getPreviousState());
                     break;
             }
         } else {
@@ -72,6 +79,11 @@ public class TutorialState extends UiState {
 
                 case SETTINGS_ACTION_CHANGE_INPUT_OUTPUT:
                     changeInputAndOutput();
+                    break;
+
+                case EXPLAIN_REGEX:
+                    Pair<String, String> pair = (Pair<String, String>) actionObject;
+                    tutorialView.updateView(pair.first, pair.second);
                     break;
 
                 default:

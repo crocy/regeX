@@ -11,4 +11,7 @@ public enum TutorialAction implements UiAction {
 
     SETTINGS_ACTION_CHANGE_INPUT_OUTPUT,
 
+    /** Used with ExercisesAction.EXPLAIN_REGEX */
+    EXPLAIN_REGEX
+
 }

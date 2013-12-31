@@ -15,10 +15,20 @@
         android:gravity="center"
         android:layout_centerHorizontal="true">
 
-        <ImageView
+        <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@drawable/logo" />-->
+
+        <TextView
+            android:text="regeX"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/logo" />
+            android:textSize="55dp"
+            android:textColor="#B6FF00"
+            android:typeface="monospace"
+            android:paddingBottom="20dp"
+            android:gravity="center" />
 
         <TextView
             android:text="@string/main_what_would_you_like_to_do"

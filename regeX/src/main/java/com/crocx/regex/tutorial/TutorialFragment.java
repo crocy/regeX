@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.crocx.regex.R;
 import com.crocx.regex.tutorial.view.TutorialView;
+import com.crocx.regex.ui.UiAction;
 import com.crocx.regex.ui.UiStateManager;
 
 /**
@@ -19,6 +20,8 @@ import com.crocx.regex.ui.UiStateManager;
 public class TutorialFragment extends Fragment {
 
     private UiStateManager uiStateManager;
+    private UiAction fireActionOnCreate = TutorialAction.START;
+    private Object actionObjectOnCreate = null;
 
     private TutorialView tutorialView;
 
@@ -33,7 +36,7 @@ public class TutorialFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         tutorialView = (TutorialView) inflater.inflate(R.layout.fragment_tutorial, container, false);
         tutorialView.init(uiStateManager);
-        uiStateManager.fireAction(TutorialAction.START);
+        uiStateManager.fireAction(fireActionOnCreate, actionObjectOnCreate);
         return tutorialView;
     }
 
@@ -65,5 +68,13 @@ public class TutorialFragment extends Fragment {
 
     public void setUiStateManager(UiStateManager uiStateManager) {
         this.uiStateManager = uiStateManager;
+    }
+
+    public void setFireActionOnCreate(UiAction fireActionOnCreate) {
+        this.fireActionOnCreate = fireActionOnCreate;
+    }
+
+    public void setActionObjectOnCreate(Object actionObjectOnCreate) {
+        this.actionObjectOnCreate = actionObjectOnCreate;
     }
 }

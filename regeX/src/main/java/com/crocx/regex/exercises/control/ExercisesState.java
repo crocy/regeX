@@ -1,6 +1,7 @@
 package com.crocx.regex.exercises.control;
 
 import android.support.v4.app.FragmentTransaction;
+import android.util.Pair;
 
 import com.crocx.regex.CommonAction;
 import com.crocx.regex.MainActivity;
@@ -10,8 +11,10 @@ import com.crocx.regex.exercises.fragment.ExerciseFragment;
 import com.crocx.regex.exercises.fragment.ExercisesFragment;
 import com.crocx.regex.exercises.model.ExerciseItem;
 import com.crocx.regex.exercises.view.ExerciseView;
+import com.crocx.regex.tutorial.TutorialAction;
 import com.crocx.regex.ui.UiAction;
 import com.crocx.regex.ui.UiState;
+import com.crocx.regex.util.Util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,6 +47,13 @@ public class ExercisesState extends UiState {
     }
 
     @Override
+    public void onExit(UiState newState, UiAction action, Object actionObject) {
+        super.onExit(newState, action, actionObject);
+
+        Util.hideSoftKeyboard(mainActivity, exerciseFragment.getExerciseView());
+    }
+
+    @Override
     public void onAction(UiAction action, Object actionObject) {
         if (action instanceof CommonAction) {
             switch ((CommonAction) action) {
@@ -52,6 +62,7 @@ public class ExercisesState extends UiState {
                     if (mainActivity.getSupportFragmentManager().findFragmentByTag(ExerciseFragment.FRAGMENT_TAG) == null) {
                         mainActivity.getUiStateManager().changeState(mainActivity.getMainState());
                     }
+                    //                    mainActivity.getUiStateManager().changeState(getPreviousState());
                     break;
             }
         } else if (action instanceof ExercisesAction) {
@@ -62,6 +73,15 @@ public class ExercisesState extends UiState {
 
                 case EVALUATE_REGEX:
                     evaluateRegex((String) actionObject);
+                    break;
+
+                case EXPLAIN_REGEX:
+                    String regex = exerciseFragment.getExerciseView().getRegex();
+                    String input = exerciseFragment.getExerciseItem().getData();
+
+                    Pair<String, String> pair = new Pair<String, String>(regex, input);
+                    mainActivity.getUiStateManager().changeState(mainActivity.getTutorialState(),
+                            TutorialAction.EXPLAIN_REGEX, pair);
                     break;
 
                 default:
