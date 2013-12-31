@@ -20,8 +20,6 @@ import com.crocx.regex.ui.UiStateManager;
  */
 public class ExerciseFragment extends Fragment {
 
-    public static final String FRAGMENT_TAG = "exerciseFragment";
-
     private UiStateManager uiStateManager;
     private ExerciseItem exerciseItem;
 
@@ -41,12 +39,12 @@ public class ExerciseFragment extends Fragment {
         return exerciseView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        exerciseView.updateView(exerciseItem);
-    }
+    //    @Override
+    //    public void onResume() {
+    //        super.onResume();
+    //
+    //        exerciseView.updateView(exerciseItem);
+    //    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

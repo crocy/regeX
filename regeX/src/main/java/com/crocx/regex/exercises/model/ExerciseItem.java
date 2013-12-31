@@ -2,6 +2,8 @@ package com.crocx.regex.exercises.model;
 
 import android.content.res.AssetManager;
 
+import com.crocx.regex.util.Logger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -59,7 +61,8 @@ public class ExerciseItem {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            //            e.printStackTrace();
+            Logger.warning(e.getMessage());
             return null;
         }
 

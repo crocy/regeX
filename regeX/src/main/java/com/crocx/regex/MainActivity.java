@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 
+import com.crocx.regex.exercises.control.ExerciseState;
 import com.crocx.regex.exercises.control.ExercisesState;
 import com.crocx.regex.introduction.control.IntroductionState;
 import com.crocx.regex.main.control.MainState;
@@ -19,6 +20,7 @@ public class MainActivity extends ActionBarActivity {
     private IntroductionState introductionState;
     private TutorialState tutorialState;
     private ExercisesState exercisesState;
+    private ExerciseState exerciseState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class MainActivity extends ActionBarActivity {
         introductionState = new IntroductionState(this);
         tutorialState = new TutorialState(this);
         exercisesState = new ExercisesState(this);
+        exerciseState = new ExerciseState(this);
 
         uiStateManager.start(mainState);
     }
@@ -60,8 +63,8 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-        uiStateManager.fireAction(CommonAction.BACK);
         super.onBackPressed();
+        uiStateManager.fireAction(CommonAction.BACK);
     }
 
     //    public void onSuperBackPressed() {
@@ -86,5 +89,9 @@ public class MainActivity extends ActionBarActivity {
 
     public TutorialState getTutorialState() {
         return tutorialState;
+    }
+
+    public ExerciseState getExerciseState() {
+        return exerciseState;
     }
 }

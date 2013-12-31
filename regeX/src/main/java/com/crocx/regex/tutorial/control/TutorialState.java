@@ -35,7 +35,7 @@ public class TutorialState extends UiState {
         fragment = new TutorialFragment();
         fragment.setUiStateManager(mainActivity.getUiStateManager());
 
-        if (action != TutorialAction.START) {
+        if (action != null && action == TutorialAction.EXPLAIN_REGEX) {
             fragment.setFireActionOnCreate(action);
             fragment.setActionObjectOnCreate(actionObject);
         }
@@ -43,7 +43,10 @@ public class TutorialState extends UiState {
         FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        transaction.addToBackStack(null);
+
+        if (action != null && action != CommonAction.BACK) {
+            transaction.addToBackStack(null);
+        }
         transaction.commit();
     }
 
@@ -54,8 +57,7 @@ public class TutorialState extends UiState {
         if (action instanceof CommonAction) {
             switch ((CommonAction) action) {
                 case BACK:
-                    //                    mainActivity.getUiStateManager().changeState(mainActivity.getMainState());
-                    mainActivity.getUiStateManager().changeState(getPreviousState());
+                    mainActivity.getUiStateManager().changeState(getPreviousState(), CommonAction.BACK);
                     break;
             }
         } else {
