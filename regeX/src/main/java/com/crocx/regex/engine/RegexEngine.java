@@ -113,9 +113,12 @@ public class RegexEngine {
                         match.setPattern(specialCharMatcher.pattern().pattern(), regexMatcher.start(),
                                 regexMatcher.end(GROUP_SPECIAL_CHARACTERS));
                         //                        match.setExplanation(explanation);
-                        match.setExplanation(explanations.get(explanationIndex++));
+                        match.setExplanation(explanations.get(explanationIndex));
                         matches.add(match);
                     }
+
+                    explanationIndex++;
+
                 } else {
                     Logger.info("No special character found.");
                     specialChar = "";
@@ -142,7 +145,7 @@ public class RegexEngine {
 
                         match = new MatcherResult();
                         //                        match.setExplanation(explanation);
-                        match.setExplanation(explanations.get(explanationIndex++));
+                        match.setExplanation(explanations.get(explanationIndex));
                         matches.add(match);
 
                         // literal matcher should always find exactly one match per query
@@ -161,6 +164,8 @@ public class RegexEngine {
                         match.setMatch(literalMatcher.group(), offset + literalMatcher.start(),
                                 offset + literalMatcher.end());
                     }
+                    explanationIndex++;
+
                 } else {
                     Logger.info("No literal found.");
                     literal = "";

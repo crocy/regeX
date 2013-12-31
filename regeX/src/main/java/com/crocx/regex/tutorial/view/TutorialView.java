@@ -290,4 +290,12 @@ public class TutorialView extends LinearLayout {
 
         explanationAdapter.notifyDataSetChanged();
     }
+
+    public String getTutorialRegex() {
+        return tutorialRegex.getText().toString();
+    }
+
+    public String getTutorialInput() {
+        return tutorialInput.getText().toString();
+    }
 }

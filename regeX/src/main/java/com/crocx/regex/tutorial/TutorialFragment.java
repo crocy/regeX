@@ -51,12 +51,8 @@ public class TutorialFragment extends Fragment {
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.action_menu_tutorial_change_input:
-                uiStateManager.fireAction(TutorialAction.SETTINGS_ACTION_CHANGE_INPUT);
-                return true;
-
-            case R.id.action_menu_tutorial_change_output:
-                uiStateManager.fireAction(TutorialAction.SETTINGS_ACTION_CHANGE_OUTPUT);
+            case R.id.action_menu_tutorial_change_input_output:
+                uiStateManager.fireAction(TutorialAction.SETTINGS_ACTION_CHANGE_INPUT_OUTPUT);
                 return true;
         }
 
