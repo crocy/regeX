@@ -43,10 +43,6 @@ public class TutorialState extends UiState {
         FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-
-        if (action != null && action != CommonAction.BACK) {
-            transaction.addToBackStack(null);
-        }
         transaction.commit();
     }
 
@@ -57,7 +53,7 @@ public class TutorialState extends UiState {
         if (action instanceof CommonAction) {
             switch ((CommonAction) action) {
                 case BACK:
-                    mainActivity.getUiStateManager().changeState(getPreviousState(), CommonAction.BACK);
+                    mainActivity.getUiStateManager().goBack(CommonAction.BACK);
                     break;
             }
         } else {

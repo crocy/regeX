@@ -29,16 +29,10 @@ public class MainState extends UiState {
         fragment = new MainFragment();
         fragment.setUiStateManager(mainActivity.getUiStateManager());
 
-        // only add this fragment at app start (no previous state)
-        //        if (previousState == null) {
         FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        if (action != null && action != CommonAction.BACK) {
-            transaction.addToBackStack(null);
-        }
         transaction.commit();
-        //        }
     }
 
     @Override
@@ -47,6 +41,7 @@ public class MainState extends UiState {
             switch ((CommonAction) action) {
                 case BACK:
                     mainActivity.getUiStateManager().end();
+                    mainActivity.onSuperBackPressed();
                     break;
             }
         } else {

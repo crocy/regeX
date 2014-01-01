@@ -26,12 +26,10 @@ public class IntroductionState extends UiState {
     public void onEnter(UiState previousState, UiAction action, Object actionObject) {
         super.onEnter(previousState, action, actionObject);
 
-        //        fragment = new IntroductionFragment(mainActivity.getUiStateManager());
         fragment = new IntroductionFragment();
         FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -40,7 +38,7 @@ public class IntroductionState extends UiState {
         if (action instanceof CommonAction) {
             switch ((CommonAction) action) {
                 case BACK:
-                    mainActivity.getUiStateManager().changeState(mainActivity.getMainState());
+                    mainActivity.getUiStateManager().goBack(CommonAction.BACK);
                     break;
             }
         } else {

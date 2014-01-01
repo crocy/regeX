@@ -40,17 +40,12 @@ public class ExerciseState extends UiState {
         FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-
-        if (action != null && action != CommonAction.BACK) {
-            transaction.addToBackStack(null);
-        }
         transaction.commit();
     }
 
     @Override
     public void onExit(UiState newState, UiAction action, Object actionObject) {
         super.onExit(newState, action, actionObject);
-
         Util.hideSoftKeyboard(mainActivity, fragment.getExerciseView());
     }
 
@@ -59,8 +54,7 @@ public class ExerciseState extends UiState {
         if (action instanceof CommonAction) {
             switch ((CommonAction) action) {
                 case BACK:
-                    // if no exercise (fragment) currently shown, go back to main menu
-                    mainActivity.getUiStateManager().changeState(getPreviousState(), CommonAction.BACK);
+                    mainActivity.getUiStateManager().goBack(CommonAction.BACK);
                     break;
             }
         } else if (action instanceof ExercisesAction) {
