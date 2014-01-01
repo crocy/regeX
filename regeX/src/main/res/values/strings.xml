@@ -24,4 +24,10 @@
     <string name="tutorial_change_dialog_hint_regex">Regex</string>
     <string name="tutorial_change_dialog_hint_output">Output</string>
 
+    <string name="exercise_hint_input_here">Your regex here</string>
+    <string name="exercise_hint_input_cant_be_empty">Regex input cannot be empty</string>
+    <string name="exercise_hint_input_nothing_matches">Nothing matches given regex</string>
+
+    <string name="exercises_text_select_exercise">Select an exercise:</string>
+
 </resources>

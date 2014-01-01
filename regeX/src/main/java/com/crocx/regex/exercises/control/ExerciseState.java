@@ -34,8 +34,15 @@ public class ExerciseState extends UiState {
     public void onEnter(UiState previousState, UiAction action, Object actionObject) {
         super.onEnter(previousState, action, actionObject);
 
-        fragment = new ExerciseFragment();
-        fragment.setUiStateManager(mainActivity.getUiStateManager());
+        // if exercise item was clicked (re)create fragment from scratch
+        if (action == ExercisesAction.EXERCISE_ITEM_CLICKED) {
+            fragment = new ExerciseFragment();
+            fragment.setUiStateManager(mainActivity.getUiStateManager());
+            fragment.setExerciseItem((ExerciseItem) actionObject);
+        } else if (fragment == null) {
+            fragment = new ExerciseFragment();
+            fragment.setUiStateManager(mainActivity.getUiStateManager());
+        }
 
         FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);

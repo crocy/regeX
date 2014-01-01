@@ -1,7 +1,6 @@
 package com.crocx.regex;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,7 +12,6 @@ import com.crocx.regex.introduction.control.IntroductionState;
 import com.crocx.regex.main.control.MainState;
 import com.crocx.regex.tutorial.control.TutorialState;
 import com.crocx.regex.ui.UiStateManager;
-import com.crocx.regex.util.Logger;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -31,17 +29,6 @@ public class MainActivity extends ActionBarActivity {
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
 
         setContentView(R.layout.activity_main);
-
-        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                Logger.verbose("Back stack changed! New size = " + getSupportFragmentManager().getBackStackEntryCount());
-                //                for (int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); i++) {
-                //                    Logger.verbose("i = " + i + ": "
-                //                            + getSupportFragmentManager().getBackStackEntryAt(i).getId());
-                //                }
-            }
-        });
 
         uiStateManager = new UiStateManager();
         mainState = new MainState(this);
@@ -76,7 +63,6 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-        //        super.onBackPressed();
         uiStateManager.fireAction(CommonAction.BACK);
     }
 

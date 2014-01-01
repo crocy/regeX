@@ -66,15 +66,19 @@ public class CustomInputDialog extends LinearLayout {
     }
 
     private void validateRegex(String regex) {
-        try {
-            Pattern.compile(regex);
-            regexValid = true;
-            //            regexMessage.setText("RRegex ok");
-            regexMessage.setVisibility(GONE);
-        } catch (Exception e) {
+        if (regex != null && regex.trim().isEmpty()) {
+            try {
+                Pattern.compile(regex);
+                regexValid = true;
+                //            regexMessage.setText("RRegex ok");
+                regexMessage.setVisibility(GONE);
+            } catch (Exception e) {
+                regexValid = false;
+                regexMessage.setVisibility(VISIBLE);
+                regexMessage.setText(e.getMessage());
+            }
+        } else {
             regexValid = false;
-            regexMessage.setVisibility(VISIBLE);
-            regexMessage.setText(e.getMessage());
         }
 
         if (regexValidationCallback != null) {

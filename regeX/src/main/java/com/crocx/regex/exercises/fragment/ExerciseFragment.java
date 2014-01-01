@@ -36,15 +36,9 @@ public class ExerciseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         exerciseView = (ExerciseView) inflater.inflate(R.layout.exercise, container, false);
         exerciseView.init(uiStateManager);
+        exerciseView.updateView(exerciseItem);
         return exerciseView;
     }
-
-    //    @Override
-    //    public void onResume() {
-    //        super.onResume();
-    //
-    //        exerciseView.updateView(exerciseItem);
-    //    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

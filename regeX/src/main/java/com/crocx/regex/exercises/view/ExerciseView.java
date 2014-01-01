@@ -81,7 +81,6 @@ public class ExerciseView extends LinearLayout {
         }
         this.exerciseItem = exerciseItem;
 
-        //        contentWebView.loadData(exerciseItem.getInstructionsUrl(), "text/html", null);
         contentWebView.loadUrl(exerciseItem.getInstructionsUrl());
 
         if (exerciseItem.isPreferSolutionOutput()) {
@@ -109,7 +108,7 @@ public class ExerciseView extends LinearLayout {
         if (match.trim().length() > 0) {
             result.setText(match);
         } else {
-            result.setText("NNothing matches given regex");
+            result.setText(R.string.exercise_hint_input_nothing_matches);
             result.setTextColor(COLOR_RESULT_MATCH_EMPTY);
             return;
         }
@@ -126,7 +125,7 @@ public class ExerciseView extends LinearLayout {
             uiStateManager.fireAction(ExercisesAction.EVALUATE_REGEX, input.getText().toString());
             input.setHint(null);
         } else {
-            input.setHint("IInput can't be empty");
+            input.setHint(R.string.exercise_hint_input_cant_be_empty);
             updateRegexResult("", false);
         }
     }

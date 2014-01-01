@@ -9,7 +9,7 @@
         style="@style/textRegexBig"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SSelect an exercise"
+        android:text="@string/exercises_text_select_exercise"
         android:gravity="center" />
 
     <ListView

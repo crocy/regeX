@@ -26,8 +26,10 @@ public class ExercisesState extends UiState {
     public void onEnter(UiState previousState, UiAction action, Object actionObject) {
         super.onEnter(previousState, action, actionObject);
 
-        fragment = new ExercisesFragment();
-        fragment.setUiStateManager(mainActivity.getUiStateManager());
+        if (fragment == null) {
+            fragment = new ExercisesFragment();
+            fragment.setUiStateManager(mainActivity.getUiStateManager());
+        }
 
         FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);

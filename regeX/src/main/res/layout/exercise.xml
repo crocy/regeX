@@ -24,13 +24,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:typeface="monospace"
-        android:text="SSyntax error" />
+        android:text="SSyntax error"
+        android:textSize="@dimen/text_size_regex_smaller" />
 
     <EditText
         android:id="@+id/exerciseInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="YYour regex here"
+        android:hint="@string/exercise_hint_input_here"
         android:singleLine="true" />
 
 </com.crocx.regex.exercises.view.ExerciseView>

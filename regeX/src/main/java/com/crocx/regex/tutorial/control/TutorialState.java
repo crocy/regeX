@@ -32,8 +32,10 @@ public class TutorialState extends UiState {
     public void onEnter(UiState previousState, UiAction action, Object actionObject) {
         super.onEnter(previousState, action, actionObject);
 
-        fragment = new TutorialFragment();
-        fragment.setUiStateManager(mainActivity.getUiStateManager());
+        if (fragment == null) {
+            fragment = new TutorialFragment();
+            fragment.setUiStateManager(mainActivity.getUiStateManager());
+        }
 
         if (action != null && action == TutorialAction.EXPLAIN_REGEX) {
             fragment.setFireActionOnCreate(action);
