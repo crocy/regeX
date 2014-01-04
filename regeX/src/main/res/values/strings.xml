@@ -7,7 +7,7 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_tutorial_change_input">Change input</string>
     <string name="menu_tutorial_change_output">Change output</string>
-    <string name="menu_tutorial_change_input_output">Change input &amp; output</string>
+    <string name="menu_tutorial_change_input_output">Change regex &amp; input</string>
     <string name="menu_exercise_explain">Explain regex</string>
 
     <string name="explanations">Explanation:</string>
@@ -23,6 +23,7 @@
 
     <string name="tutorial_change_dialog_hint_regex">Regex</string>
     <string name="tutorial_change_dialog_hint_output">Output</string>
+    <string name="tutorial_change_dialog_error_empty_regex">Invalid empty regex</string>
 
     <string name="exercise_hint_input_here">Your regex here</string>
     <string name="exercise_hint_input_cant_be_empty">Regex input cannot be empty</string>

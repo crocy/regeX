@@ -111,6 +111,17 @@ public class RegexExplanation {
         return null;
     }
 
+    @Override
+    public String toString() {
+        //        return super.toString();
+        String childExplanation = "";
+        if (getChildExplanation() != null) {
+            childExplanation = ", child:\n\t" + getChildExplanation().toString();
+        }
+
+        return "Type: " + explainingType + ", regex: \"" + explainingRegex + "\"" + childExplanation;
+    }
+
     public ExplainingType getExplainingType() {
         return explainingType;
     }

@@ -33,6 +33,13 @@ public class MatcherResult {
         this.patternEnd = patternEnd;
     }
 
+    @Override
+    public String toString() {
+        //        return super.toString();
+        return "Type: " + type + ", match: \"" + match + "\" [" + matchStart + ", " + matchEnd + "], pattern: \""
+                + pattern + "\" [" + patternStart + ", " + patternEnd + "], explanation: " + explanation;
+    }
+
     public String getMatch() {
         return match;
     }

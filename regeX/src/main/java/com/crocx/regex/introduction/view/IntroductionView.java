@@ -64,7 +64,6 @@ public class IntroductionView extends RelativeLayout {
         });
 
         //        webView.loadUrl("http://en.wikipedia.org/wiki/Regular_expression");
-        //        String url =         getContext().getAssets().openFd("offlineContent/syntax/AndroidAPI-Pattern.htm");
         webView.loadUrl("file:///android_asset/offlineContent/syntax/AndroidAPI-Pattern.htm");
     }
 }

@@ -123,6 +123,12 @@ public class TutorialState extends UiState {
             public void regexValid(boolean valid) {
                 dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(valid);
             }
+
+            @Override
+            public void regexValidated() {
+                dialog.dismiss();
+                tutorialView.updateView(view.getRegex().trim(), view.getInput().trim());
+            }
         };
         view.setRegexValidationCallback(validationCallback);
 

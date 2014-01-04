@@ -20,6 +20,7 @@ import com.crocx.regex.engine.RegexEngine;
 import com.crocx.regex.engine.RegexExplanation;
 import com.crocx.regex.tutorial.TutorialAction;
 import com.crocx.regex.ui.UiStateManager;
+import com.crocx.regex.util.Logger;
 
 import java.util.LinkedList;
 
@@ -114,6 +115,7 @@ public class TutorialView extends LinearLayout {
         tutorialInput.setText(input);
 
         engine = new RegexEngine();
+        //        engine.setProcessPerWord(false);
         results = engine.processRegexAndInput(regex, input);
         seenResults = new LinkedList<MatcherResult>();
 
@@ -188,6 +190,8 @@ public class TutorialView extends LinearLayout {
         buttonNext.setEnabled(!results.isEmpty());
         buttonPrevious.setEnabled(seenResults.size() > 1);
         buttonRestart.setEnabled(true);
+
+        Logger.debug("Showing result: " + result);
 
         int offset = Math.max(0, result.getMatchStart() - result.getPatternStart());
         String offsetSpaces = addSpacesOffset(offset);
