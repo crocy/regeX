@@ -1,0 +1,414 @@
+body {
+	background-color: #FFFFFF;
+	margin: 0;
+	padding: 0;
+	background-image: url(img/bg.png);
+	background-position: bottom left;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+div#top {
+	background-color: #C04C00;
+	background-image: url(img/top.gif);
+	background-position: top left;
+	background-repeat: repeat-x;
+	text-align: center;
+	margin: 0;
+	height: 100px;
+	width: 100%;
+}
+div#logo {
+	text-align: center;
+	padding: 0;
+	margin: 0;
+}	
+#btntop {
+	background-image: url(img/btnbg.gif);
+	background-position: top left;
+	background-repeat: repeat-x;
+	width: 100%;
+	height: 20px;
+	font-family : Arial, helvetica, sans-serif;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+#btntop div {
+	width: 130px;
+	height: 18px;
+	text-align: center;
+	background-color: #A03300;
+	background-image: url(img/btn.gif);
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+#btntop a:link, #btntop a:visited, #btntop a:hover, #btntop a:active {
+	color: #FFFFFF; 
+	text-decoration: none;
+	background: none;
+	font-size : 13px;
+	line-height : 16px;
+	font-weight : normal;
+}
+table.topad {
+	border-style: solid;
+	border-width: 2px;
+	border-color: #803300;
+	background-color: #FFF4E8;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding: 5px;
+}
+td.topad {
+	text-align : justify;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+div#bodytext {
+	position: absolute;
+/*	left: 260px;
+	max-width: 748px;*/ /* 728 + 10 + 10 */
+}
+div#copyright {
+	margin-top: 30px;
+	margin-left: 10px;
+	margin-right: 5px;
+	margin-bottom: 10px;
+	padding-top: 2px;
+	border-top: groove #C0C0C0 2px;
+}
+p {
+	font-family : Arial, helvetica, sans-serif;
+	font-size : 14px;
+	line-height : 20px;
+	font-weight : normal;
+	text-align: justify;
+	margin: 10px;
+}
+ul {
+	font-family : Arial, helvetica, sans-serif;
+	font-size : 14px;
+	line-height : 20px;
+	font-weight : normal;
+	margin-left : 24px;
+	margin-right : 10px;
+	padding-left : 0;
+}
+ul.noindent {
+	margin-left: 10px;
+}
+ul li {
+	list-style-position : inside;
+}
+ol {
+	font-family : Arial, helvetica, sans-serif;
+	font-size : 14px;
+	line-height : 20px;
+	font-weight : normal;
+	margin-left : 50px;
+	margin-right : 10px;
+	padding-left : 0;
+}
+input {
+	font-family : Arial, helvetica, sans-serif;
+	font-size : 14px;
+	font-weight : normal;
+}
+select {
+	font-family : Arial, helvetica, sans-serif;
+	font-size : 14px;
+	font-weight : normal;
+}
+textarea {
+	font-family: 'Andale Mono', 'Lucida Console', monospace;
+	font-size : 14px;
+	font-weight : normal;
+}
+table.body {
+	margin: 10px;
+}
+th {
+	font-family : Arial, helvetica, sans-serif;
+	font-size : 14px;
+	line-height : 20px;
+}
+td {
+	font-family : Arial, helvetica, sans-serif;
+	font-size : 14px;
+	line-height : 20px;
+}
+td.small {
+	font-family : Arial, helvetica, sans-serif;
+	font-size : 10px;
+	line-height : 14px;
+}
+table.reference {
+	margin: 10px;
+	border-collapse: collapse;
+  	border: solid black 2px;
+}
+td.yes {
+	background-color: #E0FFE0;
+	white-space: nowrap;
+}
+td.fail {
+	background-color: #FFF4E8;
+	white-space: nowrap;
+}
+table.reference tr.flavors th {
+	border-bottom: solid black 2px;
+}
+table.reference tr.flavors td {
+	border-bottom: solid black 2px;
+}
+table.reference th {
+	border-right: solid black 1px;
+	border-bottom: solid black 1px;
+	padding: 4px;
+}
+table.reference td {
+	border-right: solid black 1px;
+	border-bottom: solid black 1px;
+	padding: 4px;
+}
+table.sidead td {
+	font-size : 13px;
+	line-height : 17px;
+	text-align : justify;
+	padding-left: 8px;
+	padding-right: 10px;
+}
+h1 {
+	font-family : Arial, helvetica, sans-serif;
+	font-size : 20px;
+	font-weight : bold;
+	font-variant : normal;
+	color: #C04C00;
+	margin-left: 10px;
+	margin-top: 20px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	border-bottom: solid #C04C00 3px;
+	padding-bottom: 3px;
+}
+h2 {
+	font-family : Arial, helvetica, sans-serif;
+	font-size : 20px;
+	font-weight : bold;
+	font-variant : normal;
+	color: #C04C00;
+	margin-top: 40px;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	border-bottom: solid #C04C00 3px;
+	padding-bottom: 3px;
+}
+#bodytext div.adsense {
+	margin-left: 10px;
+	margin-top: 30px;
+}
+#bodytext script+div.adsense {
+	margin-top: 20px;
+}
+div.adsense+h1 {
+	margin-top: 30px;
+}
+div.adsense+h2 {
+	margin-top: 30px;
+}
+.topad+h1 {
+	margin-top: 30px;
+}
+div#side {
+	position: absolute;
+}
+table.side {
+	border-style: solid;
+	border-width: 2px;
+	border-color: #803300;
+	width: 240px;
+	margin-left: 10px;
+	margin-right: 5px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+table.sidead {
+	background-color: #FFF4E8;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #803300;
+	width: 240px;
+	margin-left: 10px;
+	margin-right: 5px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+td.sideheader {
+	background-color: #FF6600;
+	color: #FFFFFF;
+	text-align: center;
+	height: 28px;
+}
+#side div.adsense {
+	margin-left: 50px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+#side iframe.amazon {
+	margin-left: 50px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+#side iframe.amazonsingle {
+	margin-left: 70px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+a:link { 
+	color: #0000FF;
+	text-decoration: underline;
+} 
+a:visited { 
+	color: #000080;
+	text-decoration: underline;
+} 
+a:hover {
+	color: #FFFFFF;
+	background: #0000FF;
+	text-decoration: underline;
+} 
+a:active {
+	color: #FFFFFF;
+	background: #FF0000;
+	text-decoration: underline;
+} 
+tt {
+	font-family: 'Andale Mono', 'Lucida Console', monospace;
+}
+tt.regex, tt.replace, tt.match, tt.string {
+	white-space: nowrap;
+	border-top: solid;
+	border-bottom: solid;
+	border-width: 1px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+tt.regex {
+	border-color: #FF6600;
+	background-color: #FFF4E8;
+}
+tt.replace {
+	border-color: #A0A000;
+	background-color: #FFFFA0;
+}
+tt.match {
+	border-color: #0066FF;
+	background-color: #E8F4FF;
+}
+tt.string {
+	border-color: #00A000;
+	background-color: #E0FFE0;
+}
+tt.code {
+	white-space: nowrap;
+}
+pre {
+	font-family: 'Andale Mono', 'Lucida Console', monospace;
+	font-size : 14px;
+	line-height : 20px;
+	font-weight : normal;
+	margin: 10px;
+}
+p.indent {
+	margin-left: 30px;
+}
+p.copyright {
+	font-family : Arial, helvetica, sans-serif;
+	font-size : 10px;
+	line-height : 14px;
+	font-weight : normal;
+	margin : 0;
+}
+img.left {
+	margin-left: 0;
+	margin-right: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+img.right {
+	margin-left: 10px;
+	margin-right: 0;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+img.iconleft {
+	margin-left: 0;
+	margin-right: 10px;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+form {
+	margin: 0;
+	padding: 0;
+}
+.characterstring { color: #0000FF; }
+.comment { color: #FF0000; font-style: italic; }
+.numericconstant { color: #000080; }
+.reservedword { font-weight: bold; }
+.longcode {
+	font-size : 13px;
+	line-height : 15px;
+}
+tt.regexbuddy {
+	margin-left: 10px;
+}
+div.regexbuddyregex { 
+        margin-top: 10pt; 
+        margin-bottom: 10pt; 
+}
+div.regexbuddytree { 
+        margin-top: 10pt; 
+        margin-bottom: 10pt; 
+        overflow-y: scroll; 
+        height: 200%; 
+}
+div.regexbuddyfooter { 
+        margin-top: 10pt; 
+        margin-bottom: 10pt; 
+}
+li.char { list-style-image: url(http://www.regexbuddy.com/manual/btn/char.png); }
+li.string { list-style-image: url(http://www.regexbuddy.com/manual/btn/string.png); }
+li.escaped { list-style-image: url(http://www.regexbuddy.com/manual/btn/escaped.png); }
+li.special { list-style-image: url(http://www.regexbuddy.com/manual/btn/special.png); }
+li.meta { list-style-image: url(http://www.regexbuddy.com/manual/btn/meta.png); }
+li.option { list-style-image: url(http://www.regexbuddy.com/manual/btn/option.png); }
+li.optiongroup { list-style-image: url(http://www.regexbuddy.com/manual/btn/optiongroup.png); }
+li.anchor { list-style-image: url(http://www.regexbuddy.com/manual/btn/anchor.png); }
+li.repeat { list-style-image: url(http://www.regexbuddy.com/manual/btn/repeat.png); }
+li.backreference { list-style-image: url(http://www.regexbuddy.com/manual/btn/backreference.png); }
+li.call { list-style-image: url(http://www.regexbuddy.com/manual/btn/call.png); }
+li.void { list-style-image: url(http://www.regexbuddy.com/manual/btn/void.png); }
+li.fail { list-style-image: url(http://www.regexbuddy.com/manual/btn/fail.png); }
+li.group { list-style-image: url(http://www.regexbuddy.com/manual/btn/group.png); }
+li.capture { list-style-image: url(http://www.regexbuddy.com/manual/btn/capture.png); }
+li.atomic { list-style-image: url(http://www.regexbuddy.com/manual/btn/atomic.png); }
+li.lookaround { list-style-image: url(http://www.regexbuddy.com/manual/btn/lookaround.png); }
+li.conditional { list-style-image: url(http://www.regexbuddy.com/manual/btn/conditional.png); }
+li.alternate { list-style-image: url(http://www.regexbuddy.com/manual/btn/alternate.png); }
+li.error { list-style-image: url(http://www.regexbuddy.com/manual/btn/error.png); }
+li.comment { list-style-image: url(http://www.regexbuddy.com/manual/btn/comment.png); }
+li.tip { list-style-image: url(http://www.regexbuddy.com/manual/btn/tip.png); }
+li.comparesame { list-style-image: url(http://www.regexbuddy.com/manual/btn/comparesame.png); }
+li.comparediff { list-style-image: url(http://www.regexbuddy.com/manual/btn/comparediff.png); }
+li.cc { list-style-image: url(http://www.regexbuddy.com/manual/btn/cc.png); }
+li.ccchar { list-style-image: url(http://www.regexbuddy.com/manual/btn/ccchar.png); }
+li.ccstring { list-style-image: url(http://www.regexbuddy.com/manual/btn/ccstring.png); }
+li.ccspecial { list-style-image: url(http://www.regexbuddy.com/manual/btn/ccspecial.png); }
+li.ccrange { list-style-image: url(http://www.regexbuddy.com/manual/btn/ccrange.png); }
+li.ccintersect { list-style-image: url(http://www.regexbuddy.com/manual/btn/ccintersect.png); }
+li.ccvoid { list-style-image: url(http://www.regexbuddy.com/manual/btn/ccvoid.png); }
+li.ccfail { list-style-image: url(http://www.regexbuddy.com/manual/btn/ccfail.png); }
+li.lb { list-style-image: url(http://www.regexbuddy.com/manual/btn/lb.png); }
+li.cclb { list-style-image: url(http://www.regexbuddy.com/manual/btn/cclb.png); }

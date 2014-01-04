@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Regular Expressions Quick Start</title>
+<script src="RegularExpressions-QuickStart_files/regex.js" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="Regex Guru" href="http://www.regexguru.com/feed/">
+<meta name="Author" content="Jan Goyvaerts">
+<meta name="Description" content="">
+<meta name="Keywords" content="">
+<link rel="StyleSheet" href="RegularExpressions-QuickStart_files/regex.css" type="text/css">
+</head>
+<body bgcolor="white" text="black">
+
+
+
+<div style="" id="bodytext">
+
+  <h1>Regular Expressions Quick Start</h1> <p>This quick start gets you 
+up to speed quickly with regular expressions. Obviously, this brief 
+introduction cannot explain everything there is to know about regular 
+expressions. For detailed information, consult the <a href="http://www.regular-expressions.info/tutorial.html" target="_top">regular expressions tutorial</a>. Each topic in the quick start corresponds with a topic in the tutorial, so you can easily go back and forth between the two.</p> <p>Many
+ applications and programming languages have their own implementation of
+ regular expressions, often with slight and sometimes with significant 
+differences from other implementations. When two applications use a 
+different implementation of regular expressions, we say that they use 
+different "regular expression flavors". This quick start explains the 
+syntax supported by the most popular regular expression flavors.</p> <h2>Text Patterns and Matches</h2> <p>A
+ regular expression, or regex for short, is a pattern describing a 
+certain amount of text. On this website, regular expressions are 
+highlighted in red as <tt class="regex">regex</tt>. </p> <p>This first example is actually a perfectly valid regex. It is the most basic pattern, simply matching the literal text <tt class="match">regex</tt>. Matches are highlighted in blue on this site. </p> <p>We use the term "string" to indicate the text that the regular expression is applied to. Strings are highlighted in <tt class="string">green</tt>. </p> <h2>Literal Characters</h2> <p>The most basic regular expression consists of a single literal character, such as <tt class="regex">a</tt>. It matches the first occurrence of that character in the string. If the string is <tt class="string">Jack is a boy</tt>, it matches the <tt class="match">a</tt> after the <tt class="string">J</tt>.</p> <p>This regex can match the second <tt class="match">a</tt>
+ too. It only does so when you tell the regex engine to start searching 
+through the string after the first match. In a text editor, you can do 
+so by using its "Find Next" or "Search Forward" function. In a 
+programming language, there is usually a separate function that you can 
+call to continue searching through the string after the previous match.</p> <p>Twelve characters have special meanings in regular expressions: the backslash <tt class="regex">\</tt>, the caret <tt class="regex">^</tt>, the dollar sign <tt class="regex">$</tt>, the period or dot <tt class="regex">.</tt>, the vertical bar or pipe symbol <tt class="regex">|</tt>, the question mark <tt class="regex">?</tt>, the asterisk or star <tt class="regex">*</tt>, the plus sign <tt class="regex">+</tt>, the opening parenthesis <tt class="regex">(</tt>, the closing parenthesis <tt class="regex">)</tt>, the opening square bracket <tt class="regex">[</tt>, and the opening curly brace <tt class="regex">{</tt>. These special characters are often called "metacharacters".</p> <p>If
+ you want to use any of these characters as a literal in a regex, you 
+need to escape them with a backslash. If you want to match <tt class="match">1+1=2</tt>, the correct regex is <tt class="regex">1\+1=2</tt>. Otherwise, the plus sign has a special meaning.</p> <p><a href="http://www.regular-expressions.info/characters.html" target="_top">Learn more about literal characters</a></p> <h2>Character Classes or Character Sets</h2> <p>A "character class" matches only one out of several characters. To match an a or an e, use <tt class="regex">[ae]</tt>. You could use this in <tt class="regex">gr[ae]y</tt> to match either <tt class="match">gray</tt> or <tt class="match">grey</tt>. A character class matches only a single character. <tt class="regex">gr[ae]y</tt> does not match <tt class="string">graay</tt>, <tt class="string">graey</tt> or any such thing. The order of the characters inside a character class does not matter.</p> <p>You can use a hyphen inside a character class to specify a range of characters. <tt class="regex">[0-9]</tt> matches a <i>single</i> digit between 0 and 9. You can use more than one range. <tt class="regex">[0-9a-fA-F]</tt> matches a single hexadecimal digit, case insensitively. You can combine ranges and single characters. <tt class="regex">[0-9a-fxA-FX]</tt> matches a hexadecimal digit or the letter X.</p> <p>Typing
+ a caret after the opening square bracket negates the character class. 
+The result is that the character class matches any character that is <i>not</i> in the character class. <tt class="regex">q[^x]</tt> matches <tt class="match">qu</tt> in <tt class="string">question</tt>. It does <i>not</i> match <tt class="string">Iraq</tt> since there is no character after the q for the negated character class to match.</p> <p><a href="http://www.regular-expressions.info/charclass.html" target="_top">Learn more about character classes</a></p> <h2>Shorthand Character Classes</h2> <p><tt class="regex">\d</tt> matches a single character that is a digit, <tt class="regex">\w</tt> matches a "word character" (alphanumeric characters plus underscore), and <tt class="regex">\s</tt>
+ matches a whitespace character (includes tabs and line breaks). The 
+actual characters matched by the shorthands depends on the software 
+you're using. In modern applications, they include non-English letters 
+and numbers.</p> <p><a href="http://www.regular-expressions.info/shorthand.html" target="_top">Learn more about shorthand character classes</a></p> <h2>Non-Printable Characters</h2> <p>You can use special character sequences to put non-printable characters in your regular expression. Use <tt class="regex">\t</tt> to match a tab character (ASCII 0x09), <tt class="regex">\r</tt> for carriage return (0x0D) and <tt class="regex">\n</tt> for line feed (0x0A). More exotic non-printables are <tt class="regex">\a</tt> (bell, 0x07), <tt class="regex">\e</tt> (escape, 0x1B), <tt class="regex">\f</tt> (form feed, 0x0C) and <tt class="regex">\v</tt> (vertical tab, 0x0B). Remember that Windows text files use <tt class="string">\r\n</tt> to terminate lines, while UNIX text files use <tt class="string">\n</tt>.</p> <p>If your application supports <a href="http://www.regular-expressions.info/unicode.html" target="_top">Unicode</a>, use <tt class="regex">\uFFFF</tt> or <tt class="regex">\x{FFFF}</tt> to insert a Unicode character. <tt class="regex">\u20AC</tt> or <tt class="regex">\x{20AC}</tt> matches the euro currency sign.</p> <p>If your application does not support Unicode, use <tt class="regex">\xFF</tt> to match a specific character by its hexadecimal index in the character set. <tt class="regex">\xA9</tt> matches the copyright symbol in the Latin-1 character set.</p> <p>All non-printable characters can be used directly in the regular expression, or as part of a character class.</p> <p><a href="http://www.regular-expressions.info/charclass.html#nonprint">Learn more about non-printable characters</a></p> <h2>The Dot Matches (Almost) Any Character</h2> <p>The dot matches a single character, except line break characters. It is short for <tt class="regex">[^\n]</tt> (UNIX applications) or <tt class="regex">[^\r\n]</tt>
+ (Windows applications). Most applications have a "dot matches all" or 
+"single line" mode that makes the dot match any single character, 
+including line breaks.</p> <p><tt class="regex">gr.y</tt> matches <tt class="match">gray</tt>, <tt class="match">grey</tt>, <tt class="match">gr%y</tt>, etc. Use the dot sparingly. Often, a character class or negated character class is faster and more precise.</p> <p><a href="http://www.regular-expressions.info/dot.html" target="_top">Learn more about the dot</a></p> <h2>Anchors</h2> <p>Anchors do not match any characters. They match a position. <tt class="regex">^</tt> matches at the start of the string, and <tt class="regex">$</tt> matches at the end of the string. Most regex engines have a "multi-line" mode that makes <tt class="regex">^</tt> match after any line break, and <tt class="regex">$</tt> before any line break. E.g. <tt class="regex">^b</tt> matches only the first <tt class="match">b</tt> in <tt class="string">bob</tt>.</p> <p><tt class="regex">\b</tt> matches at a word boundary. A word boundary is a position between a character that can be matched by <tt class="regex">\w</tt> and a character that cannot be matched by <tt class="regex">\w</tt>. <tt class="regex">\b</tt> also matches at the start and/or end of the string if the first and/or last characters in the string are word characters. <tt class="regex">\B</tt> matches at every position where <tt class="regex">\b</tt> cannot match.</p> <p><a href="http://www.regular-expressions.info/anchors.html" target="_top">Learn more about anchors</a></p> <h2>Alternation</h2> <p>Alternation is the regular expression equivalent of "or". <tt class="regex">cat|dog</tt> matches <tt class="match">cat</tt> in <tt class="string">About cats and dogs</tt>. If the regex is applied again, it matches <tt class="match">dog</tt>. You can add as many alternatives as you want: <tt class="regex">cat|dog|mouse|fish</tt>.</p> <p>Alternation has the lowest precedence of all regex operators. <tt class="regex">cat|dog food</tt> matches <tt class="match">cat</tt> or <tt class="match">dog food</tt>. To create a regex that matches <tt class="match">cat food</tt> or <tt class="match">dog food</tt>, you need to group the alternatives: <tt class="regex">(cat|dog) food</tt>.</p> <p><a href="http://www.regular-expressions.info/alternation.html" target="_top">Learn more about alternation</a></p> <h2>Repetition</h2> <p>The question mark makes the preceding token in the regular expression optional. <tt class="regex">colou?r</tt> matches <tt class="match">colour</tt> or <tt class="match">color</tt>.</p> <p>The
+ asterisk or star tells the engine to attempt to match the preceding 
+token zero or more times. The plus tells the engine to attempt to match 
+the preceding token once or more. <tt class="regex">&lt;[A-Za-z][A-Za-z0-9]*&gt;</tt> matches an HTML tag without any attributes. <tt class="regex">&lt;[A-Za-z0-9]+&gt;</tt> is easier to write but matches invalid tags such as <tt class="match">&lt;1&gt;</tt>.</p> <p>Use curly braces to specify a specific amount of repetition. Use <tt class="regex">\b[1-9][0-9]{3}\b</tt> to match a number between 1000 and 9999. <tt class="regex">\b[1-9][0-9]{2,4}\b</tt> matches a number between 100 and 99999.</p> <p><a href="http://www.regular-expressions.info/repeat.html" target="_top">Learn more about quantifiers</a></p> <h2>Greedy and Lazy Repetition</h2> <p>The
+ repetition operators or quantifiers are greedy. They expand the match 
+as far as they can, and only give back if they must to satisfy the 
+remainder of the regex. The regex <tt class="regex">&lt;.+&gt;</tt> matches <tt class="match">&lt;EM&gt;first&lt;/EM&gt;</tt> in <tt class="string">This is a &lt;EM&gt;first&lt;/EM&gt; test</tt>.</p> <p>Place a question mark after the quantifier to make it lazy. <tt class="regex">&lt;.+?&gt;</tt> matches <tt class="match">&lt;EM&gt;</tt> in the above string.</p> <p>A better solution is to follow my advice to use the dot sparingly. Use <tt class="regex">&lt;[^&lt;&gt;]+&gt;</tt>
+ to quickly match an HTML tag without regard to attributes. The negated 
+character class is more specific than the dot, which helps the regex 
+engine find matches quickly.</p> <p><a href="http://www.regular-expressions.info/repeat.html#greedy">Learn more about greedy and lazy quantifiers</a></p> <h2>Grouping and Capturing</h2> <p>Place parentheses around multiple tokens to group them together. You can then apply a quantifier to the group. E.g. <tt class="regex">Set(Value)?</tt> matches <tt class="match">Set</tt> or <tt class="match">SetValue</tt>.</p> <p>Parentheses create a capturing group. The above example has one group. After the match, group number one contains nothing if <tt class="match">Set</tt> was matched. It contains <tt class="match">Value</tt> if <tt class="match">SetValue</tt>
+ was matched. How to access the group's contents depends on the software
+ or programming language you're using. Group zero always contains the 
+entire regex match.</p> <p>Use the special syntax <tt class="regex">Set(?:Value)?</tt>
+ to group tokens without creating a capturing group. This is more 
+efficient if you don't plan to use the group's contents. Do not confuse 
+the question mark in the non-capturing group syntax with the quantifier.</p> <p><a href="http://www.regular-expressions.info/brackets.html" target="_top">Learn more about grouping and capturing</a></p> <h2>Backreferences</h2> <p>Within the regular expression, you can use the backreference <tt class="regex">\1</tt> to match the same text that was matched by the capturing group. <tt class="regex">([abc])=\1</tt> matches <tt class="match">a=a</tt>, <tt class="match">b=b</tt>, and <tt class="match">c=c</tt>.
+ It does not match anything else. If your regex has multiple capturing 
+groups, they are numbered counting their opening parentheses from left 
+to right.</p> <p><a href="http://www.regular-expressions.info/backref.html" target="_top">Learn more about backreferences</a></p> <h2>Named Groups and Backreferences</h2> <p>If
+ your regex has many groups, keeping track of their numbers can get 
+cumbersome. Make your regexes easier to read by naming your groups. <tt class="regex">(?&lt;mygroup&gt;[abc])=\k&lt;mygroup&gt;</tt> is identical to <tt class="regex">([abc])=\1</tt>, except that you can refer to the group by its name.</p> <p><a href="http://www.regular-expressions.info/named.html" target="_top">Learn more about named groups</a></p> <h2>Unicode Properties</h2> <p><tt class="regex">\p{L}</tt> matches a single character that is in the given Unicode category. <tt class="regex">L</tt> stands for letter. <tt class="regex">\P{L}</tt> matches a single character that is not in the given Unicode category. You can find a <a href="http://www.regular-expressions.info/unicode.html#category">complete list of Unicode categories</a> in the tutorial.</p> <p><a href="http://www.regular-expressions.info/unicode.html" target="_top">Learn more about Unicode regular expressions</a></p> <h2>Lookaround</h2> <p>Lookaround
+ is a special kind of group. The tokens inside the group are matched 
+normally, but then the regex engine makes the group give up its match 
+and keeps only the result. Lookaround matches a position, just like 
+anchors. It does not expand the regex match.</p> <p><tt class="regex">q(?=u)</tt> matches the <tt class="match">q</tt> in <tt class="string">question</tt>, but not in <tt class="string">Iraq</tt>. This is positive lookahead. The <tt class="regex">u</tt> is not part of the overall regex match. The lookahead matches at each position in the string before a <tt class="string">u</tt>.</p> <p><tt class="regex">q(?!u)</tt> matches <tt class="match">q</tt> in <tt class="string">Iraq</tt> but not in <tt class="string">question</tt>.
+ This is negative lookahead. The tokens inside the lookahead are 
+attempted, their match is discarded, and the result is inverted.</p> <p>To look backwards, use lookbehind. <tt class="regex">(?&lt;=a)b</tt> matches the <tt class="match">b</tt> in <tt class="string">abc</tt>. This is positive lookbehind. <tt class="regex">(?&lt;!a)b</tt> fails to match <tt class="string">abc</tt>.</p> <p>You
+ can use a full-fledged regular expression inside the lookahead. Most 
+applications only allow fixed-length expressions in lookbehind.</p> <p><a href="http://www.regular-expressions.info/lookaround.html" target="_top">Learn more about lookaround</a></p> <h2>Free-Spacing Syntax</h2> <p>Many
+ application have an option that may be labeled "free-spacing" or 
+"ignore whitespace" or "comments" that makes the regular expression 
+engine ignore unescaped spaces and line breaks and that makes the # 
+character start a comment that runs until the end of the line. This 
+allows you to use whitespace to format your regular expression in a way 
+that makes it easier for humans to read and thus makes it easier to 
+maintain.</p> <p><a href="http://www.regular-expressions.info/freespacing.html" target="_top">Learn more about free-spacing</a></p> <h2>Make a Donation</h2>
+<p>Did this website just save you a trip to the bookstore?  Please <a href="http://www.regular-expressions.info/donate.html">make a donation</a> to support this site, and you'll get a lifetime of advertisement-free access to this site!</p>
+<div id="copyright">
+<p class="copyright">Page URL: <a href="http://www.regex.asia/quickstart.html" target="_top">http://www.regex.asia/quickstart.html</a><br>
+Page last updated: 19 September 2013<br>
+Site last updated: 19 December 2013<br>
+Copyright © 2003-2013 Jan Goyvaerts. All rights reserved.</p>
+</div> 
+
+
+
+
+</div> 
+</body></html>
