@@ -109,6 +109,14 @@ body {
   width: 760px;
   float: left; }
 
+summary {
+  color: #540099;
+  background: #F3E5FF;
+}
+details[open] {
+    background: #F3E5FF;
+}
+
 a:hover,
 acronym:hover {
   color: #7aa1b0 !important; }

@@ -30,34 +30,13 @@
 
 <div class="jd-descr">
 
- <h3>Regular expression syntax</h3>
  <span class="datatable">
  <style type="text/css">
  .datatable td { padding-right: 20px; }
  </style>
 
- <p>Java supports a subset of Perl 5 regular expression syntax. An important gotcha is that Java
- has no regular expression literals, and uses plain old string literals instead. This means that
- you need an extra level of escaping. For example, the regular expression <code>\s+</code> has to
- be represented as the string <code>"\\s+"</code>.
-
- </p><h3>Escape sequences</h3>
- <p></p><table>
- <tbody><tr> <td> \ </td> <td>Quote the following metacharacter (so <code>\.</code> matches a literal <code>.</code>).</td> </tr>
- <tr> <td> \Q </td> <td>Quote all following metacharacters until <code>\E</code>.</td> </tr>
- <tr> <td> \E </td> <td>Stop quoting metacharacters (started by <code>\Q</code>).</td> </tr>
- <tr> <td> \\ </td> <td>A literal backslash.</td> </tr>
- <tr> <td> \u<i>hhhh</i> </td> <td>The Unicode character U+hhhh (in hex).</td> </tr>
- <tr> <td> \x<i>hh</i> </td> <td>The Unicode character U+00hh (in hex).</td> </tr>
- <tr> <td> \c<i>x</i> </td> <td>The ASCII control character ^x (so <code>\cH</code> would be ^H, U+0008).</td> </tr>
-
- <tr> <td> \a </td> <td>The ASCII bell character (U+0007).</td> </tr>
- <tr> <td> \e </td> <td>The ASCII ESC character (U+001b).</td> </tr>
- <tr> <td> \f </td> <td>The ASCII form feed character (U+000c).</td> </tr>
- <tr> <td> \n </td> <td>The ASCII newline character (U+000a).</td> </tr>
- <tr> <td> \r </td> <td>The ASCII carriage return character (U+000d).</td> </tr>
- <tr> <td> \t </td> <td>The ASCII tab character (U+0009).</td> </tr>
- </tbody></table>
+ <h3>Regular expression syntax</h3>
+ <p>Java supports a subset of Perl 5 regular expression syntax.
 
  <h3>Character classes</h3>
  <p>It's possible to construct arbitrary character classes using set operations:
@@ -79,25 +58,31 @@
  <tr> <td> \p{<i>NAME</i>} </td> <td> Any character in the class with the given <i>NAME</i>. </td> </tr>
  <tr> <td> \P{<i>NAME</i>} </td> <td> Any character <i>not</i> in the named class. </td> </tr>
  </tbody></table>
- <p>Note that these built-in classes don't just cover the traditional ASCII range. For example,
- <code>\w</code> is equivalent to the character class <code>[\p{Ll}\p{Lu}\p{Lt}\p{Lo}\p{Nd}]</code>.
- For more details see <a href="http://www.unicode.org/reports/tr18/#Compatibility_Properties">Unicode TR-18</a>,
- and bear in mind that the set of characters in each class can vary between Unicode releases.
- If you actually want to match only ASCII characters, specify the explicit characters you want;
- if you mean 0-9 use <code>[0-9]</code> rather than <code>\d</code>, which would also include
- Gurmukhi digits and so forth.
- </p><p>There are also a variety of named classes:
- </p><ul>
- <li><a href="https://developer.android.com/reference/java/lang/Character.html#unicode_categories">Unicode category names</a>,
- prefixed by <code>Is</code>. For example <code>\p{IsLu</code>} for all uppercase letters.
- </li><li>POSIX class names. These are 'Alnum', 'Alpha', 'ASCII', 'Blank', 'Cntrl', 'Digit',
- 'Graph', 'Lower', 'Print', 'Punct', 'Upper', 'XDigit'.
- </li><li>Unicode block names, as accepted as input to <code><a href="https://developer.android.com/reference/java/lang/Character.UnicodeBlock.html#forName%28java.lang.String%29">forName(String)</a></code>,
- prefixed by <code>In</code>. For example <code>\p{InHebrew</code>} for all characters in the Hebrew block.
- </li><li>Character method names. These are all non-deprecated methods from <code><a href="https://developer.android.com/reference/java/lang/Character.html">Character</a></code>
- whose name starts with <code>is</code>, but with the <code>is</code> replaced by <code>java</code>.
- For example, <code>\p{javaLowerCase</code>}.
- </li></ul>
+ 
+ <details>
+  <summary>More</summary>
+ <p>
+     <p>Note that these built-in classes don't just cover the traditional ASCII range. For example,
+     <code>\w</code> is equivalent to the character class <code>[\p{Ll}\p{Lu}\p{Lt}\p{Lo}\p{Nd}]</code>.
+     For more details see <a href="http://www.unicode.org/reports/tr18/#Compatibility_Properties">Unicode TR-18</a>,
+     and bear in mind that the set of characters in each class can vary between Unicode releases.
+     If you actually want to match only ASCII characters, specify the explicit characters you want;
+     if you mean 0-9 use <code>[0-9]</code> rather than <code>\d</code>, which would also include
+     Gurmukhi digits and so forth.
+     </p><p>There are also a variety of named classes:
+     </p><ul>
+     <li><a href="https://developer.android.com/reference/java/lang/Character.html#unicode_categories">Unicode category names</a>,
+     prefixed by <code>Is</code>. For example <code>\p{IsLu</code>} for all uppercase letters.
+     </li><li>POSIX class names. These are 'Alnum', 'Alpha', 'ASCII', 'Blank', 'Cntrl', 'Digit',
+     'Graph', 'Lower', 'Print', 'Punct', 'Upper', 'XDigit'.
+     </li><li>Unicode block names, as accepted as input to <code><a href="https://developer.android.com/reference/java/lang/Character.UnicodeBlock.html#forName%28java.lang.String%29">forName(String)</a></code>,
+     prefixed by <code>In</code>. For example <code>\p{InHebrew</code>} for all characters in the Hebrew block.
+     </li><li>Character method names. These are all non-deprecated methods from <code><a href="https://developer.android.com/reference/java/lang/Character.html">Character</a></code>
+     whose name starts with <code>is</code>, but with the <code>is</code> replaced by <code>java</code>.
+     For example, <code>\p{javaLowerCase</code>}.
+     </li></ul>
+ </p>
+</details>
 
  <h3>Quantifiers</h3>
  <p>Quantifiers match some number of instances of the preceding regular expression.
@@ -169,6 +154,24 @@
  <p></p><table>
  <tbody><tr> <td> <i>ab</i> </td> <td>Expression <i>a</i> followed by expression <i>b</i>.</td> </tr>
  <tr> <td> <i>a</i>|<i>b</i> </td> <td>Either expression <i>a</i> or expression <i>b</i>.</td> </tr>
+ </tbody></table>
+
+ </p><h3>Escape sequences</h3>
+ <p></p><table>
+ <tbody><tr> <td> \ </td> <td>Quote the following metacharacter (so <code>\.</code> matches a literal <code>.</code>).</td> </tr>
+ <tr> <td> \Q </td> <td>Quote all following metacharacters until <code>\E</code>.</td> </tr>
+ <tr> <td> \E </td> <td>Stop quoting metacharacters (started by <code>\Q</code>).</td> </tr>
+ <tr> <td> \\ </td> <td>A literal backslash.</td> </tr>
+ <tr> <td> \u<i>hhhh</i> </td> <td>The Unicode character U+hhhh (in hex).</td> </tr>
+ <tr> <td> \x<i>hh</i> </td> <td>The Unicode character U+00hh (in hex).</td> </tr>
+ <tr> <td> \c<i>x</i> </td> <td>The ASCII control character ^x (so <code>\cH</code> would be ^H, U+0008).</td> </tr>
+
+ <tr> <td> \a </td> <td>The ASCII bell character (U+0007).</td> </tr>
+ <tr> <td> \e </td> <td>The ASCII ESC character (U+001b).</td> </tr>
+ <tr> <td> \f </td> <td>The ASCII form feed character (U+000c).</td> </tr>
+ <tr> <td> \n </td> <td>The ASCII newline character (U+000a).</td> </tr>
+ <tr> <td> \r </td> <td>The ASCII carriage return character (U+000d).</td> </tr>
+ <tr> <td> \t </td> <td>The ASCII tab character (U+0009).</td> </tr>
  </tbody></table>
 
  <a name="flags"><h3>Flags</h3></a>
