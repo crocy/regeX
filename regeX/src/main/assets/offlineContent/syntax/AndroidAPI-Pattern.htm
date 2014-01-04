@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html><head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://developer.android.com/favicon.ico">
+<title>Pattern | Android Developers</title>
+
+<!-- STYLESHEETS -->
+<link rel="stylesheet" href="AndroidAPI-Pattern_files/css.css" title="roboto">
+<link href="AndroidAPI-Pattern_files/default.css" rel="stylesheet" type="text/css">
+
+
+<!-- FULLSCREEN STYLESHEET -->
+<link href="AndroidAPI-Pattern_files/fullscreen.css" rel="stylesheet" class="fullscreen" type="text/css">
+
+
+<link rel="stylesheet" href="AndroidAPI-Pattern_files/defaulten.css" type="text/css"><script src="AndroidAPI-Pattern_files/defaulten.js" type="text/javascript"></script></head>
+<body class="gc-documentation 
+  develop" itemscope="" itemtype="http://schema.org/Article">
+
+  <div class="wrap clearfix" id="body-content">
+
+<div class="col-12" id="doc-col">
+
+
+<div id="jd-content" class="api apilevel-1">
+
+<div class="jd-descr">
+
+ <h3>Regular expression syntax</h3>
+ <span class="datatable">
+ <style type="text/css">
+ .datatable td { padding-right: 20px; }
+ </style>
+
+ <p>Java supports a subset of Perl 5 regular expression syntax. An important gotcha is that Java
+ has no regular expression literals, and uses plain old string literals instead. This means that
+ you need an extra level of escaping. For example, the regular expression <code>\s+</code> has to
+ be represented as the string <code>"\\s+"</code>.
+
+ </p><h3>Escape sequences</h3>
+ <p></p><table>
+ <tbody><tr> <td> \ </td> <td>Quote the following metacharacter (so <code>\.</code> matches a literal <code>.</code>).</td> </tr>
+ <tr> <td> \Q </td> <td>Quote all following metacharacters until <code>\E</code>.</td> </tr>
+ <tr> <td> \E </td> <td>Stop quoting metacharacters (started by <code>\Q</code>).</td> </tr>
+ <tr> <td> \\ </td> <td>A literal backslash.</td> </tr>
+ <tr> <td> \u<i>hhhh</i> </td> <td>The Unicode character U+hhhh (in hex).</td> </tr>
+ <tr> <td> \x<i>hh</i> </td> <td>The Unicode character U+00hh (in hex).</td> </tr>
+ <tr> <td> \c<i>x</i> </td> <td>The ASCII control character ^x (so <code>\cH</code> would be ^H, U+0008).</td> </tr>
+
+ <tr> <td> \a </td> <td>The ASCII bell character (U+0007).</td> </tr>
+ <tr> <td> \e </td> <td>The ASCII ESC character (U+001b).</td> </tr>
+ <tr> <td> \f </td> <td>The ASCII form feed character (U+000c).</td> </tr>
+ <tr> <td> \n </td> <td>The ASCII newline character (U+000a).</td> </tr>
+ <tr> <td> \r </td> <td>The ASCII carriage return character (U+000d).</td> </tr>
+ <tr> <td> \t </td> <td>The ASCII tab character (U+0009).</td> </tr>
+ </tbody></table>
+
+ <h3>Character classes</h3>
+ <p>It's possible to construct arbitrary character classes using set operations:
+ </p><table>
+ <tbody><tr> <td> [abc] </td> <td>Any one of <code>a</code>, <code>b</code>, or <code>c</code>. (Enumeration.)</td> </tr>
+ <tr> <td> [a-c] </td> <td>Any one of <code>a</code>, <code>b</code>, or <code>c</code>. (Range.)</td> </tr>
+ <tr> <td> [^abc] </td> <td>Any character <i>except</i> <code>a</code>, <code>b</code>, or <code>c</code>. (Negation.)</td> </tr>
+ <tr> <td> [[a-f][0-9]] </td> <td>Any character in either range. (Union.)</td> </tr>
+ <tr> <td> [[a-z]&amp;&amp;[jkl]] </td> <td>Any character in both ranges. (Intersection.)</td> </tr>
+ </tbody></table>
+ <p>Most of the time, the built-in character classes are more useful:
+ </p><table>
+ <tbody><tr> <td> \d </td> <td>Any digit character (see note below).</td> </tr>
+ <tr> <td> \D </td> <td>Any non-digit character (see note below).</td> </tr>
+ <tr> <td> \s </td> <td>Any whitespace character (see note below).</td> </tr>
+ <tr> <td> \S </td> <td>Any non-whitespace character (see note below).</td> </tr>
+ <tr> <td> \w </td> <td>Any word character (see note below).</td> </tr>
+ <tr> <td> \W </td> <td>Any non-word character (see note below).</td> </tr>
+ <tr> <td> \p{<i>NAME</i>} </td> <td> Any character in the class with the given <i>NAME</i>. </td> </tr>
+ <tr> <td> \P{<i>NAME</i>} </td> <td> Any character <i>not</i> in the named class. </td> </tr>
+ </tbody></table>
+ <p>Note that these built-in classes don't just cover the traditional ASCII range. For example,
+ <code>\w</code> is equivalent to the character class <code>[\p{Ll}\p{Lu}\p{Lt}\p{Lo}\p{Nd}]</code>.
+ For more details see <a href="http://www.unicode.org/reports/tr18/#Compatibility_Properties">Unicode TR-18</a>,
+ and bear in mind that the set of characters in each class can vary between Unicode releases.
+ If you actually want to match only ASCII characters, specify the explicit characters you want;
+ if you mean 0-9 use <code>[0-9]</code> rather than <code>\d</code>, which would also include
+ Gurmukhi digits and so forth.
+ </p><p>There are also a variety of named classes:
+ </p><ul>
+ <li><a href="https://developer.android.com/reference/java/lang/Character.html#unicode_categories">Unicode category names</a>,
+ prefixed by <code>Is</code>. For example <code>\p{IsLu</code>} for all uppercase letters.
+ </li><li>POSIX class names. These are 'Alnum', 'Alpha', 'ASCII', 'Blank', 'Cntrl', 'Digit',
+ 'Graph', 'Lower', 'Print', 'Punct', 'Upper', 'XDigit'.
+ </li><li>Unicode block names, as accepted as input to <code><a href="https://developer.android.com/reference/java/lang/Character.UnicodeBlock.html#forName%28java.lang.String%29">forName(String)</a></code>,
+ prefixed by <code>In</code>. For example <code>\p{InHebrew</code>} for all characters in the Hebrew block.
+ </li><li>Character method names. These are all non-deprecated methods from <code><a href="https://developer.android.com/reference/java/lang/Character.html">Character</a></code>
+ whose name starts with <code>is</code>, but with the <code>is</code> replaced by <code>java</code>.
+ For example, <code>\p{javaLowerCase</code>}.
+ </li></ul>
+
+ <h3>Quantifiers</h3>
+ <p>Quantifiers match some number of instances of the preceding regular expression.
+ </p><table>
+ <tbody><tr> <td> * </td> <td>Zero or more.</td> </tr>
+ <tr> <td> ? </td> <td>Zero or one.</td> </tr>
+ <tr> <td> + </td> <td>One or more.</td> </tr>
+ <tr> <td> {<i>n</i>} </td> <td>Exactly <i>n</i>.</td> </tr>
+ <tr> <td> {<i>n,</i>} </td> <td>At least <i>n</i>.</td> </tr>
+ <tr> <td> {<i>n</i>,<i>m</i>} </td> <td>At least <i>n</i> but not more than <i>m</i>.</td> </tr>
+ </tbody></table>
+ <p>Quantifiers are "greedy" by default, meaning that they will match the longest possible input
+ sequence. There are also non-greedy quantifiers that match the shortest possible input sequence.
+ They're same as the greedy ones but with a trailing <code>?</code>:
+ </p><table>
+ <tbody><tr> <td> *? </td> <td>Zero or more (non-greedy).</td> </tr>
+ <tr> <td> ?? </td> <td>Zero or one (non-greedy).</td> </tr>
+ <tr> <td> +? </td> <td>One or more (non-greedy).</td> </tr>
+ <tr> <td> {<i>n</i>}? </td> <td>Exactly <i>n</i> (non-greedy).</td> </tr>
+ <tr> <td> {<i>n,</i>}? </td> <td>At least <i>n</i> (non-greedy).</td> </tr>
+ <tr> <td> {<i>n</i>,<i>m</i>}? </td> <td>At least <i>n</i> but not more than <i>m</i> (non-greedy).</td> </tr>
+ </tbody></table>
+ <p>Quantifiers allow backtracking by default. There are also possessive quantifiers to prevent
+ backtracking. They're same as the greedy ones but with a trailing <code>+</code>:
+ </p><table>
+ <tbody><tr> <td> *+ </td> <td>Zero or more (possessive).</td> </tr>
+ <tr> <td> ?+ </td> <td>Zero or one (possessive).</td> </tr>
+ <tr> <td> ++ </td> <td>One or more (possessive).</td> </tr>
+ <tr> <td> {<i>n</i>}+ </td> <td>Exactly <i>n</i> (possessive).</td> </tr>
+ <tr> <td> {<i>n,</i>}+ </td> <td>At least <i>n</i> (possessive).</td> </tr>
+ <tr> <td> {<i>n</i>,<i>m</i>}+ </td> <td>At least <i>n</i> but not more than <i>m</i> (possessive).</td> </tr>
+ </tbody></table>
+
+ <h3>Zero-width assertions</h3>
+ <p></p><table>
+ <tbody><tr> <td> ^ </td> <td>At beginning of line.</td> </tr>
+ <tr> <td> $ </td> <td>At end of line.</td> </tr>
+ <tr> <td> \A </td> <td>At beginning of input.</td> </tr>
+ <tr> <td> \b </td> <td>At word boundary.</td> </tr>
+ <tr> <td> \B </td> <td>At non-word boundary.</td> </tr>
+ <tr> <td> \G </td> <td>At end of previous match.</td> </tr>
+ <tr> <td> \z </td> <td>At end of input.</td> </tr>
+ <tr> <td> \Z </td> <td>At end of input, or before newline at end.</td> </tr>
+ </tbody></table>
+
+ <h3>Look-around assertions</h3>
+ <p>Look-around assertions assert that the subpattern does (positive) or doesn't (negative) match
+ after (look-ahead) or before (look-behind) the current position, without including the matched
+ text in the containing match. The maximum length of possible matches for look-behind patterns
+ must not be unbounded.
+ </p><p></p><table>
+ <tbody><tr> <td> (?=<i>a</i>) </td> <td>Zero-width positive look-ahead.</td> </tr>
+ <tr> <td> (?!<i>a</i>) </td> <td>Zero-width negative look-ahead.</td> </tr>
+ <tr> <td> (?&lt;=<i>a</i>) </td> <td>Zero-width positive look-behind.</td> </tr>
+ <tr> <td> (?&lt;!<i>a</i>) </td> <td>Zero-width negative look-behind.</td> </tr>
+ </tbody></table>
+
+ <h3>Groups</h3>
+
+ <p></p><table>
+ <tbody><tr> <td> (<i>a</i>) </td> <td>A capturing group.</td> </tr>
+ <tr> <td> (?:<i>a</i>) </td> <td>A non-capturing group.</td> </tr>
+ <tr> <td> (?&gt;<i>a</i>) </td> <td>An independent non-capturing group. (The first match of the subgroup is the only match tried.)</td> </tr>
+ <tr> <td> \<i>n</i> </td> <td>The text already matched by capturing group <i>n</i>.</td> </tr>
+ </tbody></table>
+ <p>See <code><a href="https://developer.android.com/reference/java/util/regex/Matcher.html#group%28%29">group()</a></code> for details of how capturing groups are numbered and accessed.
+
+ </p><h3>Operators</h3>
+ <p></p><table>
+ <tbody><tr> <td> <i>ab</i> </td> <td>Expression <i>a</i> followed by expression <i>b</i>.</td> </tr>
+ <tr> <td> <i>a</i>|<i>b</i> </td> <td>Either expression <i>a</i> or expression <i>b</i>.</td> </tr>
+ </tbody></table>
+
+ <a name="flags"><h3>Flags</h3></a>
+ <p></p><table>
+ <tbody><tr> <td> (?dimsux-dimsux:<i>a</i>) </td> <td>Evaluates the expression <i>a</i> with the given flags enabled/disabled.</td> </tr>
+ <tr> <td> (?dimsux-dimsux) </td> <td>Evaluates the rest of the pattern with the given flags enabled/disabled.</td> </tr>
+ </tbody></table>
+
+ <p>The flags are:
+ </p><table>
+ <tbody><tr><td><code>i</code></td> <td><code><a href="https://developer.android.com/reference/java/util/regex/Pattern.html#CASE_INSENSITIVE">CASE_INSENSITIVE</a></code></td> <td>case insensitive matching</td></tr>
+ <tr><td><code>d</code></td> <td><code><a href="https://developer.android.com/reference/java/util/regex/Pattern.html#UNIX_LINES">UNIX_LINES</a></code></td>       <td>only accept <code>'\n'</code> as a line terminator</td></tr>
+ <tr><td><code>m</code></td> <td><code><a href="https://developer.android.com/reference/java/util/regex/Pattern.html#MULTILINE">MULTILINE</a></code></td>        <td>allow <code>^</code> and <code>$</code> to match beginning/end of any line</td></tr>
+ <tr><td><code>s</code></td> <td><code><a href="https://developer.android.com/reference/java/util/regex/Pattern.html#DOTALL">DOTALL</a></code></td>           <td>allow <code>.</code> to match <code>'\n'</code> ("s" for "single line")</td></tr>
+ <tr><td><code>u</code></td> <td><code><a href="https://developer.android.com/reference/java/util/regex/Pattern.html#UNICODE_CASE">UNICODE_CASE</a></code></td>     <td>enable Unicode case folding</td></tr>
+ <tr><td><code>x</code></td> <td><code><a href="https://developer.android.com/reference/java/util/regex/Pattern.html#COMMENTS">COMMENTS</a></code></td>         <td>allow whitespace and comments</td></tr>
+ </tbody></table>
+ <p>Either set of flags may be empty. For example, <code>(?i-m)</code> would turn on case-insensitivity
+ and turn off multiline mode, <code>(?i)</code> would just turn on case-insensitivity,
+ and <code>(?-m)</code> would just turn off multiline mode.
+ </p><p>Note that on Android, <code>UNICODE_CASE</code> is always on: case-insensitive matching will
+ always be Unicode-aware.
+ </p><p>There are two other flags not settable via this mechanism: <code><a href="https://developer.android.com/reference/java/util/regex/Pattern.html#CANON_EQ">CANON_EQ</a></code> and
+ <code><a href="https://developer.android.com/reference/java/util/regex/Pattern.html#LITERAL">LITERAL</a></code>. Attempts to use <code><a href="https://developer.android.com/reference/java/util/regex/Pattern.html#CANON_EQ">CANON_EQ</a></code> on Android will throw an exception.
+ 
+
+ </p><h3>Implementation notes</h3>
+
+ <p>The regular expression implementation used in Android is provided by
+ <a href="http://www.icu-project.org/">ICU</a>. The notation for the regular
+ expressions is mostly a superset of those used in other Java language
+ implementations. This means that existing applications will normally work as
+ expected, but in rare cases Android may accept a regular expression that is
+ not accepted by other implementations.
+
+ </p><p>In some cases, Android will recognize that a regular expression is a simple
+ special case that can be handled more efficiently. This is true of both the convenience methods
+ in <code>String</code> and the methods in <code>Pattern</code>.</p>
+
+
+
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">See Also</h5>
+      <ul class="nolist"><li><code><a href="https://developer.android.com/reference/java/util/regex/Matcher.html">Matcher</a></code></li>
+      </ul>
+  </div>
+
+
+</span></div>
+
+
+</div> 
+
+</div>
+
+</div>  
+
+
+
+
+
+
+
+
+</body></html>
