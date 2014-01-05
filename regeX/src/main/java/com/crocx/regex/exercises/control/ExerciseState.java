@@ -10,6 +10,7 @@ import com.crocx.regex.exercises.ExercisesAction;
 import com.crocx.regex.exercises.fragment.ExerciseFragment;
 import com.crocx.regex.exercises.model.ExerciseItem;
 import com.crocx.regex.exercises.view.ExerciseView;
+import com.crocx.regex.exercises.view.WebViewDialog;
 import com.crocx.regex.tutorial.TutorialAction;
 import com.crocx.regex.ui.UiAction;
 import com.crocx.regex.ui.UiState;
@@ -74,13 +75,17 @@ public class ExerciseState extends UiState {
                     evaluateRegex((String) actionObject);
                     break;
 
-                case EXPLAIN_REGEX:
+                case MENU_EXPLAIN_REGEX:
                     String regex = fragment.getExerciseView().getRegex();
                     String input = fragment.getExerciseItem().getData();
 
                     Pair<String, String> pair = new Pair<String, String>(regex, input);
                     mainActivity.getUiStateManager().changeState(mainActivity.getTutorialState(),
                             TutorialAction.EXPLAIN_REGEX, pair);
+                    break;
+
+                case MENU_SHOW_SYNTAX:
+                    showSyntaxDialog();
                     break;
 
                 default:
@@ -128,4 +133,10 @@ public class ExerciseState extends UiState {
         //        }
     }
 
+    private void showSyntaxDialog() {
+        //        WebViewDialog webViewDialog = new WebViewDialog();
+        WebViewDialog webViewDialog = new WebViewDialog();
+        webViewDialog.setLoadUrl("file:///android_asset/offlineContent/syntax/AndroidAPI-Pattern.htm");
+        webViewDialog.show(mainActivity);
+    }
 }

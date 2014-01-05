@@ -9,6 +9,7 @@
     <string name="menu_tutorial_change_output">Change output</string>
     <string name="menu_tutorial_change_input_output">Change regex &amp; input</string>
     <string name="menu_exercise_explain">Explain regex</string>
+    <string name="menu_exercise_syntax">Show regex syntax</string>
 
     <string name="explanations">Explanation:</string>
 

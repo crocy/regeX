@@ -8,4 +8,10 @@
         android:title="@string/menu_exercise_explain"
         android:orderInCategory="100"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_menu_exercise_syntax"
+        android:title="@string/menu_exercise_syntax"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
 </menu>

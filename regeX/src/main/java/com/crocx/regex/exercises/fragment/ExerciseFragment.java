@@ -65,7 +65,11 @@ public class ExerciseFragment extends Fragment {
 
         switch (id) {
             case R.id.action_menu_exercise_explain:
-                uiStateManager.fireAction(ExercisesAction.EXPLAIN_REGEX);
+                uiStateManager.fireAction(ExercisesAction.MENU_EXPLAIN_REGEX);
+                return true;
+
+            case R.id.action_menu_exercise_syntax:
+                uiStateManager.fireAction(ExercisesAction.MENU_SHOW_SYNTAX);
                 return true;
         }
 
