@@ -43,6 +43,8 @@ public class IntroductionView extends RelativeLayout {
 
     private void init() {
         webView.getSettings().setJavaScriptEnabled(true);
+        //        webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        //        webView.getSettings().setPluginState(WebSettings.PluginState.ON);
 
         // Let's display the progress in the activity title bar, like the
         // browser app does.

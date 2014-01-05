@@ -2,10 +2,11 @@ body {
 	background-color: #FFFFFF;
 	margin: 0;
 	padding: 0;
-	background-image: url(img/bg.png);
+/*	background-image: url(img/bg.png);
 	background-position: bottom left;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
+*/
 }
 div#top {
 	background-color: #C04C00;

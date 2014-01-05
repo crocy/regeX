@@ -15,3 +15,22 @@ http://crotonresearch.com/graphrex/visualization/
 http://jregex.sourceforge.net/demoapp.html
 
 http://javaregex.com/home.html
+
+
+######
+# Introduction tutorials
+###
+
+http://www.regular-expressions.info
+
+http://docs.oracle.com/javase/tutorial/essential/regex/index.html
+
+http://rexegg.com/
+
+http://www.zytrax.com/tech/web/regex.htm
+
+https://en.wikipedia.org/wiki/Regular_expression
+
+http://perldoc.perl.org/perlretut.html
+
+######
