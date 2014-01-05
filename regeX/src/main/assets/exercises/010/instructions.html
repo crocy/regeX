@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise</title>
+</head>
+<body>
+    Construct a SINGLE regular expression that uses only reptition modifiers (<tt>*</tt>
+    and <tt>+</tt>), alternation (<tt>|</tt>), and grouping (
+    <tt>(</tt> and <tt>)</tt>) that will determine whether a
+    string consists of only 0's and 1's AND that there are the
+    SAME number of occurrences of the substring '01' as there
+    are '10'.
+
+    <br><br>
+
+    Examples:
+
+    <ul>
+    <li> '101' succeeds, because it has ONE '10' and ONE '01'.
+    </li><li> '1001' succeeds, because it has ONE '10' and ONE '01'.
+    </li><li> '1010' fails, because it has TWO '10's and only ONE '01'.
+    </li><li> '10101' succeeds, because it has TWO '10's and TWO '01's.
+    </li>
+    </ul>
+    
+<p>Data:
+<pre>101 1001 1101 10101 010110</pre>
+</p>
+</body>
+</html>
