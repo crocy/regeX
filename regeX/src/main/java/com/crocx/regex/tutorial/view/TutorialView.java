@@ -125,7 +125,6 @@ public class TutorialView extends LinearLayout {
 
         if (results != null && !results.isEmpty()) {
             buttonNext.setEnabled(true);
-            //            buttonRestart.setEnabled(true);
         }
 
         loadExplanations();
@@ -152,14 +151,9 @@ public class TutorialView extends LinearLayout {
                 view.setText(explanation.getExplanationMessage());
         }
 
-        //        ((LayoutParams) view.getLayoutParams()).
         view.setPadding(
                 explanation.getLevel() * getResources().getDimensionPixelOffset(R.dimen.explanation_child_offset), 0,
                 0, 0);
-
-        //        if (explanation.getChildExplanation() != null) {
-        //            updateExplanation(explanation.getChildExplanation(), view);
-        //        }
     }
 
     public void nextStep() {
@@ -200,32 +194,23 @@ public class TutorialView extends LinearLayout {
 
         if (result.getType() == MatcherResult.ResultType.MISMATCH) {
             SpannableString spannableRegex = new SpannableString(offsetSpaces + regex);
-            //            spannableRegex.setSpan(new ForegroundColorSpan(Color.RED), offset, offset + regex.length(),
-            //                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             spannableRegex.setSpan(new ForegroundColorSpan(Color.RED), offset + result.getPatternStart(), offset
                     + result.getPatternEnd(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             tutorialRegex.setText(spannableRegex);
 
             SpannableString spannableInput = new SpannableString(input);
-            //        SpannableString spannableInput = new SpannableString(result.getMatch());
             spannableInput.setSpan(new ForegroundColorSpan(Color.RED), result.getMatchStart(), result.getMatchEnd(),
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             tutorialInput.setText(spannableInput);
-            //            tutorialInput.setText(input);
             return;
         }
 
-        //        SpannableString spannableRegex = new SpannableString(result.group(RegexEngine.GROUP_LITERALS));
         SpannableString spannableRegex = new SpannableString(offsetSpaces + regex);
-        //        SpannableString spannableRegex = new SpannableString(offsetSpaces + result.getPattern());
         spannableRegex.setSpan(new ForegroundColorSpan(Color.GREEN), offset + result.getPatternStart(),
                 offset + result.getPatternEnd(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        //        spannableRegex.setSpan(new ForegroundColorSpan(Color.YELLOW), offset + result.getPatternEnd(),
-        //                spannableRegex.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tutorialRegex.setText(spannableRegex);
 
         SpannableString spannableInput = new SpannableString(input);
-        //        SpannableString spannableInput = new SpannableString(result.getMatch());
         spannableInput.setSpan(new ForegroundColorSpan(Color.GREEN), result.getMatchStart(), result.getMatchEnd(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tutorialInput.setText(spannableInput);
@@ -245,7 +230,6 @@ public class TutorialView extends LinearLayout {
             explanationAdapter.setNotifyOnChange(false);
 
             for (RegexExplanation explanation : engine.getExplanations()) {
-                //                explanationAdapter.add(explanation);
                 loadChildExplanations(explanation, explanationAdapter);
             }
             explanationAdapter.notifyDataSetChanged();
@@ -265,7 +249,6 @@ public class TutorialView extends LinearLayout {
      * 
      * @param result the explanation to emphasise (as in this is the current regex/explanation we are looking at).
      */
-    //    private void emphasiseExplanation(RegexExplanation emphasiseExplanation) {
     private void emphasiseExplanation(MatcherResult result) {
         explanationAdapter.setNotifyOnChange(false);
         RegexExplanation emphasiseExplanation = result.getExplanation();

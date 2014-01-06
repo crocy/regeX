@@ -70,8 +70,8 @@ public class RegexEngine {
             processInput = inputArray[i];
             regexMatcher.reset();
 
-            //            regionStart = 0;
-            regionEnd = processInput.length();
+            regionStart = 0; // kinda useless for now...
+            regionEnd = processInput.length(); // kinda useless for now...
             explanationIndex = 0;
 
             mainLoop: //
@@ -80,14 +80,12 @@ public class RegexEngine {
                     // found empty string (probably because nothing in regexPattern is mandatory), continue
                     continue;
                 }
-                regionStart = regexMatcher.start();
 
                 specialChar = regexMatcher.group(GROUP_SPECIAL_CHARACTERS);
-                specialQuantifier = regexMatcher.group(GROUP_SPECIAL_CHARACTERS_QUANTIFIER);
+                specialQuantifier = regexMatcher.group(GROUP_SPECIAL_CHARACTERS_QUANTIFIER); // is already included in specialChar
                 literals = regexMatcher.group(GROUP_LITERALS);
                 quantifierChar = regexMatcher.group(GROUP_QUANTIFIERS_CHARACTER);
-                // is already included in quantifierChar!
-                quantifierQuantifier = regexMatcher.group(GROUP_QUANTIFIERS_QUANTIFIER);
+                quantifierQuantifier = regexMatcher.group(GROUP_QUANTIFIERS_QUANTIFIER); // is already included in quantifierChar
 
                 /*
                  * Special characters matching.
@@ -175,13 +173,17 @@ public class RegexEngine {
                  * Quantifiers matching.
                  */
                 if (quantifierChar != null && quantifierChar.length() >= 2 && quantifierChar.length() <= 3) {
-                    // else contition is more interesting :P
+                    // else condition is more interesting :P
                 } else {
                     quantifierChar = "";
                     explanationIndex--;
                     Logger.info("No quantifier found.");
                 }
 
+                /*
+                 * Final pattern is compiled here including special characters (with quantifiers), literals and
+                 * quantifier characters (if any of these regex parts are present).
+                 */
                 Pattern quantifiersPattern = Pattern.compile(specialChar + literals + quantifierChar);
                 Matcher quantifiersMatcher = quantifiersPattern.matcher(processInput);
                 quantifiersMatcher.region(regionStart, regionEnd);
