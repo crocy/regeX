@@ -5,21 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        style="@style/textRegexMedium"
-        android:id="@+id/tutorialRegex"
-        android:layout_width="match_parent"
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:typeface="monospace"
-        android:text="foo+" />
+        android:requiresFadingEdge="horizontal"
+        android:fadingEdge="horizontal"
+        android:fadingEdgeLength="40dp"
+        android:fadeScrollbars="false">
 
-    <TextView
-        style="@style/textRegexMedium"
-        android:id="@+id/tutorialInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:typeface="monospace"
-        android:text="foo fooo" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/textRegexMedium"
+                android:id="@+id/tutorialRegex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:text="foo+" />
+
+            <TextView
+                style="@style/textRegexMedium"
+                android:id="@+id/tutorialInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:text="aa af foo fooo bo boooo bas trololo" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <TextView
         style="@style/textRegexMedium"
