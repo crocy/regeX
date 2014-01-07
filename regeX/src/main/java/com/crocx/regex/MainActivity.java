@@ -15,6 +15,9 @@ import com.crocx.regex.ui.UiStateManager;
 
 public class MainActivity extends ActionBarActivity {
 
+    public static final String FILE_OFFLINE_ANDROID_PATTERN = "file:///android_asset/offlineContent/syntax/AndroidAPI-Pattern.htm";
+    public static final String FILE_OFFLINE_REGEX_QUICKSTART = "file:///android_asset/offlineContent/introduction/RegularExpressions-QuickStart.htm";
+
     private UiStateManager uiStateManager;
     private MainState mainState;
     private IntroductionState introductionState;

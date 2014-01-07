@@ -10,7 +10,7 @@ import com.crocx.regex.MainActivity;
 import com.crocx.regex.R;
 import com.crocx.regex.tutorial.TutorialAction;
 import com.crocx.regex.tutorial.TutorialFragment;
-import com.crocx.regex.tutorial.view.CustomInputDialog;
+import com.crocx.regex.tutorial.view.CustomInputDialogView;
 import com.crocx.regex.tutorial.view.TutorialView;
 import com.crocx.regex.ui.UiAction;
 import com.crocx.regex.ui.UiState;
@@ -96,7 +96,7 @@ public class TutorialState extends UiState {
         AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
         builder.setTitle(R.string.menu_tutorial_change_input_output);
 
-        final CustomInputDialog view = (CustomInputDialog) mainActivity.getLayoutInflater().inflate(
+        final CustomInputDialogView view = (CustomInputDialogView) mainActivity.getLayoutInflater().inflate(
                 R.layout.dialog_custom_input, null);
         view.setRegex(tutorialView.getTutorialRegex());
         view.setInput(tutorialView.getTutorialInput());
@@ -118,7 +118,7 @@ public class TutorialState extends UiState {
 
         final AlertDialog dialog = builder.create();
 
-        CustomInputDialog.RegexValidationCallback validationCallback = new CustomInputDialog.RegexValidationCallback() {
+        CustomInputDialogView.RegexValidationCallback validationCallback = new CustomInputDialogView.RegexValidationCallback() {
             @Override
             public void regexValid(boolean valid) {
                 dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(valid);

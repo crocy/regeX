@@ -9,6 +9,7 @@ import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.crocx.regex.MainActivity;
 import com.crocx.regex.R;
 
 /**
@@ -67,7 +68,7 @@ public class IntroductionView extends RelativeLayout {
 
         //        webView.loadUrl("http://en.wikipedia.org/wiki/Regular_expression");
         //        webView.loadUrl("file:///android_asset/offlineContent/syntax/AndroidAPI-Pattern.htm");
-        webView.loadUrl("file:///android_asset/offlineContent/introduction/RegularExpressions-QuickStart.htm");
+        webView.loadUrl(MainActivity.FILE_OFFLINE_REGEX_QUICKSTART);
         //        webView.loadUrl("http://docs.oracle.com/javase/tutorial/essential/regex/index.html");
     }
 }

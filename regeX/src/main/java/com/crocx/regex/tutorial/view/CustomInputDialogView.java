@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 /**
  * Created by Croc on 31.12.2013.
  */
-public class CustomInputDialog extends LinearLayout {
+public class CustomInputDialogView extends LinearLayout {
 
     private EditText editRegex;
     private TextView regexMessage; // error feedback
@@ -32,11 +32,11 @@ public class CustomInputDialog extends LinearLayout {
         public void regexValidated();
     }
 
-    public CustomInputDialog(Context context) {
+    public CustomInputDialogView(Context context) {
         super(context);
     }
 
-    public CustomInputDialog(Context context, AttributeSet attrs) {
+    public CustomInputDialogView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

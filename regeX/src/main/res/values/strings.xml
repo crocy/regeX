@@ -30,6 +30,11 @@
     <string name="exercise_hint_input_cant_be_empty">Regex input cannot be empty</string>
     <string name="exercise_hint_input_nothing_matches">Nothing matches given regex</string>
 
+    <string name="exercise_dialog_regex_valid_congrats">Yay!</string>
+    <string name="exercise_dialog_regex_valid_you_found_a_solution">You found a solution that works!</string>
+    <string name="exercise_dialog_regex_valid_our_solution">And this is our solution:</string>
+    <string name="exercise_dialog_regex_valid_continue_playing">You can continue playing or exit with a back button.</string>
+
     <string name="exercises_text_select_exercise">Select an exercise:</string>
 
 </resources>

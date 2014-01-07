@@ -16,7 +16,7 @@ public enum ExercisesAction implements UiAction {
     /*
      * Per exercise actions.
      */
-    EVALUATE_REGEX,
+    EVALUATE_REGEX, REGEX_VALID,
 
     MENU_EXPLAIN_REGEX, MENU_SHOW_SYNTAX
 

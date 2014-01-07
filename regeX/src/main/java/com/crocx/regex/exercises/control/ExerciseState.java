@@ -1,5 +1,7 @@
 package com.crocx.regex.exercises.control;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Pair;
 
@@ -10,6 +12,7 @@ import com.crocx.regex.exercises.ExercisesAction;
 import com.crocx.regex.exercises.fragment.ExerciseFragment;
 import com.crocx.regex.exercises.model.ExerciseItem;
 import com.crocx.regex.exercises.view.ExerciseView;
+import com.crocx.regex.exercises.view.RegexValidDialogView;
 import com.crocx.regex.exercises.view.WebViewDialog;
 import com.crocx.regex.tutorial.TutorialAction;
 import com.crocx.regex.ui.UiAction;
@@ -27,6 +30,8 @@ public class ExerciseState extends UiState {
     private MainActivity mainActivity;
     private ExerciseFragment fragment;
 
+    private boolean showRegexValidDialog = true;
+
     public ExerciseState(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
     }
@@ -40,6 +45,9 @@ public class ExerciseState extends UiState {
             fragment = new ExerciseFragment();
             fragment.setUiStateManager(mainActivity.getUiStateManager());
             fragment.setExerciseItem((ExerciseItem) actionObject);
+
+            showRegexValidDialog = true;
+
         } else if (fragment == null) {
             fragment = new ExerciseFragment();
             fragment.setUiStateManager(mainActivity.getUiStateManager());
@@ -71,11 +79,22 @@ public class ExerciseState extends UiState {
                     exerciseClicked((ExerciseItem) actionObject);
                     break;
 
-                case EVALUATE_REGEX:
-                    evaluateRegex((String) actionObject);
+                case EVALUATE_REGEX: {
+                    String regex = (String) actionObject;
+                    boolean regexValid = evaluateRegex(regex);
+                    if (regexValid) {
+                        mainActivity.getUiStateManager().fireAction(ExercisesAction.REGEX_VALID, regex);
+                    }
+                    break;
+                }
+
+                case REGEX_VALID:
+                    if (showRegexValidDialog) {
+                        showRegexValidDialog((String) actionObject);
+                    }
                     break;
 
-                case MENU_EXPLAIN_REGEX:
+                case MENU_EXPLAIN_REGEX: {
                     String regex = fragment.getExerciseView().getRegex();
                     String input = fragment.getExerciseItem().getData();
 
@@ -83,6 +102,7 @@ public class ExerciseState extends UiState {
                     mainActivity.getUiStateManager().changeState(mainActivity.getTutorialState(),
                             TutorialAction.EXPLAIN_REGEX, pair);
                     break;
+                }
 
                 case MENU_SHOW_SYNTAX:
                     showSyntaxDialog();
@@ -99,7 +119,13 @@ public class ExerciseState extends UiState {
         fragment.getExerciseView().updateView(exerciseItem);
     }
 
-    private void evaluateRegex(String regex) {
+    /**
+     * Evaluate the given regex against the exercise's data.
+     * 
+     * @param regex
+     * @return <b>true</b> if regex properly matches the exercise's data, <b>false</b> otherwise
+     */
+    private boolean evaluateRegex(String regex) {
         ExerciseItem exercise = fragment.getExerciseItem();
         ExerciseView view = fragment.getExerciseView();
 
@@ -122,21 +148,33 @@ public class ExerciseState extends UiState {
             match = buffer.toString();
         } catch (Exception e) {
             view.updateRegexResult(regex, false, "Error: " + e.getMessage());
-            return;
+            return false;
         }
 
-        view.updateRegexResult(match, match.equals(exercise.getSolutionOutput()));
-        //        if (exercise.isPreferSolutionOutput() && exercise.getSolutionOutput() != null) {
-        //            view.updateRegexResult(match, match.equals(exercise.getSolutionOutput()));
-        //        } else {
-        //            view.updateRegexResult(match, regex.equals(exercise.getSolutionRegex()));
-        //        }
+        boolean regexValid = match.equals(exercise.getSolutionOutput());
+        view.updateRegexResult(match, regexValid);
+        return regexValid;
     }
 
     private void showSyntaxDialog() {
-        //        WebViewDialog webViewDialog = new WebViewDialog();
         WebViewDialog webViewDialog = new WebViewDialog();
-        webViewDialog.setLoadUrl("file:///android_asset/offlineContent/syntax/AndroidAPI-Pattern.htm");
+        webViewDialog.setLoadUrl(MainActivity.FILE_OFFLINE_ANDROID_PATTERN);
         webViewDialog.show(mainActivity);
+    }
+
+    private void showRegexValidDialog(String userRegex) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
+        RegexValidDialogView dialogView = (RegexValidDialogView) mainActivity.getLayoutInflater().inflate(
+                R.layout.dialog_view_regex_valid, null);
+        dialogView.init(userRegex, fragment.getExerciseItem().getSolutionRegex());
+        builder.setView(dialogView);
+        builder.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+        showRegexValidDialog = false;
     }
 }

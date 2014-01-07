@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.crocx.regex.exercises.view.RegexValidDialogView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:padding="10dp">
+
+    <TextView
+        style="@style/textRegexBig"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/exercise_dialog_regex_valid_congrats" />
+
+    <TextView
+        style="@style/textRegexMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="15dp"
+        android:text="@string/exercise_dialog_regex_valid_you_found_a_solution" />
+
+    <TextView
+        style="@style/textRegexMedium"
+        android:id="@+id/dialogRegexValidUserRegex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:typeface="monospace"
+        android:textColor="#0F0"
+        android:text="user_regex" />
+
+    <TextView
+        style="@style/textRegexMedium"
+        android:id="@+id/dialogRegexValidOurSolution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="15dp"
+        android:text="@string/exercise_dialog_regex_valid_our_solution" />
+
+    <TextView
+        style="@style/textRegexMedium"
+        android:id="@+id/dialogRegexValidSolutionRegex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:typeface="monospace"
+        android:textColor="@android:color/darker_gray"
+        android:text="solution_regex" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="15dp"
+        android:text="@string/exercise_dialog_regex_valid_continue_playing" />
+
+</com.crocx.regex.exercises.view.RegexValidDialogView>
