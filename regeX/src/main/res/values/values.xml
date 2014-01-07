@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="usefulLinks">
+        <!-- Tutorials, introductions... -->
+        <item>http://www.regular-expressions.info/</item>
+        <item>http://rexegg.com/</item>
+        <item>http://www.zytrax.com/tech/web/regex.htm</item>
+        <item>http://docs.oracle.com/javase/tutorial/essential/regex/index.html</item>
+        <item>http://perldoc.perl.org/perlretut.html</item>
+        <item>https://en.wikipedia.org/wiki/Regular_expression</item>
+
+        <!-- Experimental sites -->
+        <item>http://regexone.com</item>
+        <item>http://www.regexper.com</item>
+        <item>http://regex101.com/</item>
+        <item>http://regexcrossword.com/</item>
+    </string-array>
+</resources>

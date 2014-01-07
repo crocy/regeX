@@ -18,6 +18,7 @@ public class MainView extends RelativeLayout {
     private Button buttonIntroduction;
     private Button buttonExamples;
     private Button buttonExercises;
+    private Button buttonLinks;
 
     public MainView(Context context) {
         super(context);
@@ -38,6 +39,7 @@ public class MainView extends RelativeLayout {
         buttonIntroduction = (Button) findViewById(R.id.mainButtonIntroduction);
         buttonExamples = (Button) findViewById(R.id.mainButtonExamples);
         buttonExercises = (Button) findViewById(R.id.mainButtonExercises);
+        buttonLinks = (Button) findViewById(R.id.mainButtonLinks);
     }
 
     public void init(final UiStateManager uiStateManager) {
@@ -59,6 +61,13 @@ public class MainView extends RelativeLayout {
             @Override
             public void onClick(View v) {
                 uiStateManager.fireAction(MainAction.BUTTON_EXERCISES);
+            }
+        });
+
+        buttonLinks.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uiStateManager.fireAction(MainAction.BUTTON_LINKS);
             }
         });
     }

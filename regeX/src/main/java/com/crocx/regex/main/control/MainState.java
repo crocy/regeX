@@ -1,5 +1,9 @@
 package com.crocx.regex.main.control;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.FragmentTransaction;
 
 import com.crocx.regex.CommonAction;
@@ -60,9 +64,26 @@ public class MainState extends UiState {
                     mainActivity.getUiStateManager().changeState(mainActivity.getExercisesState());
                     break;
 
+                case BUTTON_LINKS:
+                    showLinksPopupDialog();
+                    break;
+
                 default:
                     throwOnUnknownAction(action, actionObject);
             }
         }
+    }
+
+    private void showLinksPopupDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
+        builder.setItems(R.array.usefulLinks, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String[] links = mainActivity.getResources().getStringArray(R.array.usefulLinks);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(links[which]));
+                mainActivity.startActivity(intent);
+            }
+        });
+        builder.show();
     }
 }

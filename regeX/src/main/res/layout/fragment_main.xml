@@ -15,11 +15,6 @@
         android:gravity="center"
         android:layout_centerHorizontal="true">
 
-        <!--<ImageView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:src="@drawable/logo" />-->
-
         <TextView
             android:text="regeX"
             android:layout_width="wrap_content"
@@ -55,6 +50,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/main_button_exercises" />
+
+        <Button
+            android:id="@+id/mainButtonLinks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/main_button_links" />
 
     </LinearLayout>
 

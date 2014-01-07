@@ -17,6 +17,7 @@
     <string name="main_button_introduction">Introduction</string>
     <string name="main_button_examples">Tutorial</string>
     <string name="main_button_exercises">Exercises</string>
+    <string name="main_button_links">Useful links</string>
 
     <string name="button_next">Next</string>
     <string name="button_previous">Previous</string>
