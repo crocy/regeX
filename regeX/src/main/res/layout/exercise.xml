@@ -5,34 +5,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <WebView
-        android:id="@+id/exerciseContent"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.0" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        style="@style/textRegexMedium"
-        android:id="@+id/exerciseResult"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="RResult" />
+        <WebView
+            android:id="@+id/exerciseContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0" />
 
-    <TextView
-        style="@style/textRegexMedium"
-        android:id="@+id/exerciseResultError"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:typeface="monospace"
-        android:text="SSyntax error"
-        android:textSize="@dimen/text_size_regex_smaller" />
+        <TextView
+            style="@style/textRegexMedium"
+            android:id="@+id/exerciseResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RResult" />
 
-    <EditText
-        android:id="@+id/exerciseInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/exercise_hint_input_here"
-        android:singleLine="true"
-        android:inputType="textNoSuggestions" />
+        <TextView
+            style="@style/textRegexMedium"
+            android:id="@+id/exerciseResultError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:typeface="monospace"
+            android:text="SSyntax error"
+            android:textColor="#F00"
+            android:textSize="@dimen/text_size_regex_smaller" />
+
+        <EditText
+            android:id="@+id/exerciseInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/exercise_hint_input_here"
+            android:singleLine="true"
+            android:inputType="textNoSuggestions" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/exerciseAnimationArrow"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/arrow_up"
+        android:rotation="180" />
 
 </com.crocx.regex.exercises.view.ExerciseView>
