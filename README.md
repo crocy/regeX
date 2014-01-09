@@ -1,10 +1,10 @@
 regeX
 =====
 Android app trying to explain regular expressions with some (fun?) exercises to check your regex knowledge.
-=====
+----
 The source code can be, if you haven't already, found at GitHub (https://github.com/crocy/regeX) or pulled from a Git repository at: https://github.com/crocy/regeX.git
 
-The project has been coded with Android Studio 0.4.0 using Gradle (wrapper) version 1.9 and Android-Gradle plugin 'com.android.tools.build:gradle:0.7.3'
+The project has been coded with Android Studio 0.4.0 using Gradle (wrapper) version 1.9 and Android-Gradle plugin 'com.android.tools.build:gradle:0.7.3'.
 
 To run the app either import it into Android Studio and hit Run or go to the root of the project with your console and:
 
@@ -15,3 +15,5 @@ To run the app either import it into Android Studio and hit Run or go to the roo
 - you can also run "gradlew.bat tasks" to se what Gradle tasks can be run with "gradlew.bat" (on Windows) or "gradlew" (on other platforms)
 
 - on non-Windows platforms run "./gradlew" instead of "gradlew.bat"
+
+- although Android Studio is not mandatory to compile/run this project, at least Java 1.6 or 1.7 has to be installed and properly configured to run these commands from your console
